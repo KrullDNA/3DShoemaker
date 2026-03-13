@@ -428,7 +428,8 @@ class Last:
             setattr(self, f"_{sec}_height_l", 0.0)
             setattr(self, f"_{sec}_height_m", 0.0)
             # A1, A2, A3 shape parameters
-            for a in ["a1", "a2", "a3"]:                setattr(self, f"_{sec}_{a}_l", 0.5)
+            for a in ["a1", "a2", "a3"]:
+                setattr(self, f"_{sec}_{a}_l", 0.5)
                 setattr(self, f"_{sec}_{a}_m", 0.5)
 
     # =========================================================================

@@ -1053,3 +1053,1456 @@ class Insert:
         # Add arch cookie
         if self._sandal_arch_cookie_curve != Guid.Empty:
             pass
+
+    # =========================================================================
+    # Properties - Identification
+    # =========================================================================
+
+    @property
+    def Name(self):
+        return self._name
+
+    @Name.setter
+    def Name(self, value):
+        self._name = str(value)
+
+    @property
+    def Side(self):
+        return self._side
+
+    @Side.setter
+    def Side(self, value):
+        self._side = str(value)
+
+    @property
+    def Notes(self):
+        return self._notes
+
+    @Notes.setter
+    def Notes(self, value):
+        self._notes = str(value)
+
+    @property
+    def LastName(self):
+        return self._last_name
+
+    @LastName.setter
+    def LastName(self, value):
+        self._last_name = str(value)
+
+    # =========================================================================
+    # Properties - Type and Style
+    # =========================================================================
+
+    @property
+    def InsertType(self):
+        return self._insert_type
+
+    @InsertType.setter
+    def InsertType(self, value):
+        self._insert_type = str(value)
+
+    @property
+    def ShellType(self):
+        return self._shell_type
+
+    @ShellType.setter
+    def ShellType(self, value):
+        self._shell_type = str(value)
+
+    @property
+    def TopCoverType(self):
+        return self._top_cover_type
+
+    @TopCoverType.setter
+    def TopCoverType(self, value):
+        self._top_cover_type = str(value)
+
+    @property
+    def PostingType(self):
+        return self._posting_type
+
+    @PostingType.setter
+    def PostingType(self, value):
+        self._posting_type = str(value)
+
+    @property
+    def ArchSupportType(self):
+        return self._arch_support_type
+
+    @ArchSupportType.setter
+    def ArchSupportType(self, value):
+        self._arch_support_type = str(value)
+
+    # =========================================================================
+    # Properties - Length Parameters
+    # =========================================================================
+
+    @property
+    def Length(self):
+        return self._length
+
+    @Length.setter
+    def Length(self, value):
+        self._length = float(value)
+
+    @property
+    def ForefootLength(self):
+        return self._forefoot_length
+
+    @ForefootLength.setter
+    def ForefootLength(self, value):
+        self._forefoot_length = float(value)
+
+    @property
+    def MidfootLength(self):
+        return self._midfoot_length
+
+    @MidfootLength.setter
+    def MidfootLength(self, value):
+        self._midfoot_length = float(value)
+
+    @property
+    def RearfootLength(self):
+        return self._rearfoot_length
+
+    @RearfootLength.setter
+    def RearfootLength(self, value):
+        self._rearfoot_length = float(value)
+
+    @property
+    def TrimLineLength(self):
+        return self._trim_line_length
+
+    @TrimLineLength.setter
+    def TrimLineLength(self, value):
+        self._trim_line_length = float(value)
+
+    @property
+    def BallLineLength(self):
+        return self._ball_line_length
+
+    @BallLineLength.setter
+    def BallLineLength(self, value):
+        self._ball_line_length = float(value)
+
+    @property
+    def ArchLength(self):
+        return self._arch_length
+
+    @ArchLength.setter
+    def ArchLength(self, value):
+        self._arch_length = float(value)
+
+    @property
+    def WaistLength(self):
+        return self._waist_length
+
+    @WaistLength.setter
+    def WaistLength(self, value):
+        self._waist_length = float(value)
+
+    @property
+    def InstepLength(self):
+        return self._instep_length
+
+    @InstepLength.setter
+    def InstepLength(self, value):
+        self._instep_length = float(value)
+
+    @property
+    def HeelLength(self):
+        return self._heel_length
+
+    @HeelLength.setter
+    def HeelLength(self, value):
+        self._heel_length = float(value)
+
+    @property
+    def ThreeQuarterLength(self):
+        return self._three_quarter_length
+
+    @ThreeQuarterLength.setter
+    def ThreeQuarterLength(self, value):
+        self._three_quarter_length = float(value)
+
+    # =========================================================================
+    # Properties - Length Multipliers
+    # =========================================================================
+
+    @property
+    def ForefootLengthMult(self):
+        return self._forefoot_length_mult
+
+    @ForefootLengthMult.setter
+    def ForefootLengthMult(self, value):
+        self._forefoot_length_mult = float(value)
+
+    @property
+    def MidfootLengthMult(self):
+        return self._midfoot_length_mult
+
+    @MidfootLengthMult.setter
+    def MidfootLengthMult(self, value):
+        self._midfoot_length_mult = float(value)
+
+    @property
+    def RearfootLengthMult(self):
+        return self._rearfoot_length_mult
+
+    @RearfootLengthMult.setter
+    def RearfootLengthMult(self, value):
+        self._rearfoot_length_mult = float(value)
+
+    @property
+    def BallLineLengthMult(self):
+        return self._ball_line_length_mult
+
+    @BallLineLengthMult.setter
+    def BallLineLengthMult(self, value):
+        self._ball_line_length_mult = float(value)
+
+    @property
+    def ArchLengthMult(self):
+        return self._arch_length_mult
+
+    @ArchLengthMult.setter
+    def ArchLengthMult(self, value):
+        self._arch_length_mult = float(value)
+
+    @property
+    def WaistLengthMult(self):
+        return self._waist_length_mult
+
+    @WaistLengthMult.setter
+    def WaistLengthMult(self, value):
+        self._waist_length_mult = float(value)
+
+    @property
+    def InstepLengthMult(self):
+        return self._instep_length_mult
+
+    @InstepLengthMult.setter
+    def InstepLengthMult(self, value):
+        self._instep_length_mult = float(value)
+
+    @property
+    def ThreeQuarterLengthMult(self):
+        return self._three_quarter_length_mult
+
+    @ThreeQuarterLengthMult.setter
+    def ThreeQuarterLengthMult(self, value):
+        self._three_quarter_length_mult = float(value)
+
+    # =========================================================================
+    # Properties - Width Parameters
+    # =========================================================================
+
+    @property
+    def BallWidth(self):
+        return self._ball_width
+
+    @BallWidth.setter
+    def BallWidth(self, value):
+        self._ball_width = float(value)
+
+    @property
+    def HeelWidth(self):
+        return self._heel_width
+
+    @HeelWidth.setter
+    def HeelWidth(self, value):
+        self._heel_width = float(value)
+
+    @property
+    def WaistWidth(self):
+        return self._waist_width
+
+    @WaistWidth.setter
+    def WaistWidth(self, value):
+        self._waist_width = float(value)
+
+    @property
+    def ArchWidth(self):
+        return self._arch_width
+
+    @ArchWidth.setter
+    def ArchWidth(self, value):
+        self._arch_width = float(value)
+
+    @property
+    def ToeWidth(self):
+        return self._toe_width
+
+    @ToeWidth.setter
+    def ToeWidth(self, value):
+        self._toe_width = float(value)
+
+    @property
+    def TrimWidthLateral(self):
+        return self._trim_width_lateral
+
+    @TrimWidthLateral.setter
+    def TrimWidthLateral(self, value):
+        self._trim_width_lateral = float(value)
+
+    @property
+    def TrimWidthMedial(self):
+        return self._trim_width_medial
+
+    @TrimWidthMedial.setter
+    def TrimWidthMedial(self, value):
+        self._trim_width_medial = float(value)
+
+    @property
+    def FlangeWidthLateral(self):
+        return self._flange_width_lateral
+
+    @FlangeWidthLateral.setter
+    def FlangeWidthLateral(self, value):
+        self._flange_width_lateral = float(value)
+
+    @property
+    def FlangeWidthMedial(self):
+        return self._flange_width_medial
+
+    @FlangeWidthMedial.setter
+    def FlangeWidthMedial(self, value):
+        self._flange_width_medial = float(value)
+
+    @property
+    def FlangeWidthHeel(self):
+        return self._flange_width_heel
+
+    @FlangeWidthHeel.setter
+    def FlangeWidthHeel(self, value):
+        self._flange_width_heel = float(value)
+
+    # =========================================================================
+    # Properties - Width Multipliers
+    # =========================================================================
+
+    @property
+    def BallWidthMult(self):
+        return self._ball_width_mult
+
+    @BallWidthMult.setter
+    def BallWidthMult(self, value):
+        self._ball_width_mult = float(value)
+
+    @property
+    def HeelWidthMult(self):
+        return self._heel_width_mult
+
+    @HeelWidthMult.setter
+    def HeelWidthMult(self, value):
+        self._heel_width_mult = float(value)
+
+    @property
+    def WaistWidthMult(self):
+        return self._waist_width_mult
+
+    @WaistWidthMult.setter
+    def WaistWidthMult(self, value):
+        self._waist_width_mult = float(value)
+
+    @property
+    def ArchWidthMult(self):
+        return self._arch_width_mult
+
+    @ArchWidthMult.setter
+    def ArchWidthMult(self, value):
+        self._arch_width_mult = float(value)
+
+    @property
+    def ToeWidthMult(self):
+        return self._toe_width_mult
+
+    @ToeWidthMult.setter
+    def ToeWidthMult(self, value):
+        self._toe_width_mult = float(value)
+
+    # =========================================================================
+    # Properties - Thickness Parameters
+    # =========================================================================
+
+    @property
+    def ThicknessToe(self):
+        return self._thickness_toe
+
+    @ThicknessToe.setter
+    def ThicknessToe(self, value):
+        self._thickness_toe = float(value)
+
+    @property
+    def ThicknessBall(self):
+        return self._thickness_ball
+
+    @ThicknessBall.setter
+    def ThicknessBall(self, value):
+        self._thickness_ball = float(value)
+
+    @property
+    def ThicknessArch(self):
+        return self._thickness_arch
+
+    @ThicknessArch.setter
+    def ThicknessArch(self, value):
+        self._thickness_arch = float(value)
+
+    @property
+    def ThicknessWaist(self):
+        return self._thickness_waist
+
+    @ThicknessWaist.setter
+    def ThicknessWaist(self, value):
+        self._thickness_waist = float(value)
+
+    @property
+    def ThicknessHeel(self):
+        return self._thickness_heel
+
+    @ThicknessHeel.setter
+    def ThicknessHeel(self, value):
+        self._thickness_heel = float(value)
+
+    @property
+    def ThicknessHeelCenter(self):
+        return self._thickness_heel_center
+
+    @ThicknessHeelCenter.setter
+    def ThicknessHeelCenter(self, value):
+        self._thickness_heel_center = float(value)
+
+    @property
+    def ThicknessTopCover(self):
+        return self._thickness_top_cover
+
+    @ThicknessTopCover.setter
+    def ThicknessTopCover(self, value):
+        self._thickness_top_cover = float(value)
+
+    @property
+    def ThicknessShell(self):
+        return self._thickness_shell
+
+    @ThicknessShell.setter
+    def ThicknessShell(self, value):
+        self._thickness_shell = float(value)
+
+    @property
+    def ThicknessPosting(self):
+        return self._thickness_posting
+
+    @ThicknessPosting.setter
+    def ThicknessPosting(self, value):
+        self._thickness_posting = float(value)
+
+    @property
+    def ThicknessMetatarsalPad(self):
+        return self._thickness_metatarsal_pad
+
+    @ThicknessMetatarsalPad.setter
+    def ThicknessMetatarsalPad(self, value):
+        self._thickness_metatarsal_pad = float(value)
+
+    @property
+    def ThicknessHeelPad(self):
+        return self._thickness_heel_pad
+
+    @ThicknessHeelPad.setter
+    def ThicknessHeelPad(self, value):
+        self._thickness_heel_pad = float(value)
+
+    @property
+    def ThicknessForefootExtension(self):
+        return self._thickness_forefoot_extension
+
+    @ThicknessForefootExtension.setter
+    def ThicknessForefootExtension(self, value):
+        self._thickness_forefoot_extension = float(value)
+
+    # =========================================================================
+    # Properties - Height/Depth Parameters
+    # =========================================================================
+
+    @property
+    def ArchHeight(self):
+        return self._arch_height
+
+    @ArchHeight.setter
+    def ArchHeight(self, value):
+        self._arch_height = float(value)
+
+    @property
+    def HeelCupDepth(self):
+        return self._heel_cup_depth
+
+    @HeelCupDepth.setter
+    def HeelCupDepth(self, value):
+        self._heel_cup_depth = float(value)
+
+    @property
+    def HeelCupDepthLateral(self):
+        return self._heel_cup_depth_lateral
+
+    @HeelCupDepthLateral.setter
+    def HeelCupDepthLateral(self, value):
+        self._heel_cup_depth_lateral = float(value)
+
+    @property
+    def HeelCupDepthMedial(self):
+        return self._heel_cup_depth_medial
+
+    @HeelCupDepthMedial.setter
+    def HeelCupDepthMedial(self, value):
+        self._heel_cup_depth_medial = float(value)
+
+    @property
+    def MetatarsalDomeHeight(self):
+        return self._metatarsal_dome_height
+
+    @MetatarsalDomeHeight.setter
+    def MetatarsalDomeHeight(self, value):
+        self._metatarsal_dome_height = float(value)
+
+    @property
+    def HeelLift(self):
+        return self._heel_lift
+
+    @HeelLift.setter
+    def HeelLift(self, value):
+        self._heel_lift = float(value)
+
+    @property
+    def ForefootWedgeHeight(self):
+        return self._forefoot_wedge_height
+
+    @ForefootWedgeHeight.setter
+    def ForefootWedgeHeight(self, value):
+        self._forefoot_wedge_height = float(value)
+
+    @property
+    def RearfootWedgeHeight(self):
+        return self._rearfoot_wedge_height
+
+    @RearfootWedgeHeight.setter
+    def RearfootWedgeHeight(self, value):
+        self._rearfoot_wedge_height = float(value)
+
+    @property
+    def MedialSkiveDepth(self):
+        return self._medial_skive_depth
+
+    @MedialSkiveDepth.setter
+    def MedialSkiveDepth(self, value):
+        self._medial_skive_depth = float(value)
+
+    @property
+    def LateralSkiveDepth(self):
+        return self._lateral_skive_depth
+
+    @LateralSkiveDepth.setter
+    def LateralSkiveDepth(self, value):
+        self._lateral_skive_depth = float(value)
+
+    # =========================================================================
+    # Properties - Angle Parameters
+    # =========================================================================
+
+    @property
+    def ForefootPostingAngle(self):
+        return self._forefoot_posting_angle
+
+    @ForefootPostingAngle.setter
+    def ForefootPostingAngle(self, value):
+        self._forefoot_posting_angle = float(value)
+
+    @property
+    def RearfootPostingAngle(self):
+        return self._rearfoot_posting_angle
+
+    @RearfootPostingAngle.setter
+    def RearfootPostingAngle(self, value):
+        self._rearfoot_posting_angle = float(value)
+
+    @property
+    def MedialSkiveAngle(self):
+        return self._medial_skive_angle
+
+    @MedialSkiveAngle.setter
+    def MedialSkiveAngle(self, value):
+        self._medial_skive_angle = float(value)
+
+    @property
+    def LateralSkiveAngle(self):
+        return self._lateral_skive_angle
+
+    @LateralSkiveAngle.setter
+    def LateralSkiveAngle(self, value):
+        self._lateral_skive_angle = float(value)
+
+    @property
+    def HeelCupFlareAngle(self):
+        return self._heel_cup_flare_angle
+
+    @HeelCupFlareAngle.setter
+    def HeelCupFlareAngle(self, value):
+        self._heel_cup_flare_angle = float(value)
+
+    @property
+    def ArchFillAngle(self):
+        return self._arch_fill_angle
+
+    @ArchFillAngle.setter
+    def ArchFillAngle(self, value):
+        self._arch_fill_angle = float(value)
+
+    @property
+    def InversionAngle(self):
+        return self._inversion_angle
+
+    @InversionAngle.setter
+    def InversionAngle(self, value):
+        self._inversion_angle = float(value)
+
+    @property
+    def EversionAngle(self):
+        return self._eversion_angle
+
+    @EversionAngle.setter
+    def EversionAngle(self, value):
+        self._eversion_angle = float(value)
+
+    @property
+    def BlakeInvertedAngle(self):
+        return self._blake_inverted_angle
+
+    @BlakeInvertedAngle.setter
+    def BlakeInvertedAngle(self, value):
+        self._blake_inverted_angle = float(value)
+
+    # =========================================================================
+    # Properties - Offset Parameters
+    # =========================================================================
+
+    @property
+    def OffsetFromLastSurface(self):
+        return self._offset_from_last_surface
+
+    @OffsetFromLastSurface.setter
+    def OffsetFromLastSurface(self, value):
+        self._offset_from_last_surface = float(value)
+
+    @property
+    def OffsetBallLateral(self):
+        return self._offset_ball_lateral
+
+    @OffsetBallLateral.setter
+    def OffsetBallLateral(self, value):
+        self._offset_ball_lateral = float(value)
+
+    @property
+    def OffsetBallMedial(self):
+        return self._offset_ball_medial
+
+    @OffsetBallMedial.setter
+    def OffsetBallMedial(self, value):
+        self._offset_ball_medial = float(value)
+
+    @property
+    def OffsetHeelLateral(self):
+        return self._offset_heel_lateral
+
+    @OffsetHeelLateral.setter
+    def OffsetHeelLateral(self, value):
+        self._offset_heel_lateral = float(value)
+
+    @property
+    def OffsetHeelMedial(self):
+        return self._offset_heel_medial
+
+    @OffsetHeelMedial.setter
+    def OffsetHeelMedial(self, value):
+        self._offset_heel_medial = float(value)
+
+    @property
+    def OffsetArchLateral(self):
+        return self._offset_arch_lateral
+
+    @OffsetArchLateral.setter
+    def OffsetArchLateral(self, value):
+        self._offset_arch_lateral = float(value)
+
+    @property
+    def OffsetArchMedial(self):
+        return self._offset_arch_medial
+
+    @OffsetArchMedial.setter
+    def OffsetArchMedial(self, value):
+        self._offset_arch_medial = float(value)
+
+    @property
+    def OffsetWaistLateral(self):
+        return self._offset_waist_lateral
+
+    @OffsetWaistLateral.setter
+    def OffsetWaistLateral(self, value):
+        self._offset_waist_lateral = float(value)
+
+    @property
+    def OffsetWaistMedial(self):
+        return self._offset_waist_medial
+
+    @OffsetWaistMedial.setter
+    def OffsetWaistMedial(self, value):
+        self._offset_waist_medial = float(value)
+
+    # =========================================================================
+    # Properties - Feature Flags
+    # =========================================================================
+
+    @property
+    def HasMetatarsalPad(self):
+        return self._has_metatarsal_pad
+
+    @HasMetatarsalPad.setter
+    def HasMetatarsalPad(self, value):
+        self._has_metatarsal_pad = bool(value)
+
+    @property
+    def HasHeelPad(self):
+        return self._has_heel_pad
+
+    @HasHeelPad.setter
+    def HasHeelPad(self, value):
+        self._has_heel_pad = bool(value)
+
+    @property
+    def HasForefootExtension(self):
+        return self._has_forefoot_extension
+
+    @HasForefootExtension.setter
+    def HasForefootExtension(self, value):
+        self._has_forefoot_extension = bool(value)
+
+    @property
+    def HasHeelLift(self):
+        return self._has_heel_lift
+
+    @HasHeelLift.setter
+    def HasHeelLift(self, value):
+        self._has_heel_lift = bool(value)
+
+    @property
+    def HasMedialFlange(self):
+        return self._has_medial_flange
+
+    @HasMedialFlange.setter
+    def HasMedialFlange(self, value):
+        self._has_medial_flange = bool(value)
+
+    @property
+    def HasLateralFlange(self):
+        return self._has_lateral_flange
+
+    @HasLateralFlange.setter
+    def HasLateralFlange(self, value):
+        self._has_lateral_flange = bool(value)
+
+    @property
+    def HasHeelFlange(self):
+        return self._has_heel_flange
+
+    @HasHeelFlange.setter
+    def HasHeelFlange(self, value):
+        self._has_heel_flange = bool(value)
+
+    @property
+    def HasArchFill(self):
+        return self._has_arch_fill
+
+    @HasArchFill.setter
+    def HasArchFill(self, value):
+        self._has_arch_fill = bool(value)
+
+    @property
+    def HasTopCover(self):
+        return self._has_top_cover
+
+    @HasTopCover.setter
+    def HasTopCover(self, value):
+        self._has_top_cover = bool(value)
+
+    @property
+    def HasPosting(self):
+        return self._has_posting
+
+    @HasPosting.setter
+    def HasPosting(self, value):
+        self._has_posting = bool(value)
+
+    @property
+    def IsSandal(self):
+        return self._is_sandal
+
+    @IsSandal.setter
+    def IsSandal(self, value):
+        self._is_sandal = bool(value)
+
+    # =========================================================================
+    # Properties - Sandal Parameters
+    # =========================================================================
+
+    @property
+    def SandalThickness(self):
+        return self._sandal_thickness
+
+    @SandalThickness.setter
+    def SandalThickness(self, value):
+        self._sandal_thickness = float(value)
+
+    @property
+    def SandalEdgeRadius(self):
+        return self._sandal_edge_radius
+
+    @SandalEdgeRadius.setter
+    def SandalEdgeRadius(self, value):
+        self._sandal_edge_radius = float(value)
+
+    @property
+    def SandalToeBarHeight(self):
+        return self._sandal_toe_bar_height
+
+    @SandalToeBarHeight.setter
+    def SandalToeBarHeight(self, value):
+        self._sandal_toe_bar_height = float(value)
+
+    @property
+    def SandalArchCookieHeight(self):
+        return self._sandal_arch_cookie_height
+
+    @SandalArchCookieHeight.setter
+    def SandalArchCookieHeight(self, value):
+        self._sandal_arch_cookie_height = float(value)
+
+    @property
+    def SandalHeelCupDepth(self):
+        return self._sandal_heel_cup_depth
+
+    @SandalHeelCupDepth.setter
+    def SandalHeelCupDepth(self, value):
+        self._sandal_heel_cup_depth = float(value)
+
+    @property
+    def SandalContourDepth(self):
+        return self._sandal_contour_depth
+
+    @SandalContourDepth.setter
+    def SandalContourDepth(self, value):
+        self._sandal_contour_depth = float(value)
+
+    @property
+    def SandalRockerAngle(self):
+        return self._sandal_rocker_angle
+
+    @SandalRockerAngle.setter
+    def SandalRockerAngle(self, value):
+        self._sandal_rocker_angle = float(value)
+
+    # =========================================================================
+    # Properties - Metatarsal Pad Parameters
+    # =========================================================================
+
+    @property
+    def MetPadPositionX(self):
+        return self._met_pad_position_x
+
+    @MetPadPositionX.setter
+    def MetPadPositionX(self, value):
+        self._met_pad_position_x = float(value)
+
+    @property
+    def MetPadPositionY(self):
+        return self._met_pad_position_y
+
+    @MetPadPositionY.setter
+    def MetPadPositionY(self, value):
+        self._met_pad_position_y = float(value)
+
+    @property
+    def MetPadWidth(self):
+        return self._met_pad_width
+
+    @MetPadWidth.setter
+    def MetPadWidth(self, value):
+        self._met_pad_width = float(value)
+
+    @property
+    def MetPadLength(self):
+        return self._met_pad_length
+
+    @MetPadLength.setter
+    def MetPadLength(self, value):
+        self._met_pad_length = float(value)
+
+    @property
+    def MetPadHeight(self):
+        return self._met_pad_height
+
+    @MetPadHeight.setter
+    def MetPadHeight(self, value):
+        self._met_pad_height = float(value)
+
+    @property
+    def MetPadShape(self):
+        return self._met_pad_shape
+
+    @MetPadShape.setter
+    def MetPadShape(self, value):
+        self._met_pad_shape = str(value)
+
+    # =========================================================================
+    # Properties - Heel Pad Parameters
+    # =========================================================================
+
+    @property
+    def HeelPadWidth(self):
+        return self._heel_pad_width
+
+    @HeelPadWidth.setter
+    def HeelPadWidth(self, value):
+        self._heel_pad_width = float(value)
+
+    @property
+    def HeelPadLength(self):
+        return self._heel_pad_length
+
+    @HeelPadLength.setter
+    def HeelPadLength(self, value):
+        self._heel_pad_length = float(value)
+
+    @property
+    def HeelPadDepth(self):
+        return self._heel_pad_depth
+
+    @HeelPadDepth.setter
+    def HeelPadDepth(self, value):
+        self._heel_pad_depth = float(value)
+
+    @property
+    def HeelPadShape(self):
+        return self._heel_pad_shape
+
+    @HeelPadShape.setter
+    def HeelPadShape(self, value):
+        self._heel_pad_shape = str(value)
+
+    # =========================================================================
+    # Properties - Geometry IDs (Design Curves)
+    # =========================================================================
+
+    @property
+    def OutlineCurve(self):
+        return self._outline_curve
+
+    @OutlineCurve.setter
+    def OutlineCurve(self, value):
+        self._outline_curve = Guid(str(value)) if not isinstance(value, Guid) else value
+
+    @property
+    def OutlineCurveLateral(self):
+        return self._outline_curve_lateral
+
+    @OutlineCurveLateral.setter
+    def OutlineCurveLateral(self, value):
+        self._outline_curve_lateral = Guid(str(value)) if not isinstance(value, Guid) else value
+
+    @property
+    def OutlineCurveMedial(self):
+        return self._outline_curve_medial
+
+    @OutlineCurveMedial.setter
+    def OutlineCurveMedial(self, value):
+        self._outline_curve_medial = Guid(str(value)) if not isinstance(value, Guid) else value
+
+    @property
+    def TrimCurve(self):
+        return self._trim_curve
+
+    @TrimCurve.setter
+    def TrimCurve(self, value):
+        self._trim_curve = Guid(str(value)) if not isinstance(value, Guid) else value
+
+    @property
+    def TrimCurveLateral(self):
+        return self._trim_curve_lateral
+
+    @TrimCurveLateral.setter
+    def TrimCurveLateral(self, value):
+        self._trim_curve_lateral = Guid(str(value)) if not isinstance(value, Guid) else value
+
+    @property
+    def TrimCurveMedial(self):
+        return self._trim_curve_medial
+
+    @TrimCurveMedial.setter
+    def TrimCurveMedial(self, value):
+        self._trim_curve_medial = Guid(str(value)) if not isinstance(value, Guid) else value
+
+    @property
+    def HeelCupCurve(self):
+        return self._heel_cup_curve
+
+    @HeelCupCurve.setter
+    def HeelCupCurve(self, value):
+        self._heel_cup_curve = Guid(str(value)) if not isinstance(value, Guid) else value
+
+    @property
+    def HeelCupCurveLateral(self):
+        return self._heel_cup_curve_lateral
+
+    @HeelCupCurveLateral.setter
+    def HeelCupCurveLateral(self, value):
+        self._heel_cup_curve_lateral = Guid(str(value)) if not isinstance(value, Guid) else value
+
+    @property
+    def HeelCupCurveMedial(self):
+        return self._heel_cup_curve_medial
+
+    @HeelCupCurveMedial.setter
+    def HeelCupCurveMedial(self, value):
+        self._heel_cup_curve_medial = Guid(str(value)) if not isinstance(value, Guid) else value
+
+    @property
+    def ArchCurve(self):
+        return self._arch_curve
+
+    @ArchCurve.setter
+    def ArchCurve(self, value):
+        self._arch_curve = Guid(str(value)) if not isinstance(value, Guid) else value
+
+    @property
+    def FlangeCurveLateral(self):
+        return self._flange_curve_lateral
+
+    @FlangeCurveLateral.setter
+    def FlangeCurveLateral(self, value):
+        self._flange_curve_lateral = Guid(str(value)) if not isinstance(value, Guid) else value
+
+    @property
+    def FlangeCurveMedial(self):
+        return self._flange_curve_medial
+
+    @FlangeCurveMedial.setter
+    def FlangeCurveMedial(self, value):
+        self._flange_curve_medial = Guid(str(value)) if not isinstance(value, Guid) else value
+
+    @property
+    def FlangeCurveHeel(self):
+        return self._flange_curve_heel
+
+    @FlangeCurveHeel.setter
+    def FlangeCurveHeel(self, value):
+        self._flange_curve_heel = Guid(str(value)) if not isinstance(value, Guid) else value
+
+    @property
+    def CenterLine(self):
+        return self._center_line
+
+    @CenterLine.setter
+    def CenterLine(self, value):
+        self._center_line = Guid(str(value)) if not isinstance(value, Guid) else value
+
+    @property
+    def BottomLine(self):
+        return self._bottom_line
+
+    @BottomLine.setter
+    def BottomLine(self, value):
+        self._bottom_line = Guid(str(value)) if not isinstance(value, Guid) else value
+
+    @property
+    def TopLine(self):
+        return self._top_line
+
+    @TopLine.setter
+    def TopLine(self, value):
+        self._top_line = Guid(str(value)) if not isinstance(value, Guid) else value
+
+    @property
+    def MetPadCurve(self):
+        return self._met_pad_curve
+
+    @MetPadCurve.setter
+    def MetPadCurve(self, value):
+        self._met_pad_curve = Guid(str(value)) if not isinstance(value, Guid) else value
+
+    @property
+    def HeelPadCurve(self):
+        return self._heel_pad_curve
+
+    @HeelPadCurve.setter
+    def HeelPadCurve(self, value):
+        self._heel_pad_curve = Guid(str(value)) if not isinstance(value, Guid) else value
+
+    @property
+    def ForefootExtensionCurve(self):
+        return self._forefoot_extension_curve
+
+    @ForefootExtensionCurve.setter
+    def ForefootExtensionCurve(self, value):
+        self._forefoot_extension_curve = Guid(str(value)) if not isinstance(value, Guid) else value
+
+    @property
+    def PostingBoundaryCurve(self):
+        return self._posting_boundary_curve
+
+    @PostingBoundaryCurve.setter
+    def PostingBoundaryCurve(self, value):
+        self._posting_boundary_curve = Guid(str(value)) if not isinstance(value, Guid) else value
+
+    # =========================================================================
+    # Properties - Cross Section Curve IDs
+    # =========================================================================
+
+    @property
+    def CSCurveBall(self):
+        return self._cs_curve_ball
+
+    @CSCurveBall.setter
+    def CSCurveBall(self, value):
+        self._cs_curve_ball = Guid(str(value)) if not isinstance(value, Guid) else value
+
+    @property
+    def CSCurveArch(self):
+        return self._cs_curve_arch
+
+    @CSCurveArch.setter
+    def CSCurveArch(self, value):
+        self._cs_curve_arch = Guid(str(value)) if not isinstance(value, Guid) else value
+
+    @property
+    def CSCurveWaist(self):
+        return self._cs_curve_waist
+
+    @CSCurveWaist.setter
+    def CSCurveWaist(self, value):
+        self._cs_curve_waist = Guid(str(value)) if not isinstance(value, Guid) else value
+
+    @property
+    def CSCurveHeel(self):
+        return self._cs_curve_heel
+
+    @CSCurveHeel.setter
+    def CSCurveHeel(self, value):
+        self._cs_curve_heel = Guid(str(value)) if not isinstance(value, Guid) else value
+
+    @property
+    def CSCurveToe(self):
+        return self._cs_curve_toe
+
+    @CSCurveToe.setter
+    def CSCurveToe(self, value):
+        self._cs_curve_toe = Guid(str(value)) if not isinstance(value, Guid) else value
+
+    @property
+    def CSCurveInstep(self):
+        return self._cs_curve_instep
+
+    @CSCurveInstep.setter
+    def CSCurveInstep(self, value):
+        self._cs_curve_instep = Guid(str(value)) if not isinstance(value, Guid) else value
+
+    @property
+    def CSCurveThreeQuarter(self):
+        return self._cs_curve_three_quarter
+
+    @CSCurveThreeQuarter.setter
+    def CSCurveThreeQuarter(self, value):
+        self._cs_curve_three_quarter = Guid(str(value)) if not isinstance(value, Guid) else value
+
+    # =========================================================================
+    # Properties - Surface IDs
+    # =========================================================================
+
+    @property
+    def SurfaceTop(self):
+        return self._surface_top
+
+    @SurfaceTop.setter
+    def SurfaceTop(self, value):
+        self._surface_top = Guid(str(value)) if not isinstance(value, Guid) else value
+
+    @property
+    def SurfaceBottom(self):
+        return self._surface_bottom
+
+    @SurfaceBottom.setter
+    def SurfaceBottom(self, value):
+        self._surface_bottom = Guid(str(value)) if not isinstance(value, Guid) else value
+
+    @property
+    def SurfaceShell(self):
+        return self._surface_shell
+
+    @SurfaceShell.setter
+    def SurfaceShell(self, value):
+        self._surface_shell = Guid(str(value)) if not isinstance(value, Guid) else value
+
+    @property
+    def SurfaceTopCover(self):
+        return self._surface_top_cover
+
+    @SurfaceTopCover.setter
+    def SurfaceTopCover(self, value):
+        self._surface_top_cover = Guid(str(value)) if not isinstance(value, Guid) else value
+
+    @property
+    def SurfacePosting(self):
+        return self._surface_posting
+
+    @SurfacePosting.setter
+    def SurfacePosting(self, value):
+        self._surface_posting = Guid(str(value)) if not isinstance(value, Guid) else value
+
+    @property
+    def SurfaceTrim(self):
+        return self._surface_trim
+
+    @SurfaceTrim.setter
+    def SurfaceTrim(self, value):
+        self._surface_trim = Guid(str(value)) if not isinstance(value, Guid) else value
+
+    # =========================================================================
+    # Properties - Body Geometry IDs
+    # =========================================================================
+
+    @property
+    def BodyMain(self):
+        return self._body_main
+
+    @BodyMain.setter
+    def BodyMain(self, value):
+        self._body_main = Guid(str(value)) if not isinstance(value, Guid) else value
+
+    @property
+    def BodyMainSubD(self):
+        return self._body_main_subd
+
+    @BodyMainSubD.setter
+    def BodyMainSubD(self, value):
+        self._body_main_subd = Guid(str(value)) if not isinstance(value, Guid) else value
+
+    @property
+    def BodyShell(self):
+        return self._body_shell
+
+    @BodyShell.setter
+    def BodyShell(self, value):
+        self._body_shell = Guid(str(value)) if not isinstance(value, Guid) else value
+
+    @property
+    def BodyTopCover(self):
+        return self._body_top_cover
+
+    @BodyTopCover.setter
+    def BodyTopCover(self, value):
+        self._body_top_cover = Guid(str(value)) if not isinstance(value, Guid) else value
+
+    @property
+    def BodyPosting(self):
+        return self._body_posting
+
+    @BodyPosting.setter
+    def BodyPosting(self, value):
+        self._body_posting = Guid(str(value)) if not isinstance(value, Guid) else value
+
+    @property
+    def BodyMetPad(self):
+        return self._body_met_pad
+
+    @BodyMetPad.setter
+    def BodyMetPad(self, value):
+        self._body_met_pad = Guid(str(value)) if not isinstance(value, Guid) else value
+
+    @property
+    def BodyHeelPad(self):
+        return self._body_heel_pad
+
+    @BodyHeelPad.setter
+    def BodyHeelPad(self, value):
+        self._body_heel_pad = Guid(str(value)) if not isinstance(value, Guid) else value
+
+    @property
+    def BodyForefootExtension(self):
+        return self._body_forefoot_extension
+
+    @BodyForefootExtension.setter
+    def BodyForefootExtension(self, value):
+        self._body_forefoot_extension = Guid(str(value)) if not isinstance(value, Guid) else value
+
+    @property
+    def BodySandal(self):
+        return self._body_sandal
+
+    @BodySandal.setter
+    def BodySandal(self, value):
+        self._body_sandal = Guid(str(value)) if not isinstance(value, Guid) else value
+
+    @property
+    def BodyMesh(self):
+        return self._body_mesh
+
+    @BodyMesh.setter
+    def BodyMesh(self, value):
+        self._body_mesh = Guid(str(value)) if not isinstance(value, Guid) else value
+
+    # =========================================================================
+    # Properties - Last Surface References
+    # =========================================================================
+
+    @property
+    def LastSurfaceTrimmed(self):
+        return self._last_surface_trimmed
+
+    @LastSurfaceTrimmed.setter
+    def LastSurfaceTrimmed(self, value):
+        self._last_surface_trimmed = Guid(str(value)) if not isinstance(value, Guid) else value
+
+    @property
+    def LastSurfaceOriginal(self):
+        return self._last_surface_original
+
+    @LastSurfaceOriginal.setter
+    def LastSurfaceOriginal(self, value):
+        self._last_surface_original = Guid(str(value)) if not isinstance(value, Guid) else value
+
+    # =========================================================================
+    # Properties - Key Points
+    # =========================================================================
+
+    @property
+    def BallPoint(self):
+        return self._ball_point
+
+    @BallPoint.setter
+    def BallPoint(self, value):
+        self._ball_point = value
+
+    @property
+    def HeelPoint(self):
+        return self._heel_point
+
+    @HeelPoint.setter
+    def HeelPoint(self, value):
+        self._heel_point = value
+
+    @property
+    def ToePoint(self):
+        return self._toe_point
+
+    @ToePoint.setter
+    def ToePoint(self, value):
+        self._toe_point = value
+
+    @property
+    def ArchPoint(self):
+        return self._arch_point
+
+    @ArchPoint.setter
+    def ArchPoint(self, value):
+        self._arch_point = value
+
+    @property
+    def WaistPoint(self):
+        return self._waist_point
+
+    @WaistPoint.setter
+    def WaistPoint(self, value):
+        self._waist_point = value
+
+    @property
+    def InstepPoint(self):
+        return self._instep_point
+
+    @InstepPoint.setter
+    def InstepPoint(self, value):
+        self._instep_point = value
+
+    @property
+    def MetPadCenter(self):
+        return self._met_pad_center
+
+    @MetPadCenter.setter
+    def MetPadCenter(self, value):
+        self._met_pad_center = value
+
+    @property
+    def HeelPadCenter(self):
+        return self._heel_pad_center
+
+    @HeelPadCenter.setter
+    def HeelPadCenter(self, value):
+        self._heel_pad_center = value
+
+    # =========================================================================
+    # Properties - Style Parameter Dictionary
+    # =========================================================================
+
+    @property
+    def InsertStyleParameterDictionary(self):
+        return self._insert_style_parameter_dictionary
+
+    @InsertStyleParameterDictionary.setter
+    def InsertStyleParameterDictionary(self, value):
+        self._insert_style_parameter_dictionary = dict(value) if value else {}
+
+    # =========================================================================
+    # Serialization
+    # =========================================================================
+
+    def to_json(self):
+        """Serialize this Insert to a JSON string."""
+        return json.dumps(self.CollectInsertParameters(), indent=2, default=str)
+
+    @staticmethod
+    def from_json(json_string):
+        """Deserialize an Insert from a JSON string."""
+        insert = Insert()
+        if isinstance(json_string, str):
+            data = json.loads(json_string)
+        else:
+            data = json_string
+
+        key_map = {
+            "Name": "_name", "Side": "_side", "Notes": "_notes",
+            "InsertType": "_insert_type", "ShellType": "_shell_type",
+            "TopCoverType": "_top_cover_type", "PostingType": "_posting_type",
+            "ArchSupportType": "_arch_support_type", "LastName": "_last_name",
+            "Length": "_length", "BallLineLength": "_ball_line_length",
+            "BallWidth": "_ball_width", "HeelWidth": "_heel_width",
+            "ThicknessToe": "_thickness_toe", "ThicknessBall": "_thickness_ball",
+            "ThicknessArch": "_thickness_arch", "ThicknessHeel": "_thickness_heel",
+            "ArchHeight": "_arch_height", "HeelCupDepth": "_heel_cup_depth",
+            "ForefootPostingAngle": "_forefoot_posting_angle",
+            "RearfootPostingAngle": "_rearfoot_posting_angle",
+            "HasMetatarsalPad": "_has_metatarsal_pad",
+            "HasHeelPad": "_has_heel_pad",
+            "IsSandal": "_is_sandal",
+        }
+        for json_key, attr_name in key_map.items():
+            if json_key in data:
+                setattr(insert, attr_name, data[json_key])
+
+        if "InsertStyleParameterDictionary" in data:
+            insert._insert_style_parameter_dictionary = data["InsertStyleParameterDictionary"]
+
+        return insert
+
+    def __repr__(self):
+        return (
+            f'Insert(name="{self._name}", side="{self._side}", '
+            f'type="{self._insert_type}", '
+            f'length={self._length:.1f})'
+        )
