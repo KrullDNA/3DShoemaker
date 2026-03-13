@@ -1,0 +1,427 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RhinoUI major_ver="2" minor_ver="0">
+  <extend_rhino_menus />
+  <menus />
+  <tool_bar_group name="Feet in Focus Shoe Kit"
+                  dock_bar_id32=""
+                  dock_bar_id64="">
+    <tool_bar name="Feet in Focus Shoe Kit" />
+  </tool_bar_group>
+  <tool_bar name="Feet in Focus Shoe Kit"
+            left_size="24"
+            right_size="24">
+    <!-- ===== Last Commands ===== -->
+    <tool_bar_item type="normal">
+      <left_macro>
+        <macro><![CDATA[! _-RunScript (NewBuild)]]></macro>
+        <tooltip>New Build - Create a new shoe last build</tooltip>
+        <button_text>NewBuild</button_text>
+      </left_macro>
+      <right_macro>
+        <macro><![CDATA[! _-RunScript (NewBuildScriptable)]]></macro>
+        <tooltip>New Build Scriptable - Create a new build with pre-set parameters</tooltip>
+        <button_text>NewBuildScriptable</button_text>
+      </right_macro>
+    </tool_bar_item>
+    <tool_bar_item type="normal">
+      <left_macro>
+        <macro><![CDATA[! _-RunScript (ImportLast)]]></macro>
+        <tooltip>Import Last - Import a shoe last from file</tooltip>
+        <button_text>ImportLast</button_text>
+      </left_macro>
+      <right_macro>
+        <macro><![CDATA[! _-RunScript (ExportLast)]]></macro>
+        <tooltip>Export Last - Export the current last to file</tooltip>
+        <button_text>ExportLast</button_text>
+      </right_macro>
+    </tool_bar_item>
+    <tool_bar_item type="normal">
+      <left_macro>
+        <macro><![CDATA[! _-RunScript (UpdateLast)]]></macro>
+        <tooltip>Update Last - Update the current last geometry</tooltip>
+        <button_text>UpdateLast</button_text>
+      </left_macro>
+      <right_macro>
+        <macro><![CDATA[! _-RunScript (UpdateLast)]]></macro>
+        <tooltip>Update Last - Update the current last geometry</tooltip>
+        <button_text>UpdateLast</button_text>
+      </right_macro>
+    </tool_bar_item>
+    <tool_bar_item type="normal">
+      <left_macro>
+        <macro><![CDATA[! _-RunScript (GradeLast)]]></macro>
+        <tooltip>Grade Last - Grade the current last to a different size</tooltip>
+        <button_text>GradeLast</button_text>
+      </left_macro>
+      <right_macro>
+        <macro><![CDATA[! _-RunScript (FlattenLast)]]></macro>
+        <tooltip>Flatten Last - Flatten the last for 2D output</tooltip>
+        <button_text>FlattenLast</button_text>
+      </right_macro>
+    </tool_bar_item>
+    <tool_bar_item type="normal">
+      <left_macro>
+        <macro><![CDATA[! _-RunScript (Establish)]]></macro>
+        <tooltip>Establish - Establish the last baseline</tooltip>
+        <button_text>Establish</button_text>
+      </left_macro>
+      <right_macro>
+        <macro><![CDATA[! _-RunScript (GazeAtLast)]]></macro>
+        <tooltip>Gaze At Last - Set viewport to look at the last</tooltip>
+        <button_text>GazeAtLast</button_text>
+      </right_macro>
+    </tool_bar_item>
+    <tool_bar_item type="separator" />
+    <!-- ===== Morph Commands ===== -->
+    <tool_bar_item type="normal">
+      <left_macro>
+        <macro><![CDATA[! _-RunScript (Morph)]]></macro>
+        <tooltip>Morph - Morph the last shape interactively</tooltip>
+        <button_text>Morph</button_text>
+      </left_macro>
+      <right_macro>
+        <macro><![CDATA[! _-RunScript (NewMorph)]]></macro>
+        <tooltip>New Morph - Create a new morph operation</tooltip>
+        <button_text>NewMorph</button_text>
+      </right_macro>
+    </tool_bar_item>
+    <tool_bar_item type="separator" />
+    <!-- ===== Component Commands ===== -->
+    <tool_bar_item type="normal">
+      <left_macro>
+        <macro><![CDATA[! _-RunScript (CreateInsole)]]></macro>
+        <tooltip>Create Insole - Generate an insole from the last</tooltip>
+        <button_text>CreateInsole</button_text>
+      </left_macro>
+      <right_macro>
+        <macro><![CDATA[! _-RunScript (CreateInsole)]]></macro>
+        <tooltip>Create Insole - Generate an insole from the last</tooltip>
+        <button_text>CreateInsole</button_text>
+      </right_macro>
+    </tool_bar_item>
+    <tool_bar_item type="normal">
+      <left_macro>
+        <macro><![CDATA[! _-RunScript (CreateSole)]]></macro>
+        <tooltip>Create Sole - Create the outsole</tooltip>
+        <button_text>CreateSole</button_text>
+      </left_macro>
+      <right_macro>
+        <macro><![CDATA[! _-RunScript (CreateSole)]]></macro>
+        <tooltip>Create Sole - Create the outsole</tooltip>
+        <button_text>CreateSole</button_text>
+      </right_macro>
+    </tool_bar_item>
+    <tool_bar_item type="normal">
+      <left_macro>
+        <macro><![CDATA[! _-RunScript (CreateHeel)]]></macro>
+        <tooltip>Create Heel - Create the heel</tooltip>
+        <button_text>CreateHeel</button_text>
+      </left_macro>
+      <right_macro>
+        <macro><![CDATA[! _-RunScript (CreateHeelParts)]]></macro>
+        <tooltip>Create Heel Parts - Create individual heel parts</tooltip>
+        <button_text>CreateHeelParts</button_text>
+      </right_macro>
+    </tool_bar_item>
+    <tool_bar_item type="normal">
+      <left_macro>
+        <macro><![CDATA[! _-RunScript (CreateTopPiece)]]></macro>
+        <tooltip>Create Top Piece - Create the top piece</tooltip>
+        <button_text>CreateTopPiece</button_text>
+      </left_macro>
+      <right_macro>
+        <macro><![CDATA[! _-RunScript (CreateShankBoard)]]></macro>
+        <tooltip>Create Shank Board - Create the shank board</tooltip>
+        <button_text>CreateShankBoard</button_text>
+      </right_macro>
+    </tool_bar_item>
+    <tool_bar_item type="normal">
+      <left_macro>
+        <macro><![CDATA[! _-RunScript (CreateMetPad)]]></macro>
+        <tooltip>Create Met Pad - Add a metatarsal pad</tooltip>
+        <button_text>CreateMetPad</button_text>
+      </left_macro>
+      <right_macro>
+        <macro><![CDATA[! _-RunScript (CreateToeCrest)]]></macro>
+        <tooltip>Create Toe Crest - Create a toe crest</tooltip>
+        <button_text>CreateToeCrest</button_text>
+      </right_macro>
+    </tool_bar_item>
+    <tool_bar_item type="normal">
+      <left_macro>
+        <macro><![CDATA[! _-RunScript (CreateUpperBodies)]]></macro>
+        <tooltip>Create Upper Bodies - Generate upper pattern bodies</tooltip>
+        <button_text>CreateUpperBodies</button_text>
+      </left_macro>
+      <right_macro>
+        <macro><![CDATA[! _-RunScript (CreateMockup)]]></macro>
+        <tooltip>Create Mockup - Create a full footwear mockup</tooltip>
+        <button_text>CreateMockup</button_text>
+      </right_macro>
+    </tool_bar_item>
+    <tool_bar_item type="separator" />
+    <!-- ===== Foot & Orthotic Commands ===== -->
+    <tool_bar_item type="normal">
+      <left_macro>
+        <macro><![CDATA[! _-RunScript (ImportFoot)]]></macro>
+        <tooltip>Import Foot - Import a foot scan or model</tooltip>
+        <button_text>ImportFoot</button_text>
+      </left_macro>
+      <right_macro>
+        <macro><![CDATA[! _-RunScript (AnalyzePlantarFootScan)]]></macro>
+        <tooltip>Analyze Plantar Foot Scan - Analyze a plantar foot scan</tooltip>
+        <button_text>AnalyzePlantarFootScan</button_text>
+      </right_macro>
+    </tool_bar_item>
+    <tool_bar_item type="normal">
+      <left_macro>
+        <macro><![CDATA[! _-RunScript (MakeOrthotic)]]></macro>
+        <tooltip>Make Orthotic - Create an orthotic from foot and last data</tooltip>
+        <button_text>MakeOrthotic</button_text>
+      </left_macro>
+      <right_macro>
+        <macro><![CDATA[! _-RunScript (AdjustOrthoticToBlank)]]></macro>
+        <tooltip>Adjust Orthotic To Blank - Fit orthotic to a blank</tooltip>
+        <button_text>AdjustOrthoticToBlank</button_text>
+      </right_macro>
+    </tool_bar_item>
+    <tool_bar_item type="normal">
+      <left_macro>
+        <macro><![CDATA[! _-RunScript (PrintPrepOrthotic)]]></macro>
+        <tooltip>Print Prep Orthotic - Prepare orthotic for 3D printing</tooltip>
+        <button_text>PrintPrepOrthotic</button_text>
+      </left_macro>
+      <right_macro>
+        <macro><![CDATA[! _-RunScript (PrintPrepOrthotics)]]></macro>
+        <tooltip>Print Prep Orthotics - Batch prepare multiple orthotics</tooltip>
+        <button_text>PrintPrepOrthotics</button_text>
+      </right_macro>
+    </tool_bar_item>
+    <tool_bar_item type="separator" />
+    <!-- ===== Sandal Commands ===== -->
+    <tool_bar_item type="normal">
+      <left_macro>
+        <macro><![CDATA[! _-RunScript (BuildSandal)]]></macro>
+        <tooltip>Build Sandal - Create a sandal from a last</tooltip>
+        <button_text>BuildSandal</button_text>
+      </left_macro>
+      <right_macro>
+        <macro><![CDATA[! _-RunScript (BuildInsert)]]></macro>
+        <tooltip>Build Insert - Create a removable insert</tooltip>
+        <button_text>BuildInsert</button_text>
+      </right_macro>
+    </tool_bar_item>
+    <tool_bar_item type="separator" />
+    <!-- ===== Grading Commands ===== -->
+    <tool_bar_item type="normal">
+      <left_macro>
+        <macro><![CDATA[! _-RunScript (GradeFootwear)]]></macro>
+        <tooltip>Grade Footwear - Grade to a specific size</tooltip>
+        <button_text>GradeFootwear</button_text>
+      </left_macro>
+      <right_macro>
+        <macro><![CDATA[! _-RunScript (BatchGrade)]]></macro>
+        <tooltip>Batch Grade - Grade to multiple sizes at once</tooltip>
+        <button_text>BatchGrade</button_text>
+      </right_macro>
+    </tool_bar_item>
+    <tool_bar_item type="separator" />
+    <!-- ===== View & Export Commands ===== -->
+    <tool_bar_item type="normal">
+      <left_macro>
+        <macro><![CDATA[! _-RunScript (PrintPrep)]]></macro>
+        <tooltip>Print Prep - Prepare model for 3D printing</tooltip>
+        <button_text>PrintPrep</button_text>
+      </left_macro>
+      <right_macro>
+        <macro><![CDATA[! _-RunScript (RenderComponents)]]></macro>
+        <tooltip>Render Components - Render component views</tooltip>
+        <button_text>RenderComponents</button_text>
+      </right_macro>
+    </tool_bar_item>
+    <tool_bar_item type="normal">
+      <left_macro>
+        <macro><![CDATA[! _-RunScript (OpenFIFShoeKitOptions)]]></macro>
+        <tooltip>Options - Open the plugin options dialog</tooltip>
+        <button_text>Options</button_text>
+      </left_macro>
+      <right_macro>
+        <macro><![CDATA[! _-RunScript (RebuildFootwear)]]></macro>
+        <tooltip>Rebuild Footwear - Rebuild all footwear components</tooltip>
+        <button_text>RebuildFootwear</button_text>
+      </right_macro>
+    </tool_bar_item>
+  </tool_bar>
+  <macros>
+    <macro_item name="NewBuild">
+      <macro><![CDATA[! _-RunScript (NewBuild)]]></macro>
+      <tooltip>New Build - Create a new shoe last build</tooltip>
+      <button_text>NewBuild</button_text>
+    </macro_item>
+    <macro_item name="NewBuildScriptable">
+      <macro><![CDATA[! _-RunScript (NewBuildScriptable)]]></macro>
+      <tooltip>New Build Scriptable - Create a new build with pre-set parameters</tooltip>
+      <button_text>NewBuildScriptable</button_text>
+    </macro_item>
+    <macro_item name="ImportLast">
+      <macro><![CDATA[! _-RunScript (ImportLast)]]></macro>
+      <tooltip>Import Last - Import a shoe last from file</tooltip>
+      <button_text>ImportLast</button_text>
+    </macro_item>
+    <macro_item name="ExportLast">
+      <macro><![CDATA[! _-RunScript (ExportLast)]]></macro>
+      <tooltip>Export Last - Export the current last to file</tooltip>
+      <button_text>ExportLast</button_text>
+    </macro_item>
+    <macro_item name="UpdateLast">
+      <macro><![CDATA[! _-RunScript (UpdateLast)]]></macro>
+      <tooltip>Update Last - Update the current last geometry</tooltip>
+      <button_text>UpdateLast</button_text>
+    </macro_item>
+    <macro_item name="GradeLast">
+      <macro><![CDATA[! _-RunScript (GradeLast)]]></macro>
+      <tooltip>Grade Last - Grade the current last to a different size</tooltip>
+      <button_text>GradeLast</button_text>
+    </macro_item>
+    <macro_item name="FlattenLast">
+      <macro><![CDATA[! _-RunScript (FlattenLast)]]></macro>
+      <tooltip>Flatten Last - Flatten the last for 2D output</tooltip>
+      <button_text>FlattenLast</button_text>
+    </macro_item>
+    <macro_item name="Establish">
+      <macro><![CDATA[! _-RunScript (Establish)]]></macro>
+      <tooltip>Establish - Establish the last baseline</tooltip>
+      <button_text>Establish</button_text>
+    </macro_item>
+    <macro_item name="GazeAtLast">
+      <macro><![CDATA[! _-RunScript (GazeAtLast)]]></macro>
+      <tooltip>Gaze At Last - Set viewport to look at the last</tooltip>
+      <button_text>GazeAtLast</button_text>
+    </macro_item>
+    <macro_item name="Morph">
+      <macro><![CDATA[! _-RunScript (Morph)]]></macro>
+      <tooltip>Morph - Morph the last shape interactively</tooltip>
+      <button_text>Morph</button_text>
+    </macro_item>
+    <macro_item name="NewMorph">
+      <macro><![CDATA[! _-RunScript (NewMorph)]]></macro>
+      <tooltip>New Morph - Create a new morph operation</tooltip>
+      <button_text>NewMorph</button_text>
+    </macro_item>
+    <macro_item name="CreateInsole">
+      <macro><![CDATA[! _-RunScript (CreateInsole)]]></macro>
+      <tooltip>Create Insole - Generate an insole from the last</tooltip>
+      <button_text>CreateInsole</button_text>
+    </macro_item>
+    <macro_item name="CreateSole">
+      <macro><![CDATA[! _-RunScript (CreateSole)]]></macro>
+      <tooltip>Create Sole - Create the outsole</tooltip>
+      <button_text>CreateSole</button_text>
+    </macro_item>
+    <macro_item name="CreateHeel">
+      <macro><![CDATA[! _-RunScript (CreateHeel)]]></macro>
+      <tooltip>Create Heel - Create the heel</tooltip>
+      <button_text>CreateHeel</button_text>
+    </macro_item>
+    <macro_item name="CreateHeelParts">
+      <macro><![CDATA[! _-RunScript (CreateHeelParts)]]></macro>
+      <tooltip>Create Heel Parts - Create individual heel parts</tooltip>
+      <button_text>CreateHeelParts</button_text>
+    </macro_item>
+    <macro_item name="CreateTopPiece">
+      <macro><![CDATA[! _-RunScript (CreateTopPiece)]]></macro>
+      <tooltip>Create Top Piece - Create the top piece</tooltip>
+      <button_text>CreateTopPiece</button_text>
+    </macro_item>
+    <macro_item name="CreateShankBoard">
+      <macro><![CDATA[! _-RunScript (CreateShankBoard)]]></macro>
+      <tooltip>Create Shank Board - Create the shank board</tooltip>
+      <button_text>CreateShankBoard</button_text>
+    </macro_item>
+    <macro_item name="CreateMetPad">
+      <macro><![CDATA[! _-RunScript (CreateMetPad)]]></macro>
+      <tooltip>Create Met Pad - Add a metatarsal pad</tooltip>
+      <button_text>CreateMetPad</button_text>
+    </macro_item>
+    <macro_item name="CreateUpperBodies">
+      <macro><![CDATA[! _-RunScript (CreateUpperBodies)]]></macro>
+      <tooltip>Create Upper Bodies - Generate upper pattern bodies</tooltip>
+      <button_text>CreateUpperBodies</button_text>
+    </macro_item>
+    <macro_item name="CreateMockup">
+      <macro><![CDATA[! _-RunScript (CreateMockup)]]></macro>
+      <tooltip>Create Mockup - Create a full footwear mockup</tooltip>
+      <button_text>CreateMockup</button_text>
+    </macro_item>
+    <macro_item name="ImportFoot">
+      <macro><![CDATA[! _-RunScript (ImportFoot)]]></macro>
+      <tooltip>Import Foot - Import a foot scan or model</tooltip>
+      <button_text>ImportFoot</button_text>
+    </macro_item>
+    <macro_item name="AnalyzePlantarFootScan">
+      <macro><![CDATA[! _-RunScript (AnalyzePlantarFootScan)]]></macro>
+      <tooltip>Analyze Plantar Foot Scan - Analyze a plantar foot scan</tooltip>
+      <button_text>AnalyzePlantarFootScan</button_text>
+    </macro_item>
+    <macro_item name="MakeOrthotic">
+      <macro><![CDATA[! _-RunScript (MakeOrthotic)]]></macro>
+      <tooltip>Make Orthotic - Create an orthotic from foot and last data</tooltip>
+      <button_text>MakeOrthotic</button_text>
+    </macro_item>
+    <macro_item name="AdjustOrthoticToBlank">
+      <macro><![CDATA[! _-RunScript (AdjustOrthoticToBlank)]]></macro>
+      <tooltip>Adjust Orthotic To Blank - Fit orthotic to a blank</tooltip>
+      <button_text>AdjustOrthoticToBlank</button_text>
+    </macro_item>
+    <macro_item name="PrintPrepOrthotic">
+      <macro><![CDATA[! _-RunScript (PrintPrepOrthotic)]]></macro>
+      <tooltip>Print Prep Orthotic - Prepare orthotic for 3D printing</tooltip>
+      <button_text>PrintPrepOrthotic</button_text>
+    </macro_item>
+    <macro_item name="PrintPrepOrthotics">
+      <macro><![CDATA[! _-RunScript (PrintPrepOrthotics)]]></macro>
+      <tooltip>Print Prep Orthotics - Batch prepare multiple orthotics</tooltip>
+      <button_text>PrintPrepOrthotics</button_text>
+    </macro_item>
+    <macro_item name="BuildSandal">
+      <macro><![CDATA[! _-RunScript (BuildSandal)]]></macro>
+      <tooltip>Build Sandal - Create a sandal from a last</tooltip>
+      <button_text>BuildSandal</button_text>
+    </macro_item>
+    <macro_item name="BuildInsert">
+      <macro><![CDATA[! _-RunScript (BuildInsert)]]></macro>
+      <tooltip>Build Insert - Create a removable insert</tooltip>
+      <button_text>BuildInsert</button_text>
+    </macro_item>
+    <macro_item name="GradeFootwear">
+      <macro><![CDATA[! _-RunScript (GradeFootwear)]]></macro>
+      <tooltip>Grade Footwear - Grade to a specific size</tooltip>
+      <button_text>GradeFootwear</button_text>
+    </macro_item>
+    <macro_item name="BatchGrade">
+      <macro><![CDATA[! _-RunScript (BatchGrade)]]></macro>
+      <tooltip>Batch Grade - Grade to multiple sizes at once</tooltip>
+      <button_text>BatchGrade</button_text>
+    </macro_item>
+    <macro_item name="PrintPrep">
+      <macro><![CDATA[! _-RunScript (PrintPrep)]]></macro>
+      <tooltip>Print Prep - Prepare model for 3D printing</tooltip>
+      <button_text>PrintPrep</button_text>
+    </macro_item>
+    <macro_item name="RenderComponents">
+      <macro><![CDATA[! _-RunScript (RenderComponents)]]></macro>
+      <tooltip>Render Components - Render component views</tooltip>
+      <button_text>RenderComponents</button_text>
+    </macro_item>
+    <macro_item name="OpenFIFShoeKitOptions">
+      <macro><![CDATA[! _-RunScript (OpenFIFShoeKitOptions)]]></macro>
+      <tooltip>Options - Open the plugin options dialog</tooltip>
+      <button_text>Options</button_text>
+    </macro_item>
+    <macro_item name="RebuildFootwear">
+      <macro><![CDATA[! _-RunScript (RebuildFootwear)]]></macro>
+      <tooltip>Rebuild Footwear - Rebuild all footwear components</tooltip>
+      <button_text>RebuildFootwear</button_text>
+    </macro_item>
+  </macros>
+</RhinoUI>

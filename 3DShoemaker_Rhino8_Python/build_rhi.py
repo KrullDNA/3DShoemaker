@@ -33,6 +33,9 @@ _PLUGIN_DIR = _SCRIPT_DIR / "plugin"
 _MANIFEST = _SCRIPT_DIR / "manifest.yml"
 _TERMS_PRIMARY = _SCRIPT_DIR.parent / "8.4.0.8" / "Terms.txt"
 _TERMS_FALLBACK = _SCRIPT_DIR / "Terms.txt"
+_README_INSTALL = _SCRIPT_DIR / "README_INSTALL.txt"
+_QUICK_REFERENCE = _SCRIPT_DIR / "QUICK_REFERENCE.txt"
+_RUI_FILE = _SCRIPT_DIR / "FIFShoeKit.rui"
 
 # Files/dirs to exclude from the package
 _SKIP_DIRS = {"__pycache__", ".git", ".vscode", ".idea"}
@@ -114,7 +117,34 @@ def build_rhi(output_path: Path) -> None:
         else:
             print("  Warning: Terms.txt not found, skipping.")
 
-        # 4. Entire plugin/ package
+        # 4. README_INSTALL.txt
+        if _README_INSTALL.is_file():
+            arc_name = f"{PLUGIN_NAME}/README_INSTALL.txt"
+            zf.write(_README_INSTALL, arc_name)
+            file_count += 1
+            print(f"  + {arc_name}")
+        else:
+            print("  Warning: README_INSTALL.txt not found, skipping.")
+
+        # 5. QUICK_REFERENCE.txt
+        if _QUICK_REFERENCE.is_file():
+            arc_name = f"{PLUGIN_NAME}/QUICK_REFERENCE.txt"
+            zf.write(_QUICK_REFERENCE, arc_name)
+            file_count += 1
+            print(f"  + {arc_name}")
+        else:
+            print("  Warning: QUICK_REFERENCE.txt not found, skipping.")
+
+        # 6. FIFShoeKit.rui toolbar
+        if _RUI_FILE.is_file():
+            arc_name = f"{PLUGIN_NAME}/FIFShoeKit.rui"
+            zf.write(_RUI_FILE, arc_name)
+            file_count += 1
+            print(f"  + {arc_name}")
+        else:
+            print("  Warning: FIFShoeKit.rui not found, skipping.")
+
+        # 7. Entire plugin/ package
         if not _PLUGIN_DIR.is_dir():
             print(f"  ERROR: plugin/ directory not found: {_PLUGIN_DIR}")
             sys.exit(1)
