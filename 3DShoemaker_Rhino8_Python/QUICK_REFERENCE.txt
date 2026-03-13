@@ -2,6 +2,13 @@
   FEET IN FOCUS SHOE KIT v1.0 - Quick Reference Card
 ========================================================
 
+PANEL
+-------------------  -----------------------------------
+ShowFIFShoeKitPanel  Open the Feet in Focus Shoe Kit
+                     panel with all commands, layer
+                     toggles, and status display
+
+
 LAST COMMANDS
 -------------------  -----------------------------------
 NewBuild             Create a new shoe last build with

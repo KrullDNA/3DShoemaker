@@ -10,6 +10,20 @@
   <tool_bar name="Feet in Focus Shoe Kit"
             left_size="24"
             right_size="24">
+    <!-- ===== Panel ===== -->
+    <tool_bar_item type="normal">
+      <left_macro>
+        <macro><![CDATA[! _-RunScript (ShowFIFShoeKitPanel)]]></macro>
+        <tooltip>Show Panel - Open the Feet in Focus Shoe Kit panel</tooltip>
+        <button_text>Panel</button_text>
+      </left_macro>
+      <right_macro>
+        <macro><![CDATA[! _-RunScript (ShowFIFShoeKitPanel)]]></macro>
+        <tooltip>Show Panel - Open the Feet in Focus Shoe Kit panel</tooltip>
+        <button_text>Panel</button_text>
+      </right_macro>
+    </tool_bar_item>
+    <tool_bar_item type="separator" />
     <!-- ===== Last Commands ===== -->
     <tool_bar_item type="normal">
       <left_macro>
@@ -253,6 +267,11 @@
     </tool_bar_item>
   </tool_bar>
   <macros>
+    <macro_item name="ShowFIFShoeKitPanel">
+      <macro><![CDATA[! _-RunScript (ShowFIFShoeKitPanel)]]></macro>
+      <tooltip>Show Panel - Open the Feet in Focus Shoe Kit panel</tooltip>
+      <button_text>Panel</button_text>
+    </macro_item>
     <macro_item name="NewBuild">
       <macro><![CDATA[! _-RunScript (NewBuild)]]></macro>
       <tooltip>New Build - Create a new shoe last build</tooltip>

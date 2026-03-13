@@ -30,51 +30,65 @@ import plugin as plugin_constants
 # ---------------------------------------------------------------------------
 
 _CMD_BUILD = [
-    ("New Last", "cmd_new_last", "Create a new shoe last from template"),
+    ("New Build", "cmd_new_build", "Create a new shoe last build"),
     ("Import Last", "cmd_import_last", "Import a last from file"),
-    ("Build Insole", "cmd_build_insole", "Generate insole from foot data"),
-    ("Build Bottom", "cmd_build_bottom", "Generate outsole/midsole geometry"),
+    ("Create Insole", "cmd_create_insole", "Generate insole from last"),
+    ("Create Sole", "cmd_create_sole", "Generate outsole geometry"),
     ("Import Foot", "cmd_import_foot", "Import a 2D/3D foot scan"),
 ]
 
 _CMD_EDIT = [
-    ("Edit Last", "cmd_edit_last", "Modify last surface interactively"),
-    ("Edit Insole", "cmd_edit_insole", "Modify insole geometry"),
+    ("Edit Curve", "cmd_edit_curve_mode", "Enter curve editing mode"),
+    ("End Edit", "cmd_end_edit", "Exit editing mode"),
     ("Morph", "cmd_morph", "Morph geometry from source to target"),
-    ("Edit Dimensions", "cmd_edit_dimensions", "View/edit measurement dimensions"),
-    ("Mirror", "cmd_mirror", "Mirror geometry to opposite foot"),
+    ("Sculpt", "cmd_sculpt", "Sculpt surfaces interactively"),
+    ("Blend Surfaces", "cmd_blend_surfaces", "Blend between two surfaces"),
 ]
 
 _CMD_COMPONENTS = [
-    ("Add Toe Cap", "cmd_add_toe_cap", "Add a toe-cap component"),
-    ("Add Heel Counter", "cmd_add_heel_counter", "Add a heel counter"),
-    ("Add Arch Support", "cmd_add_arch_support", "Add arch support geometry"),
-    ("Add Met Pad", "cmd_add_met_pad", "Add a metatarsal pad"),
-    ("Add Posting", "cmd_add_posting", "Add medial/lateral posting"),
+    ("Create Heel", "cmd_create_heel", "Create the heel"),
+    ("Create Top Piece", "cmd_create_top_piece", "Create the top piece"),
+    ("Create Shank Board", "cmd_create_shank_board", "Create the shank board"),
+    ("Create Met Pad", "cmd_create_met_pad", "Add a metatarsal pad"),
+    ("Create Upper Bodies", "cmd_create_upper_bodies", "Generate upper pattern bodies"),
+    ("Create Mockup", "cmd_create_mockup", "Create a full footwear mockup"),
 ]
 
 _CMD_GRADE = [
     ("Grade Footwear", "cmd_grade_footwear", "Grade to a different shoe size"),
+    ("Batch Grade", "cmd_batch_grade", "Grade to multiple sizes at once"),
     ("Foot Measurements", "cmd_foot_measurements", "Enter foot measurements"),
 ]
 
 _CMD_EXPORT = [
     ("3D Print Prep", "cmd_print_prep", "Prepare for 3D printing"),
     ("Vacuum Form", "cmd_vacuum_form", "Prepare for vacuum forming"),
-    ("Export STL", "cmd_export_stl", "Export as STL mesh"),
-    ("Export OBJ", "cmd_export_obj", "Export as OBJ"),
+    ("Export Last", "cmd_export_last", "Export the last to file"),
+    ("Render Components", "cmd_render_components", "Render component views"),
 ]
 
 _CMD_VIEW = [
-    ("Reset View", "cmd_reset_view", "Reset to default viewing angle"),
+    ("Gaze At Last", "cmd_gaze_at_last", "Set viewport to look at the last"),
     ("Toggle Construction", "cmd_toggle_construction", "Show/hide construction lines"),
     ("Toggle Measurements", "cmd_toggle_measurements", "Show/hide measurement display"),
+    ("Clipping Planes", "cmd_draw_clipping_planes", "Draw clipping planes"),
 ]
 
 _CMD_FOOT = [
     ("Show Foot", "cmd_show_foot", "Show the foot scan/model"),
     ("Hide Foot", "cmd_hide_foot", "Hide the foot scan/model"),
-    ("Foot Overlay", "cmd_foot_overlay", "Overlay foot on last"),
+    ("Analyze Plantar", "cmd_analyze_plantar", "Analyze plantar foot scan"),
+]
+
+_CMD_ORTHOTIC = [
+    ("Make Orthotic", "cmd_make_orthotic", "Create orthotic from foot/last data"),
+    ("Adjust To Blank", "cmd_adjust_to_blank", "Fit orthotic to a blank"),
+    ("Print Prep Orthotic", "cmd_print_prep_orthotic", "Prepare orthotic for 3D printing"),
+]
+
+_CMD_SANDAL = [
+    ("Build Sandal", "cmd_build_sandal", "Create a sandal from a last"),
+    ("Build Insert", "cmd_build_insert", "Create a removable insert"),
 ]
 
 # Curve types available in the Edit Curve dropdown
@@ -217,6 +231,14 @@ class PodoCADPanel(forms.Panel):
         root.AddRow(self._create_section("Foot", _CMD_FOOT))
         root.AddRow(self._separator())
 
+        # --- Orthotic section ---------------------------------------------
+        root.AddRow(self._create_section("Orthotic", _CMD_ORTHOTIC))
+        root.AddRow(self._separator())
+
+        # --- Sandal section -----------------------------------------------
+        root.AddRow(self._create_section("Sandal", _CMD_SANDAL))
+        root.AddRow(self._separator())
+
         # --- Status panel -------------------------------------------------
         status_group = forms.GroupBox(Text="Status")
         status_layout = forms.DynamicLayout()
@@ -301,82 +323,76 @@ class PodoCADPanel(forms.Panel):
         method_name = btn.Tag if hasattr(btn, "Tag") else None
         if method_name and hasattr(self, method_name):
             getattr(self, method_name)()
-        elif method_name:
-            # Fall back to running a Rhino command with matching name
-            rhino_cmd = method_name.replace("cmd_", "SLM_")
-            Rhino.RhinoApp.RunScript(rhino_cmd, False)
 
     # ------------------------------------------------------------------
     # Build commands
     # ------------------------------------------------------------------
 
-    def cmd_new_last(self):
-        Rhino.RhinoApp.RunScript("SLM_NewLast", False)
+    def cmd_new_build(self):
+        Rhino.RhinoApp.RunScript("NewBuild", False)
 
     def cmd_import_last(self):
-        Rhino.RhinoApp.RunScript("SLM_ImportLast", False)
+        Rhino.RhinoApp.RunScript("ImportLast", False)
 
-    def cmd_build_insole(self):
-        Rhino.RhinoApp.RunScript("SLM_BuildInsole", False)
+    def cmd_create_insole(self):
+        Rhino.RhinoApp.RunScript("CreateInsole", False)
 
-    def cmd_build_bottom(self):
-        Rhino.RhinoApp.RunScript("SLM_BuildBottom", False)
+    def cmd_create_sole(self):
+        Rhino.RhinoApp.RunScript("CreateSole", False)
 
     def cmd_import_foot(self):
-        from plugin.forms.import_foot_form import ImportFootForm
-        dlg = ImportFootForm()
-        dlg.ShowModal(Rhino.UI.RhinoEtoApp.MainWindow)
+        Rhino.RhinoApp.RunScript("ImportFoot", False)
 
     # ------------------------------------------------------------------
     # Edit commands
     # ------------------------------------------------------------------
 
-    def cmd_edit_last(self):
-        Rhino.RhinoApp.RunScript("SLM_EditLast", False)
+    def cmd_edit_curve_mode(self):
+        Rhino.RhinoApp.RunScript("EditCurve", False)
 
-    def cmd_edit_insole(self):
-        Rhino.RhinoApp.RunScript("SLM_EditInsole", False)
+    def cmd_end_edit(self):
+        Rhino.RhinoApp.RunScript("EndEdit", False)
 
     def cmd_morph(self):
-        from plugin.forms.morph_form import MorphForm
-        dlg = MorphForm()
-        dlg.ShowModal(Rhino.UI.RhinoEtoApp.MainWindow)
+        Rhino.RhinoApp.RunScript("NewMorph", False)
 
-    def cmd_edit_dimensions(self):
-        from plugin.forms.edit_dimension_form import EditDimensionForm
-        dlg = EditDimensionForm()
-        dlg.ShowModal(Rhino.UI.RhinoEtoApp.MainWindow)
+    def cmd_sculpt(self):
+        Rhino.RhinoApp.RunScript("Sculpt", False)
 
-    def cmd_mirror(self):
-        Rhino.RhinoApp.RunScript("SLM_Mirror", False)
+    def cmd_blend_surfaces(self):
+        Rhino.RhinoApp.RunScript("BlendSurfaceToSurface", False)
 
     # ------------------------------------------------------------------
     # Component commands
     # ------------------------------------------------------------------
 
-    def cmd_add_toe_cap(self):
-        Rhino.RhinoApp.RunScript("SLM_AddToeCap", False)
+    def cmd_create_heel(self):
+        Rhino.RhinoApp.RunScript("CreateHeel", False)
 
-    def cmd_add_heel_counter(self):
-        Rhino.RhinoApp.RunScript("SLM_AddHeelCounter", False)
+    def cmd_create_top_piece(self):
+        Rhino.RhinoApp.RunScript("CreateTopPiece", False)
 
-    def cmd_add_arch_support(self):
-        Rhino.RhinoApp.RunScript("SLM_AddArchSupport", False)
+    def cmd_create_shank_board(self):
+        Rhino.RhinoApp.RunScript("CreateShankBoard", False)
 
-    def cmd_add_met_pad(self):
-        Rhino.RhinoApp.RunScript("SLM_AddMetPad", False)
+    def cmd_create_met_pad(self):
+        Rhino.RhinoApp.RunScript("CreateMetPad", False)
 
-    def cmd_add_posting(self):
-        Rhino.RhinoApp.RunScript("SLM_AddPosting", False)
+    def cmd_create_upper_bodies(self):
+        Rhino.RhinoApp.RunScript("CreateUpperBodies", False)
+
+    def cmd_create_mockup(self):
+        Rhino.RhinoApp.RunScript("CreateMockup", False)
 
     # ------------------------------------------------------------------
     # Grade commands
     # ------------------------------------------------------------------
 
     def cmd_grade_footwear(self):
-        from plugin.forms.grade_footwear_form import GradeFootwearForm
-        dlg = GradeFootwearForm()
-        dlg.ShowModal(Rhino.UI.RhinoEtoApp.MainWindow)
+        Rhino.RhinoApp.RunScript("GradeFootwear", False)
+
+    def cmd_batch_grade(self):
+        Rhino.RhinoApp.RunScript("BatchGrade", False)
 
     def cmd_foot_measurements(self):
         from plugin.forms.foot_measurement_form import FootMeasurementForm
@@ -388,36 +404,32 @@ class PodoCADPanel(forms.Panel):
     # ------------------------------------------------------------------
 
     def cmd_print_prep(self):
-        from plugin.forms.print_prep_form import PrintPrepForm
-        dlg = PrintPrepForm()
-        dlg.ShowModal(Rhino.UI.RhinoEtoApp.MainWindow)
+        Rhino.RhinoApp.RunScript("PrintPrep", False)
 
     def cmd_vacuum_form(self):
-        from plugin.forms.vacuum_form import VacuumForm
-        dlg = VacuumForm()
-        dlg.ShowModal(Rhino.UI.RhinoEtoApp.MainWindow)
+        Rhino.RhinoApp.RunScript("VacuumFormCommand", False)
 
-    def cmd_export_stl(self):
-        Rhino.RhinoApp.RunScript("SLM_ExportSTL", False)
+    def cmd_export_last(self):
+        Rhino.RhinoApp.RunScript("ExportLast", False)
 
-    def cmd_export_obj(self):
-        Rhino.RhinoApp.RunScript("SLM_ExportOBJ", False)
+    def cmd_render_components(self):
+        Rhino.RhinoApp.RunScript("RenderComponents", False)
 
     # ------------------------------------------------------------------
     # View commands
     # ------------------------------------------------------------------
 
-    def cmd_reset_view(self):
-        from plugin.plugin_main import PodoCADPlugIn
-        doc = Rhino.RhinoDoc.ActiveDoc
-        if doc:
-            PodoCADPlugIn.instance().PopulatePerspectiveView(doc)
+    def cmd_gaze_at_last(self):
+        Rhino.RhinoApp.RunScript("GazeAtLast", False)
 
     def cmd_toggle_construction(self):
         self._toggle_layer_visibility("Construction")
 
     def cmd_toggle_measurements(self):
         self._toggle_layer_visibility("Measurements")
+
+    def cmd_draw_clipping_planes(self):
+        Rhino.RhinoApp.RunScript("DrawClippingPlanes", False)
 
     # ------------------------------------------------------------------
     # Foot commands
@@ -429,8 +441,31 @@ class PodoCADPanel(forms.Panel):
     def cmd_hide_foot(self):
         self._set_layer_visible("Foot", False)
 
-    def cmd_foot_overlay(self):
-        Rhino.RhinoApp.RunScript("SLM_FootOverlay", False)
+    def cmd_analyze_plantar(self):
+        Rhino.RhinoApp.RunScript("AnalyzePlantarFootScan", False)
+
+    # ------------------------------------------------------------------
+    # Orthotic commands
+    # ------------------------------------------------------------------
+
+    def cmd_make_orthotic(self):
+        Rhino.RhinoApp.RunScript("MakeOrthotic", False)
+
+    def cmd_adjust_to_blank(self):
+        Rhino.RhinoApp.RunScript("AdjustOrthoticToBlank", False)
+
+    def cmd_print_prep_orthotic(self):
+        Rhino.RhinoApp.RunScript("PrintPrepOrthotic", False)
+
+    # ------------------------------------------------------------------
+    # Sandal commands
+    # ------------------------------------------------------------------
+
+    def cmd_build_sandal(self):
+        Rhino.RhinoApp.RunScript("BuildSandal", False)
+
+    def cmd_build_insert(self):
+        Rhino.RhinoApp.RunScript("BuildInsert", False)
 
     # ------------------------------------------------------------------
     # Edit curve dropdown
@@ -447,21 +482,9 @@ class PodoCADPanel(forms.Panel):
             return
 
         curve_type = _EDIT_CURVE_TYPES[idx]
-        # Map curve types to Rhino command names
-        cmd_map = {
-            "Toe Profile": "SLM_EditToeProfile",
-            "Heel Profile": "SLM_EditHeelProfile",
-            "Medial Outline": "SLM_EditMedialOutline",
-            "Lateral Outline": "SLM_EditLateralOutline",
-            "Bottom Profile": "SLM_EditBottomProfile",
-            "Cone Line": "SLM_EditConeLine",
-            "Feather Edge": "SLM_EditFeatherEdge",
-            "Tread Pattern": "SLM_EditTreadPattern",
-        }
-
-        cmd = cmd_map.get(curve_type)
-        if cmd:
-            Rhino.RhinoApp.RunScript(cmd, False)
+        # Run EditCurve command -- the curve type is selected via the
+        # Rhino command options when EditCurve is active.
+        Rhino.RhinoApp.RunScript("EditCurve", False)
 
     # ------------------------------------------------------------------
     # Clipping planes
