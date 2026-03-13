@@ -1,5 +1,5 @@
 """
-folder_watcher.py - Folder watching dialog for 3DShoemaker.
+folder_watcher.py - Folder watching dialog for Feet in Focus Shoe Kit.
 
 Monitors a designated folder for new scan files and automatically
 imports them into the active document when they appear.
@@ -35,7 +35,7 @@ class FolderWatcher(forms.Form):
     def __init__(self):
         super().__init__()
 
-        self.Title = "3DShoemaker - Folder Watcher"
+        self.Title = "Feet in Focus Shoe Kit - Folder Watcher"
         self.ClientSize = drawing.Size(520, 420)
         self.Padding = drawing.Padding(10)
         self.Resizable = True

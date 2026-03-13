@@ -1,5 +1,5 @@
 """
-3DShoemaker Rhino 8 Plugin - Orthotic creation commands.
+Feet in Focus Shoe Kit Rhino 8 Plugin - Orthotic creation commands.
 
 Commands:
     MakeOrthotic                        - Creates orthotic device from foot/last data.
@@ -294,10 +294,6 @@ class MakeOrthotic(Rhino.Commands.Command):
 
     def RunCommand(self, doc, mode) -> Rhino.Commands.Result:
         plug = PodoCADPlugIn.instance()
-        if not plug.is_licensed:
-            Rhino.RhinoApp.WriteLine("3DShoemaker: A valid license is required.")
-            return Rhino.Commands.Result.Failure
-
         ds = plug.GetDocumentSettings(doc)
 
         # Gather parameters
@@ -414,10 +410,6 @@ class AdjustOrthoticToBlank(Rhino.Commands.Command):
 
     def RunCommand(self, doc, mode) -> Rhino.Commands.Result:
         plug = PodoCADPlugIn.instance()
-        if not plug.is_licensed:
-            Rhino.RhinoApp.WriteLine("3DShoemaker: A valid license is required.")
-            return Rhino.Commands.Result.Failure
-
         # Select orthotic
         go_orth = Rhino.Input.Custom.GetObject()
         go_orth.SetCommandPrompt("Select orthotic to adjust")
@@ -516,10 +508,6 @@ class AdjustOrthoticArchHeightAndLength(Rhino.Commands.Command):
 
     def RunCommand(self, doc, mode) -> Rhino.Commands.Result:
         plug = PodoCADPlugIn.instance()
-        if not plug.is_licensed:
-            Rhino.RhinoApp.WriteLine("3DShoemaker: A valid license is required.")
-            return Rhino.Commands.Result.Failure
-
         # Select orthotic
         go = Rhino.Input.Custom.GetObject()
         go.SetCommandPrompt("Select orthotic to adjust arch")
@@ -601,10 +589,6 @@ class AdjustOrthoticFeature(Rhino.Commands.Command):
 
     def RunCommand(self, doc, mode) -> Rhino.Commands.Result:
         plug = PodoCADPlugIn.instance()
-        if not plug.is_licensed:
-            Rhino.RhinoApp.WriteLine("3DShoemaker: A valid license is required.")
-            return Rhino.Commands.Result.Failure
-
         # Select orthotic
         go_sel = Rhino.Input.Custom.GetObject()
         go_sel.SetCommandPrompt("Select orthotic to modify")
@@ -762,10 +746,6 @@ class TwistOrthotic(Rhino.Commands.Command):
 
     def RunCommand(self, doc, mode) -> Rhino.Commands.Result:
         plug = PodoCADPlugIn.instance()
-        if not plug.is_licensed:
-            Rhino.RhinoApp.WriteLine("3DShoemaker: A valid license is required.")
-            return Rhino.Commands.Result.Failure
-
         # Select orthotic
         go = Rhino.Input.Custom.GetObject()
         go.SetCommandPrompt("Select orthotic to twist")
@@ -894,10 +874,6 @@ class PrintPrepOrthotic(Rhino.Commands.Command):
 
     def RunCommand(self, doc, mode) -> Rhino.Commands.Result:
         plug = PodoCADPlugIn.instance()
-        if not plug.is_licensed:
-            Rhino.RhinoApp.WriteLine("3DShoemaker: A valid license is required.")
-            return Rhino.Commands.Result.Failure
-
         # Select orthotic
         go = Rhino.Input.Custom.GetObject()
         go.SetCommandPrompt("Select orthotic for print preparation")
@@ -1030,10 +1006,6 @@ class PrintPrepOrthotics(Rhino.Commands.Command):
 
     def RunCommand(self, doc, mode) -> Rhino.Commands.Result:
         plug = PodoCADPlugIn.instance()
-        if not plug.is_licensed:
-            Rhino.RhinoApp.WriteLine("3DShoemaker: A valid license is required.")
-            return Rhino.Commands.Result.Failure
-
         # Select multiple orthotics
         go = Rhino.Input.Custom.GetObject()
         go.SetCommandPrompt("Select orthotics for batch print prep")

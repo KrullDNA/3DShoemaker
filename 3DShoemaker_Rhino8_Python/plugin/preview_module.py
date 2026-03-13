@@ -1,5 +1,5 @@
 """
-preview_module.py - Custom display conduit for 3DShoemaker preview rendering.
+preview_module.py - Custom display conduit for Feet in Focus Shoe Kit preview rendering.
 
 Provides real-time shaded/wireframe preview of Brep and SubD geometry
 through Rhino's DisplayConduit pipeline, used during interactive
@@ -235,7 +235,7 @@ class PreviewConduitClass(Rhino.Display.DisplayConduit):
         except Exception as ex:
             # Fail silently in the render pipeline to avoid crashes
             Rhino.RhinoApp.WriteLine(
-                f"[3DShoemaker] PreviewConduit draw error: {ex}"
+                f"[Feet in Focus Shoe Kit] PreviewConduit draw error: {ex}"
             )
 
     def PostDrawObjects(self, e) -> None:
@@ -342,7 +342,7 @@ class PreviewConduitClass(Rhino.Display.DisplayConduit):
                         pipeline.DrawMeshShaded(mesh, material)
         except Exception as ex:
             Rhino.RhinoApp.WriteLine(
-                f"[3DShoemaker] DrawBrepShaded error: {ex}"
+                f"[Feet in Focus Shoe Kit] DrawBrepShaded error: {ex}"
             )
 
     @staticmethod
@@ -357,7 +357,7 @@ class PreviewConduitClass(Rhino.Display.DisplayConduit):
             pipeline.DrawBrepWires(brep, color, thickness)
         except Exception as ex:
             Rhino.RhinoApp.WriteLine(
-                f"[3DShoemaker] DrawBrepWires error: {ex}"
+                f"[Feet in Focus Shoe Kit] DrawBrepWires error: {ex}"
             )
 
     # ------------------------------------------------------------------
@@ -381,7 +381,7 @@ class PreviewConduitClass(Rhino.Display.DisplayConduit):
                 pipeline.DrawMeshShaded(mesh, material)
         except Exception as ex:
             Rhino.RhinoApp.WriteLine(
-                f"[3DShoemaker] DrawSubDShaded error: {ex}"
+                f"[Feet in Focus Shoe Kit] DrawSubDShaded error: {ex}"
             )
 
     @staticmethod
@@ -396,7 +396,7 @@ class PreviewConduitClass(Rhino.Display.DisplayConduit):
             pipeline.DrawSubDWires(subd, color, thickness)
         except Exception as ex:
             Rhino.RhinoApp.WriteLine(
-                f"[3DShoemaker] DrawSubDWires error: {ex}"
+                f"[Feet in Focus Shoe Kit] DrawSubDWires error: {ex}"
             )
 
     # ------------------------------------------------------------------
@@ -413,7 +413,7 @@ class PreviewConduitClass(Rhino.Display.DisplayConduit):
             pipeline.DrawMeshShaded(mesh, material)
         except Exception as ex:
             Rhino.RhinoApp.WriteLine(
-                f"[3DShoemaker] _draw_mesh_shaded error: {ex}"
+                f"[Feet in Focus Shoe Kit] _draw_mesh_shaded error: {ex}"
             )
 
     @staticmethod
@@ -427,7 +427,7 @@ class PreviewConduitClass(Rhino.Display.DisplayConduit):
             pipeline.DrawMeshWires(mesh, color, thickness)
         except Exception as ex:
             Rhino.RhinoApp.WriteLine(
-                f"[3DShoemaker] _draw_mesh_wires error: {ex}"
+                f"[Feet in Focus Shoe Kit] _draw_mesh_wires error: {ex}"
             )
 
     # ------------------------------------------------------------------
@@ -445,7 +445,7 @@ class PreviewConduitClass(Rhino.Display.DisplayConduit):
             pipeline.DrawCurve(curve, color, thickness)
         except Exception as ex:
             Rhino.RhinoApp.WriteLine(
-                f"[3DShoemaker] _draw_curve error: {ex}"
+                f"[Feet in Focus Shoe Kit] _draw_curve error: {ex}"
             )
 
     @staticmethod
@@ -460,7 +460,7 @@ class PreviewConduitClass(Rhino.Display.DisplayConduit):
             pipeline.DrawPoint(point, style, size, color)
         except Exception as ex:
             Rhino.RhinoApp.WriteLine(
-                f"[3DShoemaker] _draw_point error: {ex}"
+                f"[Feet in Focus Shoe Kit] _draw_point error: {ex}"
             )
 
     @staticmethod
@@ -474,7 +474,7 @@ class PreviewConduitClass(Rhino.Display.DisplayConduit):
             pipeline.DrawPointCloud(cloud, size, color)
         except Exception as ex:
             Rhino.RhinoApp.WriteLine(
-                f"[3DShoemaker] _draw_point_cloud error: {ex}"
+                f"[Feet in Focus Shoe Kit] _draw_point_cloud error: {ex}"
             )
 
     # ------------------------------------------------------------------

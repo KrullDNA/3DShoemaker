@@ -1,5 +1,5 @@
 """
-morph_form.py - Morph operation dialog for 3DShoemaker.
+morph_form.py - Morph operation dialog for Feet in Focus Shoe Kit.
 
 Allows the user to select source and target meshes/curves for
 morphing operations (e.g. transferring a last shape onto a new
@@ -30,7 +30,7 @@ class MorphForm(forms.Dialog[bool]):
     def __init__(self):
         super().__init__()
 
-        self.Title = "3DShoemaker - Morph"
+        self.Title = "Feet in Focus Shoe Kit - Morph"
         self.ClientSize = drawing.Size(480, 420)
         self.Padding = drawing.Padding(10)
         self.Resizable = True

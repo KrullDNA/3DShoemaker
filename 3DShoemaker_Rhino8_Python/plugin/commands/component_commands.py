@@ -1,5 +1,5 @@
 """
-3DShoemaker Rhino 8 Plugin - Footwear component creation commands.
+Feet in Focus Shoe Kit Rhino 8 Plugin - Footwear component creation commands.
 
 Commands:
     CreateInsole        - Create insole geometry from last.
@@ -54,12 +54,6 @@ def _get_plugin() -> PodoCADPlugIn:
 
 def _require_license() -> bool:
     plug = _get_plugin()
-    if not plug.is_licensed:
-        Rhino.RhinoApp.WriteLine(
-            "[3DShoemaker] This command requires a valid license. "
-            "Run Activate3DShoemaker first."
-        )
-        return False
     return True
 
 
@@ -247,7 +241,7 @@ class CreateInsole(Rhino.Commands.Command):
 
         last_brep = _get_last_brep(doc)
         if last_brep is None:
-            Rhino.RhinoApp.WriteLine("[3DShoemaker] No last geometry found. Build a last first.")
+            Rhino.RhinoApp.WriteLine("[Feet in Focus Shoe Kit] No last geometry found. Build a last first.")
             return Rhino.Commands.Result.Failure
 
         thickness = _prompt_float("Insole thickness (mm)", settings.insert_thickness_mm)
@@ -258,7 +252,7 @@ class CreateInsole(Rhino.Commands.Command):
         if top_cover is None:
             return Rhino.Commands.Result.Cancel
 
-        Rhino.RhinoApp.WriteLine("[3DShoemaker] Creating insole...")
+        Rhino.RhinoApp.WriteLine("[Feet in Focus Shoe Kit] Creating insole...")
 
         bbox = last_brep.GetBoundingBox(True)
 
@@ -282,7 +276,7 @@ class CreateInsole(Rhino.Commands.Command):
         insole_brep = _extrude_curves_to_brep(bottom_curves, direction, cap=True)
 
         if insole_brep is None:
-            Rhino.RhinoApp.WriteLine("[3DShoemaker] Failed to create insole geometry.")
+            Rhino.RhinoApp.WriteLine("[Feet in Focus Shoe Kit] Failed to create insole geometry.")
             return Rhino.Commands.Result.Failure
 
         # Position at bottom of last
@@ -297,7 +291,7 @@ class CreateInsole(Rhino.Commands.Command):
         plug.MarkDocumentDirty()
 
         Rhino.RhinoApp.WriteLine(
-            f"[3DShoemaker] Insole created: {thickness}mm thick, {top_cover}mm top cover."
+            f"[Feet in Focus Shoe Kit] Insole created: {thickness}mm thick, {top_cover}mm top cover."
         )
         return Rhino.Commands.Result.Success
 
@@ -334,14 +328,14 @@ class CreateSole(Rhino.Commands.Command):
 
         last_brep = _get_last_brep(doc)
         if last_brep is None:
-            Rhino.RhinoApp.WriteLine("[3DShoemaker] No last geometry found.")
+            Rhino.RhinoApp.WriteLine("[Feet in Focus Shoe Kit] No last geometry found.")
             return Rhino.Commands.Result.Failure
 
         thickness = _prompt_float("Sole thickness (mm)", settings.bottom_thickness_mm)
         if thickness is None:
             return Rhino.Commands.Result.Cancel
 
-        Rhino.RhinoApp.WriteLine("[3DShoemaker] Creating sole...")
+        Rhino.RhinoApp.WriteLine("[Feet in Focus Shoe Kit] Creating sole...")
 
         bbox = last_brep.GetBoundingBox(True)
         bottom_curves = _create_bottom_outline(last_brep, tol, tol)
@@ -376,7 +370,7 @@ class CreateSole(Rhino.Commands.Command):
         sole_brep = _extrude_curves_to_brep(offset_curves, direction, cap=True)
 
         if sole_brep is None:
-            Rhino.RhinoApp.WriteLine("[3DShoemaker] Failed to create sole geometry.")
+            Rhino.RhinoApp.WriteLine("[Feet in Focus Shoe Kit] Failed to create sole geometry.")
             return Rhino.Commands.Result.Failure
 
         # Position below the insole
@@ -391,7 +385,7 @@ class CreateSole(Rhino.Commands.Command):
         plug.StoreGeometry(doc, "SoleBrep", sole_brep)
         plug.MarkDocumentDirty()
 
-        Rhino.RhinoApp.WriteLine(f"[3DShoemaker] Sole created: {thickness}mm thick.")
+        Rhino.RhinoApp.WriteLine(f"[Feet in Focus Shoe Kit] Sole created: {thickness}mm thick.")
         return Rhino.Commands.Result.Success
 
 
@@ -427,7 +421,7 @@ class CreateHeel(Rhino.Commands.Command):
 
         last_brep = _get_last_brep(doc)
         if last_brep is None:
-            Rhino.RhinoApp.WriteLine("[3DShoemaker] No last geometry found.")
+            Rhino.RhinoApp.WriteLine("[Feet in Focus Shoe Kit] No last geometry found.")
             return Rhino.Commands.Result.Failure
 
         heel_height = _prompt_float("Heel height (mm)", settings.last_heel_height_mm)
@@ -435,10 +429,10 @@ class CreateHeel(Rhino.Commands.Command):
             return Rhino.Commands.Result.Cancel
 
         if heel_height <= 0:
-            Rhino.RhinoApp.WriteLine("[3DShoemaker] Heel height must be positive.")
+            Rhino.RhinoApp.WriteLine("[Feet in Focus Shoe Kit] Heel height must be positive.")
             return Rhino.Commands.Result.Failure
 
-        Rhino.RhinoApp.WriteLine("[3DShoemaker] Creating heel...")
+        Rhino.RhinoApp.WriteLine("[Feet in Focus Shoe Kit] Creating heel...")
 
         bbox = last_brep.GetBoundingBox(True)
         heel_length = (bbox.Max.Y - bbox.Min.Y) * 0.30  # heel region ~30% of length
@@ -497,7 +491,7 @@ class CreateHeel(Rhino.Commands.Command):
         plug.StoreGeometry(doc, "HeelBrep", heel_brep)
         plug.MarkDocumentDirty()
 
-        Rhino.RhinoApp.WriteLine(f"[3DShoemaker] Heel created: {heel_height}mm high.")
+        Rhino.RhinoApp.WriteLine(f"[Feet in Focus Shoe Kit] Heel created: {heel_height}mm high.")
         return Rhino.Commands.Result.Success
 
 
@@ -533,7 +527,7 @@ class CreateHeelParts(Rhino.Commands.Command):
 
         heel_height = settings.last_heel_height_mm
         if heel_height <= 0:
-            Rhino.RhinoApp.WriteLine("[3DShoemaker] No heel height set. Create a heel first.")
+            Rhino.RhinoApp.WriteLine("[Feet in Focus Shoe Kit] No heel height set. Create a heel first.")
             return Rhino.Commands.Result.Failure
 
         num_lifts = _prompt_float("Number of heel lifts", 3.0)
@@ -544,13 +538,13 @@ class CreateHeelParts(Rhino.Commands.Command):
         lift_height = heel_height / num_lifts
 
         Rhino.RhinoApp.WriteLine(
-            f"[3DShoemaker] Creating {num_lifts} heel lifts ({lift_height:.1f}mm each)..."
+            f"[Feet in Focus Shoe Kit] Creating {num_lifts} heel lifts ({lift_height:.1f}mm each)..."
         )
 
         # Get the stored heel or approximate from bounding box
         heel_geom = plug.GetGeometryFromStoredString(doc, "HeelBrep")
         if heel_geom is None or not isinstance(heel_geom, Rhino.Geometry.Brep):
-            Rhino.RhinoApp.WriteLine("[3DShoemaker] No heel geometry found. Run CreateHeel first.")
+            Rhino.RhinoApp.WriteLine("[Feet in Focus Shoe Kit] No heel geometry found. Run CreateHeel first.")
             return Rhino.Commands.Result.Failure
 
         bbox = heel_geom.GetBoundingBox(True)
@@ -584,7 +578,7 @@ class CreateHeelParts(Rhino.Commands.Command):
                     _add_component(doc, lift_brep, plugin_constants.CLASS_BOTTOM, name)
 
         plug.MarkDocumentDirty()
-        Rhino.RhinoApp.WriteLine(f"[3DShoemaker] {num_lifts} heel lift(s) created.")
+        Rhino.RhinoApp.WriteLine(f"[Feet in Focus Shoe Kit] {num_lifts} heel lift(s) created.")
         return Rhino.Commands.Result.Success
 
 
@@ -623,7 +617,7 @@ class CreateTopPiece(Rhino.Commands.Command):
 
         heel_geom = plug.GetGeometryFromStoredString(doc, "HeelBrep")
         if heel_geom is None or not isinstance(heel_geom, Rhino.Geometry.Brep):
-            Rhino.RhinoApp.WriteLine("[3DShoemaker] No heel geometry. Create a heel first.")
+            Rhino.RhinoApp.WriteLine("[Feet in Focus Shoe Kit] No heel geometry. Create a heel first.")
             return Rhino.Commands.Result.Failure
 
         bbox = heel_geom.GetBoundingBox(True)
@@ -636,7 +630,7 @@ class CreateTopPiece(Rhino.Commands.Command):
             tol,
         )
         if not bottom_curves:
-            Rhino.RhinoApp.WriteLine("[3DShoemaker] Cannot extract heel bottom outline.")
+            Rhino.RhinoApp.WriteLine("[Feet in Focus Shoe Kit] Cannot extract heel bottom outline.")
             return Rhino.Commands.Result.Failure
 
         direction = Rhino.Geometry.Vector3d(0, 0, -thickness)
@@ -650,7 +644,7 @@ class CreateTopPiece(Rhino.Commands.Command):
         _add_component(doc, tp_brep, plugin_constants.CLASS_BOTTOM, "SLM_TopPiece")
         plug.MarkDocumentDirty()
 
-        Rhino.RhinoApp.WriteLine(f"[3DShoemaker] Top piece created: {thickness}mm.")
+        Rhino.RhinoApp.WriteLine(f"[Feet in Focus Shoe Kit] Top piece created: {thickness}mm.")
         return Rhino.Commands.Result.Success
 
 
@@ -685,7 +679,7 @@ class CreateShankBoard(Rhino.Commands.Command):
 
         last_brep = _get_last_brep(doc)
         if last_brep is None:
-            Rhino.RhinoApp.WriteLine("[3DShoemaker] No last geometry found.")
+            Rhino.RhinoApp.WriteLine("[Feet in Focus Shoe Kit] No last geometry found.")
             return Rhino.Commands.Result.Failure
 
         thickness = _prompt_float("Shank board thickness (mm)", 2.0)
@@ -735,7 +729,7 @@ class CreateShankBoard(Rhino.Commands.Command):
         plug.MarkDocumentDirty()
 
         Rhino.RhinoApp.WriteLine(
-            f"[3DShoemaker] Shank board created: {width}mm x {shank_length:.1f}mm x {thickness}mm."
+            f"[Feet in Focus Shoe Kit] Shank board created: {width}mm x {shank_length:.1f}mm x {thickness}mm."
         )
         return Rhino.Commands.Result.Success
 
@@ -769,7 +763,7 @@ class CreateMetPad(Rhino.Commands.Command):
         plug = _get_plugin()
         last_brep = _get_last_brep(doc)
         if last_brep is None:
-            Rhino.RhinoApp.WriteLine("[3DShoemaker] No last geometry found.")
+            Rhino.RhinoApp.WriteLine("[Feet in Focus Shoe Kit] No last geometry found.")
             return Rhino.Commands.Result.Failure
 
         height = _prompt_float("Met pad height (mm)", 6.0)
@@ -817,7 +811,7 @@ class CreateMetPad(Rhino.Commands.Command):
         plug.MarkDocumentDirty()
 
         Rhino.RhinoApp.WriteLine(
-            f"[3DShoemaker] Met pad created: {diameter}mm diameter, {height}mm height."
+            f"[Feet in Focus Shoe Kit] Met pad created: {diameter}mm diameter, {height}mm height."
         )
         return Rhino.Commands.Result.Success
 
@@ -851,7 +845,7 @@ class CreateToeCrest(Rhino.Commands.Command):
         plug = _get_plugin()
         last_brep = _get_last_brep(doc)
         if last_brep is None:
-            Rhino.RhinoApp.WriteLine("[3DShoemaker] No last geometry found.")
+            Rhino.RhinoApp.WriteLine("[Feet in Focus Shoe Kit] No last geometry found.")
             return Rhino.Commands.Result.Failure
 
         height = _prompt_float("Toe crest height (mm)", 5.0)
@@ -896,11 +890,11 @@ class CreateToeCrest(Rhino.Commands.Command):
                 plug.MarkDocumentDirty()
 
                 Rhino.RhinoApp.WriteLine(
-                    f"[3DShoemaker] Toe crest created: {width}mm wide, {height}mm high."
+                    f"[Feet in Focus Shoe Kit] Toe crest created: {width}mm wide, {height}mm high."
                 )
                 return Rhino.Commands.Result.Success
 
-        Rhino.RhinoApp.WriteLine("[3DShoemaker] Failed to create toe crest.")
+        Rhino.RhinoApp.WriteLine("[Feet in Focus Shoe Kit] Failed to create toe crest.")
         return Rhino.Commands.Result.Failure
 
 
@@ -933,7 +927,7 @@ class CreateToeRidge(Rhino.Commands.Command):
         plug = _get_plugin()
         last_brep = _get_last_brep(doc)
         if last_brep is None:
-            Rhino.RhinoApp.WriteLine("[3DShoemaker] No last geometry found.")
+            Rhino.RhinoApp.WriteLine("[Feet in Focus Shoe Kit] No last geometry found.")
             return Rhino.Commands.Result.Failure
 
         height = _prompt_float("Toe ridge height (mm)", 3.0)
@@ -973,10 +967,10 @@ class CreateToeRidge(Rhino.Commands.Command):
         if pipe and len(pipe) > 0:
             _add_component(doc, pipe[0], plugin_constants.CLASS_INSERT, "SLM_ToeRidge")
             plug.MarkDocumentDirty()
-            Rhino.RhinoApp.WriteLine(f"[3DShoemaker] Toe ridge created: {height}mm high.")
+            Rhino.RhinoApp.WriteLine(f"[Feet in Focus Shoe Kit] Toe ridge created: {height}mm high.")
             return Rhino.Commands.Result.Success
 
-        Rhino.RhinoApp.WriteLine("[3DShoemaker] Failed to create toe ridge.")
+        Rhino.RhinoApp.WriteLine("[Feet in Focus Shoe Kit] Failed to create toe ridge.")
         return Rhino.Commands.Result.Failure
 
 
@@ -1009,7 +1003,7 @@ class CreateThongHole(Rhino.Commands.Command):
         plug = _get_plugin()
         last_brep = _get_last_brep(doc)
         if last_brep is None:
-            Rhino.RhinoApp.WriteLine("[3DShoemaker] No last geometry found.")
+            Rhino.RhinoApp.WriteLine("[Feet in Focus Shoe Kit] No last geometry found.")
             return Rhino.Commands.Result.Failure
 
         diameter = _prompt_float("Thong hole diameter (mm)", 6.0)
@@ -1048,7 +1042,7 @@ class CreateThongHole(Rhino.Commands.Command):
             _add_component(doc, cyl_brep, "Construction", "SLM_ThongHole")
             plug.MarkDocumentDirty()
             Rhino.RhinoApp.WriteLine(
-                f"[3DShoemaker] Thong hole created: {diameter}mm diameter at "
+                f"[Feet in Focus Shoe Kit] Thong hole created: {diameter}mm diameter at "
                 f"({hole_center.X:.1f}, {hole_center.Y:.1f})."
             )
             return Rhino.Commands.Result.Success
@@ -1085,7 +1079,7 @@ class CreatePinHole(Rhino.Commands.Command):
         plug = _get_plugin()
         last_brep = _get_last_brep(doc)
         if last_brep is None:
-            Rhino.RhinoApp.WriteLine("[3DShoemaker] No last geometry found.")
+            Rhino.RhinoApp.WriteLine("[Feet in Focus Shoe Kit] No last geometry found.")
             return Rhino.Commands.Result.Failure
 
         diameter = _prompt_float("Pin hole diameter (mm)", 8.0)
@@ -1122,7 +1116,7 @@ class CreatePinHole(Rhino.Commands.Command):
             _add_component(doc, cyl_brep, "Construction", "SLM_PinHole")
             plug.MarkDocumentDirty()
             Rhino.RhinoApp.WriteLine(
-                f"[3DShoemaker] Pin hole created: {diameter}mm x {depth}mm."
+                f"[Feet in Focus Shoe Kit] Pin hole created: {diameter}mm x {depth}mm."
             )
             return Rhino.Commands.Result.Success
 
@@ -1160,14 +1154,14 @@ class CreateShoeTree(Rhino.Commands.Command):
 
         last_brep = _get_last_brep(doc)
         if last_brep is None:
-            Rhino.RhinoApp.WriteLine("[3DShoemaker] No last geometry found.")
+            Rhino.RhinoApp.WriteLine("[Feet in Focus Shoe Kit] No last geometry found.")
             return Rhino.Commands.Result.Failure
 
         clearance = _prompt_float("Shoe tree clearance/offset (mm)", -2.0)
         if clearance is None:
             return Rhino.Commands.Result.Cancel
 
-        Rhino.RhinoApp.WriteLine("[3DShoemaker] Creating shoe tree...")
+        Rhino.RhinoApp.WriteLine("[Feet in Focus Shoe Kit] Creating shoe tree...")
 
         # Offset the last inward to create the tree shape
         tree_brep = _create_offset_surface(last_brep, clearance, tol)
@@ -1188,7 +1182,7 @@ class CreateShoeTree(Rhino.Commands.Command):
         plug.MarkDocumentDirty()
 
         Rhino.RhinoApp.WriteLine(
-            f"[3DShoemaker] Shoe tree created with {clearance}mm offset."
+            f"[Feet in Focus Shoe Kit] Shoe tree created with {clearance}mm offset."
         )
         return Rhino.Commands.Result.Success
 
@@ -1225,7 +1219,7 @@ class CreateUpperBodies(Rhino.Commands.Command):
 
         last_brep = _get_last_brep(doc)
         if last_brep is None:
-            Rhino.RhinoApp.WriteLine("[3DShoemaker] No last geometry found.")
+            Rhino.RhinoApp.WriteLine("[Feet in Focus Shoe Kit] No last geometry found.")
             return Rhino.Commands.Result.Failure
 
         # Select which upper components to create
@@ -1295,11 +1289,11 @@ class CreateUpperBodies(Rhino.Commands.Command):
 
         if created:
             Rhino.RhinoApp.WriteLine(
-                f"[3DShoemaker] Upper components created: {', '.join(created)}."
+                f"[Feet in Focus Shoe Kit] Upper components created: {', '.join(created)}."
             )
             return Rhino.Commands.Result.Success
         else:
-            Rhino.RhinoApp.WriteLine("[3DShoemaker] No upper components created.")
+            Rhino.RhinoApp.WriteLine("[Feet in Focus Shoe Kit] No upper components created.")
             return Rhino.Commands.Result.Failure
 
 
@@ -1372,7 +1366,7 @@ class MakeComponent(Rhino.Commands.Command):
 
         plug.MarkDocumentDirty()
         Rhino.RhinoApp.WriteLine(
-            f"[3DShoemaker] Component '{comp_type}' created from {created_count} object(s)."
+            f"[Feet in Focus Shoe Kit] Component '{comp_type}' created from {created_count} object(s)."
         )
         return Rhino.Commands.Result.Success
 
@@ -1414,7 +1408,7 @@ class CreateAlphaJoint(Rhino.Commands.Command):
 
         last_brep = _get_last_brep(doc)
         if last_brep is None:
-            Rhino.RhinoApp.WriteLine("[3DShoemaker] No last geometry found.")
+            Rhino.RhinoApp.WriteLine("[Feet in Focus Shoe Kit] No last geometry found.")
             return Rhino.Commands.Result.Failure
 
         # Joint parameters
@@ -1457,7 +1451,7 @@ class CreateAlphaJoint(Rhino.Commands.Command):
                 bbox.Min.Z + (bbox.Max.Z - bbox.Min.Z) * 0.5,
             )
 
-        Rhino.RhinoApp.WriteLine("[3DShoemaker] Creating alpha joint assembly...")
+        Rhino.RhinoApp.WriteLine("[Feet in Focus Shoe Kit] Creating alpha joint assembly...")
 
         # Main joint housing plate
         plate_plane = Rhino.Geometry.Plane(
@@ -1525,7 +1519,7 @@ class CreateAlphaJoint(Rhino.Commands.Command):
 
         plug.MarkDocumentDirty()
         Rhino.RhinoApp.WriteLine(
-            f"[3DShoemaker] Alpha joint assembly created: "
+            f"[Feet in Focus Shoe Kit] Alpha joint assembly created: "
             f"{joint_width}x{joint_height}mm, "
             f"slippage={slippage_comp}mm, recess={rail_recess}mm, "
             f"clearance={clearance}mm."
@@ -1570,7 +1564,7 @@ class CreateRailGuideJoint(Rhino.Commands.Command):
 
         last_brep = _get_last_brep(doc)
         if last_brep is None:
-            Rhino.RhinoApp.WriteLine("[3DShoemaker] No last geometry found.")
+            Rhino.RhinoApp.WriteLine("[Feet in Focus Shoe Kit] No last geometry found.")
             return Rhino.Commands.Result.Failure
 
         # Parameters
@@ -1604,7 +1598,7 @@ class CreateRailGuideJoint(Rhino.Commands.Command):
                 bbox.Min.Z + (bbox.Max.Z - bbox.Min.Z) * 0.5,
             )
 
-        Rhino.RhinoApp.WriteLine("[3DShoemaker] Creating rail guide joint...")
+        Rhino.RhinoApp.WriteLine("[Feet in Focus Shoe Kit] Creating rail guide joint...")
 
         # Mounting plate
         plate_plane = Rhino.Geometry.Plane(
@@ -1651,7 +1645,7 @@ class CreateRailGuideJoint(Rhino.Commands.Command):
 
         plug.MarkDocumentDirty()
         Rhino.RhinoApp.WriteLine(
-            f"[3DShoemaker] Rail guide joint created: "
+            f"[Feet in Focus Shoe Kit] Rail guide joint created: "
             f"rail {rail_length}x{rail_width}x{rail_depth}mm."
         )
         return Rhino.Commands.Result.Success
@@ -1690,7 +1684,7 @@ class CreateMockup(Rhino.Commands.Command):
         plug = _get_plugin()
         tol = doc.ModelAbsoluteTolerance
 
-        Rhino.RhinoApp.WriteLine("[3DShoemaker] Creating 3D Mockup...")
+        Rhino.RhinoApp.WriteLine("[Feet in Focus Shoe Kit] Creating 3D Mockup...")
 
         # Collect all SLM components
         prefix = plugin_constants.SLM_LAYER_PREFIX
@@ -1710,7 +1704,7 @@ class CreateMockup(Rhino.Commands.Command):
             component_count += 1
 
         if component_count == 0:
-            Rhino.RhinoApp.WriteLine("[3DShoemaker] No components found for mockup.")
+            Rhino.RhinoApp.WriteLine("[Feet in Focus Shoe Kit] No components found for mockup.")
             return Rhino.Commands.Result.Failure
 
         # Optionally create an exploded/offset mockup copy
@@ -1763,7 +1757,7 @@ class CreateMockup(Rhino.Commands.Command):
         plug.MarkDocumentDirty()
 
         Rhino.RhinoApp.WriteLine(
-            f"[3DShoemaker] Mockup created ({mockup_type}): "
+            f"[Feet in Focus Shoe Kit] Mockup created ({mockup_type}): "
             f"{component_count} component(s) included."
         )
         return Rhino.Commands.Result.Success

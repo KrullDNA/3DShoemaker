@@ -1,5 +1,5 @@
 """
-squeeze.py - Squeeze deformation utility for 3DShoemaker.
+squeeze.py - Squeeze deformation utility for Feet in Focus Shoe Kit.
 
 Provides the ``Squeeze`` class that applies a squeeze (compression /
 expansion) deformation to geometry.  This is used in the shoe-last

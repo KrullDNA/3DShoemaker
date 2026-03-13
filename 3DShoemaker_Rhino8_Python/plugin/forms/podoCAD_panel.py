@@ -1,5 +1,5 @@
 """
-podoCAD_panel.py - Main dockable side panel for 3DShoemaker.
+podoCAD_panel.py - Main dockable side panel for Feet in Focus Shoe Kit.
 
 PodoCADPanel is the primary UI surface of the plugin.  It lives in
 Rhino's side-panel area and provides categorised buttons for every
@@ -92,7 +92,7 @@ _EDIT_CURVE_TYPES = [
 
 class PodoCADPanel(forms.Panel):
     """
-    Main dockable side panel for the 3DShoemaker plugin.
+    Main dockable side panel for the Feet in Focus Shoe Kit plugin.
 
     Provides categorised command buttons, curve-editing controls,
     clipping-plane management, layer visibility toggles, and status
@@ -145,7 +145,7 @@ class PodoCADPanel(forms.Panel):
 
         # Header
         header = forms.Label(
-            Text="3DShoemaker",
+            Text="Feet in Focus Shoe Kit",
             Font=drawing.Font(drawing.SystemFont.Bold, 12),
             TextAlignment=forms.TextAlignment.Center,
         )
@@ -223,12 +223,10 @@ class PodoCADPanel(forms.Panel):
         status_layout.DefaultSpacing = drawing.Size(4, 2)
         status_layout.Padding = drawing.Padding(6)
 
-        self._lbl_status_edition = forms.Label(Text="Edition: --")
         self._lbl_status_size = forms.Label(Text="Size: --")
         self._lbl_status_foot = forms.Label(Text="Foot: --")
         self._lbl_status_layers = forms.Label(Text="Layers: --")
 
-        status_layout.AddRow(self._lbl_status_edition)
         status_layout.AddRow(self._lbl_status_size)
         status_layout.AddRow(self._lbl_status_foot)
         status_layout.AddRow(self._lbl_status_layers)
@@ -496,7 +494,7 @@ class PodoCADPanel(forms.Panel):
 
         except Exception as ex:
             Rhino.RhinoApp.WriteLine(
-                f"[3DShoemaker] Add clipping plane error: {ex}"
+                f"[Feet in Focus Shoe Kit] Add clipping plane error: {ex}"
             )
 
     def _on_remove_clipping_planes(self, sender, e):
@@ -614,7 +612,6 @@ class PodoCADPanel(forms.Panel):
         doc = Rhino.RhinoDoc.ActiveDoc
 
         # Update status labels
-        self._lbl_status_edition.Text = f"Edition: {plug.edition}"
 
         if doc is not None:
             ds = plug.GetDocumentSettings(doc)
@@ -635,18 +632,9 @@ class PodoCADPanel(forms.Panel):
             self._lbl_status_foot.Text = "Foot: --"
             self._lbl_status_layers.Text = "Layers: --"
 
-        # Enable/disable commands based on license
-        commercial_only = [
-            "cmd_grade_footwear", "cmd_vacuum_form",
-            "cmd_print_prep", "cmd_export_stl", "cmd_export_obj",
-        ]
-        has_license = plug.is_licensed
-
+        # Enable all commands (free plugin)
         for method_name, btn in self._buttons.items():
-            if method_name in commercial_only:
-                btn.Enabled = has_license
-            else:
-                btn.Enabled = True
+            btn.Enabled = True
 
     # ------------------------------------------------------------------
     # Options

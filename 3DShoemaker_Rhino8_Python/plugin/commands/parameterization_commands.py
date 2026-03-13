@@ -1,5 +1,5 @@
 """
-3DShoemaker Rhino 8 Plugin - Parameter adjustment commands.
+Feet in Focus Shoe Kit Rhino 8 Plugin - Parameter adjustment commands.
 
 Commands:
     ChangeParameter                         - Generic parameter change command.
@@ -104,10 +104,6 @@ class ChangeParameter(Rhino.Commands.Command):
 
     def RunCommand(self, doc, mode) -> Rhino.Commands.Result:
         plug = PodoCADPlugIn.instance()
-        if not plug.is_licensed:
-            Rhino.RhinoApp.WriteLine("3DShoemaker: A valid license is required.")
-            return Rhino.Commands.Result.Failure
-
         ds = plug.GetDocumentSettings(doc)
 
         # Prompt for parameter name
@@ -183,10 +179,6 @@ class ChangeComponentParameterization(Rhino.Commands.Command):
 
     def RunCommand(self, doc, mode) -> Rhino.Commands.Result:
         plug = PodoCADPlugIn.instance()
-        if not plug.is_licensed:
-            Rhino.RhinoApp.WriteLine("3DShoemaker: A valid license is required.")
-            return Rhino.Commands.Result.Failure
-
         ds = plug.GetDocumentSettings(doc)
         mt = plug.GetMaterialThicknesses(doc)
 
@@ -284,10 +276,6 @@ class ChangeInsertParameterization(Rhino.Commands.Command):
 
     def RunCommand(self, doc, mode) -> Rhino.Commands.Result:
         plug = PodoCADPlugIn.instance()
-        if not plug.is_licensed:
-            Rhino.RhinoApp.WriteLine("3DShoemaker: A valid license is required.")
-            return Rhino.Commands.Result.Failure
-
         ds = plug.GetDocumentSettings(doc)
         mt = plug.GetMaterialThicknesses(doc)
 
@@ -377,10 +365,6 @@ class AdjustBottomComponentParameterization(Rhino.Commands.Command):
 
     def RunCommand(self, doc, mode) -> Rhino.Commands.Result:
         plug = PodoCADPlugIn.instance()
-        if not plug.is_licensed:
-            Rhino.RhinoApp.WriteLine("3DShoemaker: A valid license is required.")
-            return Rhino.Commands.Result.Failure
-
         mt = plug.GetMaterialThicknesses(doc)
         ds = plug.GetDocumentSettings(doc)
 
@@ -446,10 +430,6 @@ class AdjustMaterial(Rhino.Commands.Command):
 
     def RunCommand(self, doc, mode) -> Rhino.Commands.Result:
         plug = PodoCADPlugIn.instance()
-        if not plug.is_licensed:
-            Rhino.RhinoApp.WriteLine("3DShoemaker: A valid license is required.")
-            return Rhino.Commands.Result.Failure
-
         ds = plug.GetDocumentSettings(doc)
 
         components = ["Insert", "Bottom", "Last"]
@@ -522,10 +502,6 @@ class AdjustMaterialThicknesses(Rhino.Commands.Command):
 
     def RunCommand(self, doc, mode) -> Rhino.Commands.Result:
         plug = PodoCADPlugIn.instance()
-        if not plug.is_licensed:
-            Rhino.RhinoApp.WriteLine("3DShoemaker: A valid license is required.")
-            return Rhino.Commands.Result.Failure
-
         mt = plug.GetMaterialThicknesses(doc)
 
         # Display current values
@@ -626,10 +602,6 @@ class AdjustFitCustomization(Rhino.Commands.Command):
 
     def RunCommand(self, doc, mode) -> Rhino.Commands.Result:
         plug = PodoCADPlugIn.instance()
-        if not plug.is_licensed:
-            Rhino.RhinoApp.WriteLine("3DShoemaker: A valid license is required.")
-            return Rhino.Commands.Result.Failure
-
         ds = plug.GetDocumentSettings(doc)
 
         go = Rhino.Input.Custom.GetOption()
@@ -707,10 +679,6 @@ class AdjustFootbedDepth(Rhino.Commands.Command):
 
     def RunCommand(self, doc, mode) -> Rhino.Commands.Result:
         plug = PodoCADPlugIn.instance()
-        if not plug.is_licensed:
-            Rhino.RhinoApp.WriteLine("3DShoemaker: A valid license is required.")
-            return Rhino.Commands.Result.Failure
-
         ds = plug.GetDocumentSettings(doc)
         current_depth = ds.get("footbed_depth_mm", 5.0)
 
@@ -760,10 +728,6 @@ class AdjustLastDepthForFootbeds(Rhino.Commands.Command):
 
     def RunCommand(self, doc, mode) -> Rhino.Commands.Result:
         plug = PodoCADPlugIn.instance()
-        if not plug.is_licensed:
-            Rhino.RhinoApp.WriteLine("3DShoemaker: A valid license is required.")
-            return Rhino.Commands.Result.Failure
-
         ds = plug.GetDocumentSettings(doc)
         mt = plug.GetMaterialThicknesses(doc)
 
@@ -853,10 +817,6 @@ class AdjustCSPlanePositions(Rhino.Commands.Command):
 
     def RunCommand(self, doc, mode) -> Rhino.Commands.Result:
         plug = PodoCADPlugIn.instance()
-        if not plug.is_licensed:
-            Rhino.RhinoApp.WriteLine("3DShoemaker: A valid license is required.")
-            return Rhino.Commands.Result.Failure
-
         ds = plug.GetDocumentSettings(doc)
 
         # Standard cross-section names and their default position ratios
@@ -964,10 +924,6 @@ class ChangeStatus(Rhino.Commands.Command):
 
     def RunCommand(self, doc, mode) -> Rhino.Commands.Result:
         plug = PodoCADPlugIn.instance()
-        if not plug.is_licensed:
-            Rhino.RhinoApp.WriteLine("3DShoemaker: A valid license is required.")
-            return Rhino.Commands.Result.Failure
-
         # Select objects
         go = Rhino.Input.Custom.GetObject()
         go.SetCommandPrompt("Select objects to change status")
@@ -1005,7 +961,7 @@ class ChangeStatus(Rhino.Commands.Command):
 
             attrs = obj.Attributes.Duplicate()
             # Store status in user text
-            attrs.SetUserString("3DShoemaker_Status", new_status)
+            attrs.SetUserString("FIFShoeKit_Status", new_status)
 
             # Visual feedback: lock objects with "Locked" status
             if new_status == "Locked":

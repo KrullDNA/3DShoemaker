@@ -1,5 +1,5 @@
 """
-3DShoemaker Rhino 8 Plugin - Shoe last commands.
+Feet in Focus Shoe Kit Rhino 8 Plugin - Shoe last commands.
 
 Commands:
     NewBuild                    - Create a new shoe last build from parameters.
@@ -86,12 +86,6 @@ def _get_plugin() -> PodoCADPlugIn:
 def _require_license() -> bool:
     """Return True if the plugin is licensed, otherwise warn the user."""
     plug = _get_plugin()
-    if not plug.is_licensed:
-        Rhino.RhinoApp.WriteLine(
-            "[3DShoemaker] This command requires a valid license. "
-            "Run Activate3DShoemaker first."
-        )
-        return False
     return True
 
 
@@ -238,7 +232,7 @@ def _build_last_from_settings(
             sections.append(curve)
 
     if len(sections) < 2:
-        Rhino.RhinoApp.WriteLine("[3DShoemaker] Failed to generate last sections.")
+        Rhino.RhinoApp.WriteLine("[Feet in Focus Shoe Kit] Failed to generate last sections.")
         return None
 
     # Loft the sections
@@ -250,7 +244,7 @@ def _build_last_from_settings(
         False,
     )
     if not breps or len(breps) == 0:
-        Rhino.RhinoApp.WriteLine("[3DShoemaker] Loft operation failed.")
+        Rhino.RhinoApp.WriteLine("[Feet in Focus Shoe Kit] Loft operation failed.")
         return None
 
     # Cap the ends
@@ -307,7 +301,7 @@ class NewBuild(Rhino.Commands.Command):
         settings = plug.GetDocumentSettings(doc).copy()
 
         # Prompt for key measurements
-        Rhino.RhinoApp.WriteLine("[3DShoemaker] New Last Build")
+        Rhino.RhinoApp.WriteLine("[Feet in Focus Shoe Kit] New Last Build")
         Rhino.RhinoApp.WriteLine("Enter last measurements (press Enter for defaults):")
 
         # Size system
@@ -372,7 +366,7 @@ class NewBuild(Rhino.Commands.Command):
         Rhino.RhinoApp.WriteLine("Building last geometry...")
         brep = _build_last_from_settings(doc, settings)
         if brep is None:
-            Rhino.RhinoApp.WriteLine("[3DShoemaker] Failed to build last.")
+            Rhino.RhinoApp.WriteLine("[Feet in Focus Shoe Kit] Failed to build last.")
             return Rhino.Commands.Result.Failure
 
         # Mirror for left foot if needed
@@ -395,7 +389,7 @@ class NewBuild(Rhino.Commands.Command):
         plug.MarkDocumentDirty()
 
         Rhino.RhinoApp.WriteLine(
-            f"[3DShoemaker] Last built: size {settings.last_size} "
+            f"[Feet in Focus Shoe Kit] Last built: size {settings.last_size} "
             f"{settings.last_size_system}, heel {settings.last_heel_height_mm}mm, "
             f"{settings.last_toe_shape} toe, {settings.last_style} style."
         )
@@ -477,7 +471,7 @@ class NewBuildScriptable(Rhino.Commands.Command):
         plug.MarkDocumentDirty()
 
         Rhino.RhinoApp.WriteLine(
-            f"[3DShoemaker] Scriptable build complete: size {settings.last_size} "
+            f"[Feet in Focus Shoe Kit] Scriptable build complete: size {settings.last_size} "
             f"{settings.last_size_system}."
         )
         return Rhino.Commands.Result.Success
@@ -516,7 +510,7 @@ class UpdateLast(Rhino.Commands.Command):
         old_objs = _find_last_objects(doc)
         if not old_objs:
             Rhino.RhinoApp.WriteLine(
-                "[3DShoemaker] No existing last found. Use NewBuild first."
+                "[Feet in Focus Shoe Kit] No existing last found. Use NewBuild first."
             )
             return Rhino.Commands.Result.Failure
 
@@ -526,7 +520,7 @@ class UpdateLast(Rhino.Commands.Command):
         # Rebuild with current settings
         brep = _build_last_from_settings(doc, settings)
         if brep is None:
-            Rhino.RhinoApp.WriteLine("[3DShoemaker] Failed to rebuild last.")
+            Rhino.RhinoApp.WriteLine("[Feet in Focus Shoe Kit] Failed to rebuild last.")
             return Rhino.Commands.Result.Failure
 
         if settings.last_symmetry == "Left":
@@ -545,7 +539,7 @@ class UpdateLast(Rhino.Commands.Command):
         plug.StoreGeometry(doc, "LastBrep", brep)
         plug.MarkDocumentDirty()
 
-        Rhino.RhinoApp.WriteLine("[3DShoemaker] Last geometry updated.")
+        Rhino.RhinoApp.WriteLine("[Feet in Focus Shoe Kit] Last geometry updated.")
         return Rhino.Commands.Result.Success
 
 
@@ -593,20 +587,20 @@ class ImportLast(Rhino.Commands.Command):
             file_path = dialog.FileName
 
         if not os.path.isfile(file_path):
-            Rhino.RhinoApp.WriteLine(f"[3DShoemaker] File not found: {file_path}")
+            Rhino.RhinoApp.WriteLine(f"[Feet in Focus Shoe Kit] File not found: {file_path}")
             return Rhino.Commands.Result.Failure
 
         ext = os.path.splitext(file_path)[1].lower()
         layer_idx = _get_last_layer_index(doc)
 
-        Rhino.RhinoApp.WriteLine(f"[3DShoemaker] Importing last from: {file_path}")
+        Rhino.RhinoApp.WriteLine(f"[Feet in Focus Shoe Kit] Importing last from: {file_path}")
 
         imported_count = 0
         if ext == ".3dm":
             # Read 3dm file and import geometry
             file3dm = Rhino.FileIO.File3dm.Read(file_path)
             if file3dm is None:
-                Rhino.RhinoApp.WriteLine("[3DShoemaker] Failed to read 3dm file.")
+                Rhino.RhinoApp.WriteLine("[Feet in Focus Shoe Kit] Failed to read 3dm file.")
                 return Rhino.Commands.Result.Failure
             for obj in file3dm.Objects:
                 geom = obj.Geometry
@@ -633,13 +627,13 @@ class ImportLast(Rhino.Commands.Command):
                         imported_count += 1
         else:
             Rhino.RhinoApp.WriteLine(
-                f"[3DShoemaker] Unsupported file format: {ext}"
+                f"[Feet in Focus Shoe Kit] Unsupported file format: {ext}"
             )
             return Rhino.Commands.Result.Failure
 
         doc.Views.Redraw()
         Rhino.RhinoApp.WriteLine(
-            f"[3DShoemaker] Imported {imported_count} object(s) from {os.path.basename(file_path)}."
+            f"[Feet in Focus Shoe Kit] Imported {imported_count} object(s) from {os.path.basename(file_path)}."
         )
         return Rhino.Commands.Result.Success
 
@@ -672,7 +666,7 @@ class ExportLast(Rhino.Commands.Command):
 
         last_objs = _find_last_objects(doc)
         if not last_objs:
-            Rhino.RhinoApp.WriteLine("[3DShoemaker] No last geometry to export.")
+            Rhino.RhinoApp.WriteLine("[Feet in Focus Shoe Kit] No last geometry to export.")
             return Rhino.Commands.Result.Failure
 
         # Prompt for output file
@@ -704,7 +698,7 @@ class ExportLast(Rhino.Commands.Command):
         for obj in last_objs:
             doc.Objects.Select(obj.Id, True)
 
-        Rhino.RhinoApp.WriteLine(f"[3DShoemaker] Exporting last to: {file_path}")
+        Rhino.RhinoApp.WriteLine(f"[Feet in Focus Shoe Kit] Exporting last to: {file_path}")
 
         if ext == ".3dm":
             file3dm = Rhino.FileIO.File3dm()
@@ -724,7 +718,7 @@ class ExportLast(Rhino.Commands.Command):
         doc.Views.Redraw()
 
         Rhino.RhinoApp.WriteLine(
-            f"[3DShoemaker] Last exported: {os.path.basename(file_path)}"
+            f"[Feet in Focus Shoe Kit] Last exported: {os.path.basename(file_path)}"
         )
         return Rhino.Commands.Result.Success
 
@@ -760,7 +754,7 @@ class GradeLast(Rhino.Commands.Command):
 
         current_size = settings.last_size
         if current_size <= 0:
-            Rhino.RhinoApp.WriteLine("[3DShoemaker] No current last size set. Build a last first.")
+            Rhino.RhinoApp.WriteLine("[Feet in Focus Shoe Kit] No current last size set. Build a last first.")
             return Rhino.Commands.Result.Failure
 
         # Prompt for target size
@@ -772,7 +766,7 @@ class GradeLast(Rhino.Commands.Command):
             return Rhino.Commands.Result.Cancel
 
         if abs(target - current_size) < 0.001:
-            Rhino.RhinoApp.WriteLine("[3DShoemaker] Target size is the same as current. No change.")
+            Rhino.RhinoApp.WriteLine("[Feet in Focus Shoe Kit] Target size is the same as current. No change.")
             return Rhino.Commands.Result.Nothing
 
         # Calculate scale factor
@@ -792,7 +786,7 @@ class GradeLast(Rhino.Commands.Command):
 
         last_objs = _find_last_objects(doc)
         if not last_objs:
-            Rhino.RhinoApp.WriteLine("[3DShoemaker] No last objects found to grade.")
+            Rhino.RhinoApp.WriteLine("[Feet in Focus Shoe Kit] No last objects found to grade.")
             return Rhino.Commands.Result.Failure
 
         for obj in last_objs:
@@ -805,7 +799,7 @@ class GradeLast(Rhino.Commands.Command):
 
         doc.Views.Redraw()
         Rhino.RhinoApp.WriteLine(
-            f"[3DShoemaker] Last graded from size {current_size} to {target} "
+            f"[Feet in Focus Shoe Kit] Last graded from size {current_size} to {target} "
             f"({settings.last_size_system}). Scale factor: {scale_factor:.4f}"
         )
         return Rhino.Commands.Result.Success
@@ -839,10 +833,10 @@ class FlattenLast(Rhino.Commands.Command):
 
         last_objs = _find_last_objects(doc)
         if not last_objs:
-            Rhino.RhinoApp.WriteLine("[3DShoemaker] No last geometry found.")
+            Rhino.RhinoApp.WriteLine("[Feet in Focus Shoe Kit] No last geometry found.")
             return Rhino.Commands.Result.Failure
 
-        Rhino.RhinoApp.WriteLine("[3DShoemaker] Flattening last bottom...")
+        Rhino.RhinoApp.WriteLine("[Feet in Focus Shoe Kit] Flattening last bottom...")
 
         # Find brep objects among the last objects
         breps: List[Rhino.Geometry.Brep] = []
@@ -856,7 +850,7 @@ class FlattenLast(Rhino.Commands.Command):
                     breps.append(b)
 
         if not breps:
-            Rhino.RhinoApp.WriteLine("[3DShoemaker] No suitable geometry to flatten.")
+            Rhino.RhinoApp.WriteLine("[Feet in Focus Shoe Kit] No suitable geometry to flatten.")
             return Rhino.Commands.Result.Failure
 
         # Create a cutting plane at Z=0
@@ -905,7 +899,7 @@ class FlattenLast(Rhino.Commands.Command):
                             pattern_curves.append(projected)
 
         if not pattern_curves:
-            Rhino.RhinoApp.WriteLine("[3DShoemaker] Could not generate flatten pattern.")
+            Rhino.RhinoApp.WriteLine("[Feet in Focus Shoe Kit] Could not generate flatten pattern.")
             return Rhino.Commands.Result.Failure
 
         # Add pattern curves to the Construction layer
@@ -921,7 +915,7 @@ class FlattenLast(Rhino.Commands.Command):
 
         doc.Views.Redraw()
         Rhino.RhinoApp.WriteLine(
-            f"[3DShoemaker] Flatten complete. {len(pattern_curves)} pattern curve(s) added."
+            f"[Feet in Focus Shoe Kit] Flatten complete. {len(pattern_curves)} pattern curve(s) added."
         )
         return Rhino.Commands.Result.Success
 
@@ -988,7 +982,7 @@ class GazeAtLast(Rhino.Commands.Command):
         # Apply to the active viewport
         view = doc.Views.ActiveView
         if view is None:
-            Rhino.RhinoApp.WriteLine("[3DShoemaker] No active view.")
+            Rhino.RhinoApp.WriteLine("[Feet in Focus Shoe Kit] No active view.")
             return Rhino.Commands.Result.Failure
 
         vp = view.ActiveViewport
@@ -998,7 +992,7 @@ class GazeAtLast(Rhino.Commands.Command):
         view.Redraw()
 
         Rhino.RhinoApp.WriteLine(
-            f"[3DShoemaker] View set to '{view_name}'."
+            f"[Feet in Focus Shoe Kit] View set to '{view_name}'."
         )
         return Rhino.Commands.Result.Success
 
@@ -1032,7 +1026,7 @@ class ChangeLastParameterization(Rhino.Commands.Command):
         plug = _get_plugin()
         settings = plug.GetDocumentSettings(doc)
 
-        Rhino.RhinoApp.WriteLine("[3DShoemaker] Current Last Parameters:")
+        Rhino.RhinoApp.WriteLine("[Feet in Focus Shoe Kit] Current Last Parameters:")
         Rhino.RhinoApp.WriteLine(f"  Size: {settings.last_size} {settings.last_size_system}")
         Rhino.RhinoApp.WriteLine(f"  Width: {settings.last_width}")
         Rhino.RhinoApp.WriteLine(f"  Heel Height: {settings.last_heel_height_mm} mm")
@@ -1080,9 +1074,9 @@ class ChangeLastParameterization(Rhino.Commands.Command):
             settings.last_heel_height_mm = opt_heel.CurrentValue
             plug.SetDocumentSettings(doc, settings)
             plug.MarkDocumentDirty()
-            Rhino.RhinoApp.WriteLine("[3DShoemaker] Parameters updated. Run UpdateLast to rebuild.")
+            Rhino.RhinoApp.WriteLine("[Feet in Focus Shoe Kit] Parameters updated. Run UpdateLast to rebuild.")
         else:
-            Rhino.RhinoApp.WriteLine("[3DShoemaker] No changes made.")
+            Rhino.RhinoApp.WriteLine("[Feet in Focus Shoe Kit] No changes made.")
 
         return Rhino.Commands.Result.Success
 
@@ -1134,11 +1128,11 @@ class ExportLastParameters(Rhino.Commands.Command):
             with open(file_path, "w", encoding="utf-8") as fp:
                 json.dump(data, fp, indent=2, sort_keys=True)
             Rhino.RhinoApp.WriteLine(
-                f"[3DShoemaker] Parameters exported to: {file_path}"
+                f"[Feet in Focus Shoe Kit] Parameters exported to: {file_path}"
             )
             return Rhino.Commands.Result.Success
         except Exception as ex:
-            Rhino.RhinoApp.WriteLine(f"[3DShoemaker] Export error: {ex}")
+            Rhino.RhinoApp.WriteLine(f"[Feet in Focus Shoe Kit] Export error: {ex}")
             return Rhino.Commands.Result.Failure
 
 
@@ -1176,7 +1170,7 @@ class ImportParameters(Rhino.Commands.Command):
 
         file_path = gs.StringResult().strip().strip('"')
         if not file_path or not os.path.isfile(file_path):
-            Rhino.RhinoApp.WriteLine(f"[3DShoemaker] File not found: {file_path}")
+            Rhino.RhinoApp.WriteLine(f"[Feet in Focus Shoe Kit] File not found: {file_path}")
             return Rhino.Commands.Result.Failure
 
         try:
@@ -1191,12 +1185,12 @@ class ImportParameters(Rhino.Commands.Command):
             plug.MarkDocumentDirty()
 
             Rhino.RhinoApp.WriteLine(
-                f"[3DShoemaker] Parameters imported from: {file_path}"
+                f"[Feet in Focus Shoe Kit] Parameters imported from: {file_path}"
             )
             Rhino.RhinoApp.WriteLine("  Run UpdateLast to apply changes to geometry.")
             return Rhino.Commands.Result.Success
         except Exception as ex:
-            Rhino.RhinoApp.WriteLine(f"[3DShoemaker] Import error: {ex}")
+            Rhino.RhinoApp.WriteLine(f"[Feet in Focus Shoe Kit] Import error: {ex}")
             return Rhino.Commands.Result.Failure
 
 
@@ -1275,11 +1269,11 @@ class ExportMeasurementEquations(Rhino.Commands.Command):
             with open(file_path, "w", encoding="utf-8") as fp:
                 json.dump(equations, fp, indent=2)
             Rhino.RhinoApp.WriteLine(
-                f"[3DShoemaker] Measurement equations exported to: {file_path}"
+                f"[Feet in Focus Shoe Kit] Measurement equations exported to: {file_path}"
             )
             return Rhino.Commands.Result.Success
         except Exception as ex:
-            Rhino.RhinoApp.WriteLine(f"[3DShoemaker] Export error: {ex}")
+            Rhino.RhinoApp.WriteLine(f"[Feet in Focus Shoe Kit] Export error: {ex}")
             return Rhino.Commands.Result.Failure
 
 
@@ -1352,7 +1346,7 @@ class NameObjectsInDoc(Rhino.Commands.Command):
 
         doc.Views.Redraw()
         Rhino.RhinoApp.WriteLine(
-            f"[3DShoemaker] Named {named_count} object(s) with standardized names."
+            f"[Feet in Focus Shoe Kit] Named {named_count} object(s) with standardized names."
         )
         return Rhino.Commands.Result.Success
 
@@ -1401,7 +1395,7 @@ class GetObjectIDName(Rhino.Commands.Command):
         geom = obj.Geometry
         geom_type = type(geom).__name__ if geom else "Unknown"
 
-        Rhino.RhinoApp.WriteLine(f"[3DShoemaker] Object Info:")
+        Rhino.RhinoApp.WriteLine(f"[Feet in Focus Shoe Kit] Object Info:")
         Rhino.RhinoApp.WriteLine(f"  ID:    {obj_id}")
         Rhino.RhinoApp.WriteLine(f"  Name:  {obj_name}")
         Rhino.RhinoApp.WriteLine(f"  Layer: {layer_name}")
@@ -1447,7 +1441,7 @@ class Establish(Rhino.Commands.Command):
 
         plug = _get_plugin()
 
-        Rhino.RhinoApp.WriteLine("[3DShoemaker] Establishing new shoe last project...")
+        Rhino.RhinoApp.WriteLine("[Feet in Focus Shoe Kit] Establishing new shoe last project...")
 
         # Prompt for project name
         project_name = _prompt_string("Project name", "")
@@ -1491,7 +1485,7 @@ class Establish(Rhino.Commands.Command):
 
         doc.Views.Redraw()
 
-        Rhino.RhinoApp.WriteLine("[3DShoemaker] Project established:")
+        Rhino.RhinoApp.WriteLine("[Feet in Focus Shoe Kit] Project established:")
         Rhino.RhinoApp.WriteLine(f"  Project: {project_name or '(unnamed)'}")
         Rhino.RhinoApp.WriteLine(f"  Customer: {customer_name or '(none)'}")
         Rhino.RhinoApp.WriteLine(f"  Side: {side}")

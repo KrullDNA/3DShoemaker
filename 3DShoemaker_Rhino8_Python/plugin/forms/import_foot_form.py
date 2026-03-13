@@ -1,5 +1,5 @@
 """
-import_foot_form.py - Foot scan import dialog for 3DShoemaker.
+import_foot_form.py - Foot scan import dialog for Feet in Focus Shoe Kit.
 
 Provides a UI for importing 2D or 3D foot scan data from external
 files (STL, OBJ, PLY, etc.) with optional measurement overrides.
@@ -41,7 +41,7 @@ class ImportFootForm(forms.Dialog[bool]):
     def __init__(self):
         super().__init__()
 
-        self.Title = "3DShoemaker - Import Foot"
+        self.Title = "Feet in Focus Shoe Kit - Import Foot"
         self.ClientSize = drawing.Size(500, 520)
         self.Padding = drawing.Padding(10)
         self.Resizable = True
@@ -251,7 +251,7 @@ class ImportFootForm(forms.Dialog[bool]):
             layer_idx = doc.Layers.FindByFullPath(foot_layer_path, -1)
             if layer_idx < 0:
                 Rhino.RhinoApp.WriteLine(
-                    "[3DShoemaker] Foot layer not found; creating layers."
+                    "[Feet in Focus Shoe Kit] Foot layer not found; creating layers."
                 )
                 from plugin.plugin_main import PodoCADPlugIn
                 PodoCADPlugIn.instance().SetupLayers(doc)
@@ -288,7 +288,7 @@ class ImportFootForm(forms.Dialog[bool]):
 
             doc.Views.Redraw()
             Rhino.RhinoApp.WriteLine(
-                f"[3DShoemaker] Imported {count} foot scan objects "
+                f"[Feet in Focus Shoe Kit] Imported {count} foot scan objects "
                 f"({self.import_mode}, {self.foot_side})."
             )
             return True
@@ -296,7 +296,7 @@ class ImportFootForm(forms.Dialog[bool]):
         except Exception as ex:
             self._lbl_status.Text = f"Error: {ex}"
             Rhino.RhinoApp.WriteLine(
-                f"[3DShoemaker] Import error: {ex}"
+                f"[Feet in Focus Shoe Kit] Import error: {ex}"
             )
             return False
 

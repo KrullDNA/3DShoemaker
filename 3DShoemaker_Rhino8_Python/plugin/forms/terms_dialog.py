@@ -1,5 +1,5 @@
 """
-terms_dialog.py - Terms and Conditions acceptance dialog for 3DShoemaker.
+terms_dialog.py - Terms and Conditions acceptance dialog for Feet in Focus Shoe Kit.
 
 Displays the license terms from Terms.txt and requires the user to
 accept before using the plugin.
@@ -18,7 +18,7 @@ import Eto.Drawing as drawing
 
 class TermsDialog(forms.Dialog[bool]):
     """
-    Modal dialog that displays the 3DShoemaker license terms and
+    Modal dialog that displays the Feet in Focus Shoe Kit license terms and
     requires explicit acceptance.
 
     Use the static ``ShowAndAccept`` method for convenient one-call
@@ -28,7 +28,7 @@ class TermsDialog(forms.Dialog[bool]):
     def __init__(self, terms_text: str = ""):
         super().__init__()
 
-        self.Title = "3DShoemaker - Terms and Conditions"
+        self.Title = "Feet in Focus Shoe Kit - Terms and Conditions"
         self.ClientSize = drawing.Size(620, 500)
         self.Padding = drawing.Padding(10)
         self.Resizable = True
@@ -68,12 +68,12 @@ class TermsDialog(forms.Dialog[bool]):
                     pass
 
         return (
-            "3DShoemaker - Terms and Conditions\n"
+            "Feet in Focus Shoe Kit - Terms and Conditions\n"
             "===================================\n\n"
             "The full terms and conditions document could not be found.\n"
             "Please visit https://ShoeLastMaker.com for the complete terms.\n\n"
             "By clicking 'Accept' you agree to be bound by the terms and\n"
-            "conditions of the 3DShoemaker software license."
+            "conditions of the Feet in Focus Shoe Kit software license."
         )
 
     # ------------------------------------------------------------------

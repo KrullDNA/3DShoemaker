@@ -1,5 +1,5 @@
 """
-edit_dimension_form.py - Dimension editing dialog for 3DShoemaker.
+edit_dimension_form.py - Dimension editing dialog for Feet in Focus Shoe Kit.
 
 Displays the current measurement dimensions of a selected object and
 allows the user to modify them.  Changes can be applied immediately
@@ -32,7 +32,7 @@ class EditDimensionForm(forms.Dialog[bool]):
         super().__init__()
 
         suffix = f" - {title_suffix}" if title_suffix else ""
-        self.Title = f"3DShoemaker - Edit Dimensions{suffix}"
+        self.Title = f"Feet in Focus Shoe Kit - Edit Dimensions{suffix}"
         self.ClientSize = drawing.Size(400, 500)
         self.Padding = drawing.Padding(10)
         self.Resizable = True

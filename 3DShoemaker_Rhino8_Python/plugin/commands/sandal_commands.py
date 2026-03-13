@@ -1,5 +1,5 @@
 """
-3DShoemaker Rhino 8 Plugin - Sandal-specific commands.
+Feet in Focus Shoe Kit Rhino 8 Plugin - Sandal-specific commands.
 
 Commands:
     BuildSandal             - Creates sandal from last/insert data.
@@ -384,10 +384,6 @@ class BuildSandal(Rhino.Commands.Command):
 
     def RunCommand(self, doc, mode) -> Rhino.Commands.Result:
         plug = PodoCADPlugIn.instance()
-        if not plug.is_licensed:
-            Rhino.RhinoApp.WriteLine("3DShoemaker: A valid license is required.")
-            return Rhino.Commands.Result.Failure
-
         ds = plug.GetDocumentSettings(doc)
         mt = plug.GetMaterialThicknesses(doc)
 
@@ -490,10 +486,6 @@ class BuildInsert(Rhino.Commands.Command):
 
     def RunCommand(self, doc, mode) -> Rhino.Commands.Result:
         plug = PodoCADPlugIn.instance()
-        if not plug.is_licensed:
-            Rhino.RhinoApp.WriteLine("3DShoemaker: A valid license is required.")
-            return Rhino.Commands.Result.Failure
-
         ds = plug.GetDocumentSettings(doc)
         mt = plug.GetMaterialThicknesses(doc)
 
@@ -600,10 +592,6 @@ class AddSandalGroove(Rhino.Commands.Command):
 
     def RunCommand(self, doc, mode) -> Rhino.Commands.Result:
         plug = PodoCADPlugIn.instance()
-        if not plug.is_licensed:
-            Rhino.RhinoApp.WriteLine("3DShoemaker: A valid license is required.")
-            return Rhino.Commands.Result.Failure
-
         # Select sole
         go_sole = Rhino.Input.Custom.GetObject()
         go_sole.SetCommandPrompt("Select sandal sole")
@@ -688,10 +676,6 @@ class AddThongSlot(Rhino.Commands.Command):
 
     def RunCommand(self, doc, mode) -> Rhino.Commands.Result:
         plug = PodoCADPlugIn.instance()
-        if not plug.is_licensed:
-            Rhino.RhinoApp.WriteLine("3DShoemaker: A valid license is required.")
-            return Rhino.Commands.Result.Failure
-
         # Select sole
         go_sole = Rhino.Input.Custom.GetObject()
         go_sole.SetCommandPrompt("Select sandal sole for thong slot")
@@ -802,10 +786,6 @@ class ToggleThongSlotInclusion(Rhino.Commands.Command):
 
     def RunCommand(self, doc, mode) -> Rhino.Commands.Result:
         plug = PodoCADPlugIn.instance()
-        if not plug.is_licensed:
-            Rhino.RhinoApp.WriteLine("3DShoemaker: A valid license is required.")
-            return Rhino.Commands.Result.Failure
-
         # Find thong slot objects
         slot_objs = _find_objects_by_prefix(doc, "ThongSlot")
         if not slot_objs:
@@ -861,10 +841,6 @@ class AddMetpad(Rhino.Commands.Command):
 
     def RunCommand(self, doc, mode) -> Rhino.Commands.Result:
         plug = PodoCADPlugIn.instance()
-        if not plug.is_licensed:
-            Rhino.RhinoApp.WriteLine("3DShoemaker: A valid license is required.")
-            return Rhino.Commands.Result.Failure
-
         # Select insert/footbed
         go_insert = Rhino.Input.Custom.GetObject()
         go_insert.SetCommandPrompt("Select insert or footbed")

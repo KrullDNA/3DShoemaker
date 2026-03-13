@@ -1,12 +1,11 @@
 """
-options_form.py - Plugin settings / preferences dialog for 3DShoemaker.
+options_form.py - Plugin settings / preferences dialog for Feet in Focus Shoe Kit.
 
-Displays license information, default parameter settings, unit
+Displays plugin information, default parameter settings, unit
 preferences, and auto-save configuration.
 """
 
 import os
-from typing import Optional
 
 import Rhino
 import System
@@ -30,7 +29,7 @@ class OptionsForm(forms.Dialog[bool]):
     Plugin settings and preferences dialog.
 
     Sections:
-    - License info (read-only display)
+    - Plugin info (read-only display)
     - Default parameters for new documents
     - Units selection
     - Auto-save settings
@@ -39,7 +38,7 @@ class OptionsForm(forms.Dialog[bool]):
     def __init__(self):
         super().__init__()
 
-        self.Title = "3DShoemaker - Options"
+        self.Title = "Feet in Focus Shoe Kit - Options"
         self.ClientSize = drawing.Size(480, 580)
         self.Padding = drawing.Padding(10)
         self.Resizable = True
@@ -57,13 +56,6 @@ class OptionsForm(forms.Dialog[bool]):
         """Populate initial values from the plugin and active document."""
         from plugin.plugin_main import PodoCADPlugIn
         plug = PodoCADPlugIn.instance()
-
-        # License info
-        self.license_key: str = plug.license_key
-        self.license_edition: str = plug.edition
-        self.license_customer: str = plug.license_customer
-        self.license_expires: Optional[str] = plug.license_expires
-        self.is_licensed: bool = plug.is_licensed
 
         # Defaults
         self.units: str = "Millimeters"
@@ -94,45 +86,25 @@ class OptionsForm(forms.Dialog[bool]):
         layout.DefaultSpacing = drawing.Size(5, 5)
         layout.Padding = drawing.Padding(10)
 
-        # -- License info --------------------------------------------------
-        lic_group = forms.GroupBox(Text="License Information")
-        lic_layout = forms.DynamicLayout()
-        lic_layout.DefaultSpacing = drawing.Size(5, 3)
-        lic_layout.Padding = drawing.Padding(8)
-
-        status_text = "Licensed" if self.is_licensed else "Unlicensed"
-        lic_layout.AddRow(
-            forms.Label(Text="Status:"),
-            forms.Label(Text=status_text),
+        # -- Plugin info ---------------------------------------------------
+        info_group = forms.GroupBox(Text="Plugin Information")
+        info_layout = forms.DynamicLayout()
+        info_layout.DefaultSpacing = drawing.Size(5, 3)
+        info_layout.Padding = drawing.Padding(8)
+        info_layout.AddRow(
+            forms.Label(Text="Plugin:"),
+            forms.Label(Text="Feet in Focus Shoe Kit"),
         )
-        lic_layout.AddRow(
-            forms.Label(Text="Edition:"),
-            forms.Label(Text=self.license_edition),
-        )
-        lic_layout.AddRow(
-            forms.Label(Text="Customer:"),
-            forms.Label(Text=self.license_customer or "(none)"),
-        )
-        lic_layout.AddRow(
-            forms.Label(Text="Expires:"),
-            forms.Label(Text=self.license_expires or "N/A"),
-        )
-
-        masked_key = ""
-        if self.license_key:
-            masked_key = self.license_key[:4] + "****" + self.license_key[-4:]
-        lic_layout.AddRow(
-            forms.Label(Text="Key:"),
-            forms.Label(Text=masked_key or "(none)"),
-        )
-
-        lic_layout.AddRow(
+        info_layout.AddRow(
             forms.Label(Text="Version:"),
             forms.Label(Text=plugin_constants.__version__),
         )
-
-        lic_group.Content = lic_layout
-        layout.AddRow(lic_group)
+        info_layout.AddRow(
+            forms.Label(Text="License:"),
+            forms.Label(Text="Free"),
+        )
+        info_group.Content = info_layout
+        layout.AddRow(info_group)
 
         layout.AddSpace()
 

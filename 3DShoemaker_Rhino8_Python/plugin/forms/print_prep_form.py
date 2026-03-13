@@ -1,5 +1,5 @@
 """
-print_prep_form.py - 3D print preparation dialog for 3DShoemaker.
+print_prep_form.py - 3D print preparation dialog for Feet in Focus Shoe Kit.
 
 Provides settings for exporting geometry ready for 3D printing,
 including shell thickness, support generation, print-area fitting,
@@ -42,7 +42,7 @@ class PrintPrepForm(forms.Dialog[bool]):
     def __init__(self):
         super().__init__()
 
-        self.Title = "3DShoemaker - 3D Print Preparation"
+        self.Title = "Feet in Focus Shoe Kit - 3D Print Preparation"
         self.ClientSize = drawing.Size(460, 560)
         self.Padding = drawing.Padding(10)
         self.Resizable = True

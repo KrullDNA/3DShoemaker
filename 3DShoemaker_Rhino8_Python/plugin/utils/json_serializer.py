@@ -1,5 +1,5 @@
 """
-json_serializer.py - JSON serialization utilities for 3DShoemaker.
+json_serializer.py - JSON serialization utilities for Feet in Focus Shoe Kit.
 
 Handles serialization and deserialization of domain objects (Last, Insert,
 Bottom, Foot) as well as Rhino geometry types (Point3d, Plane, Guid,
@@ -169,7 +169,7 @@ def _base64_to_geometry(b64: str) -> Optional[rg.GeometryBase]:
 # ---------------------------------------------------------------------------
 
 class JsonSerializer:
-    """JSON serialization utilities for 3DShoemaker domain objects.
+    """JSON serialization utilities for Feet in Focus Shoe Kit domain objects.
 
     All methods are static -- no instance state is required.
     """

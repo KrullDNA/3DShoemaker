@@ -1,5 +1,5 @@
 """
-Export, options, and utility commands for 3DShoemaker Rhino 8 plugin.
+Export, options, and utility commands for Feet in Focus Shoe Kit Rhino 8 plugin.
 Handles parameter export, folder watching, measurement, and rebuild.
 """
 
@@ -121,8 +121,8 @@ class ExportSupportParameters(Rhino.Commands.Command):
             return rc.Result.Failure
 
 
-class Open3DShoemakerOptions(Rhino.Commands.Command):
-    """Opens the 3DShoemaker options/settings dialog."""
+class OpenFIFShoeKitOptions(Rhino.Commands.Command):
+    """Opens the Feet in Focus Shoe Kit options/settings dialog."""
 
     _instance = None
 
@@ -135,7 +135,7 @@ class Open3DShoemakerOptions(Rhino.Commands.Command):
 
     @property
     def EnglishName(self):
-        return "Open3DShoemakerOptions"
+        return "OpenFIFShoeKitOptions"
 
     def RunCommand(self, doc, mode):
         try:
@@ -291,7 +291,7 @@ class VacuumFormCommand(Rhino.Commands.Command):
             if offset_brep and len(offset_brep) > 0:
                 attrs = rdo.ObjectAttributes()
                 attrs.Name = "VacuumFormed"
-                layer_idx = doc.Layers.FindByFullPath("3DShoemaker::VacuumForm", -1)
+                layer_idx = doc.Layers.FindByFullPath("Feet in Focus Shoe Kit::VacuumForm", -1)
                 if layer_idx >= 0:
                     attrs.LayerIndex = layer_idx
 
@@ -586,15 +586,13 @@ class TestingCommand(Rhino.Commands.Command):
             from ..plugin_main import PodoCADPlugIn
             plugin = PodoCADPlugIn.Instance
 
-            Rhino.RhinoApp.WriteLine("\n=== 3DShoemaker Debug Info ===")
+            Rhino.RhinoApp.WriteLine("\n=== Feet in Focus Shoe Kit Debug Info ===")
             Rhino.RhinoApp.WriteLine(f"  Plugin loaded: {plugin is not None}")
             if plugin:
                 Rhino.RhinoApp.WriteLine(f"  Last: {plugin.last is not None}")
                 Rhino.RhinoApp.WriteLine(f"  Insert: {plugin.insert is not None}")
                 Rhino.RhinoApp.WriteLine(f"  Bottom: {plugin.bottom is not None}")
                 Rhino.RhinoApp.WriteLine(f"  Foot: {plugin.foot is not None}")
-                Rhino.RhinoApp.WriteLine(f"  Edition: {plugin.edition}")
-                Rhino.RhinoApp.WriteLine(f"  Licensed: {plugin.is_licensed}")
 
             Rhino.RhinoApp.WriteLine(f"  Document: {doc.Name}")
             Rhino.RhinoApp.WriteLine(f"  Objects: {doc.Objects.Count}")

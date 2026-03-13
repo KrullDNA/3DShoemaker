@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-install.py - 3DShoemaker Plugin Installer for Rhino 8.
+install.py - Feet in Focus Shoe Kit Plugin Installer for Rhino 8.
 
 Detects the Rhino 8 installation on Windows or macOS, copies plugin files
 to the correct PythonPlugIns directory, creates the plugin manifest, and
@@ -25,9 +25,9 @@ from pathlib import Path
 # Constants
 # ---------------------------------------------------------------------------
 
-PLUGIN_NAME = "3DShoemaker"
-PLUGIN_VERSION = "8.4.0.8"
-PLUGIN_DESCRIPTION = "3DShoemaker utility plug-in for Rhino 3D"
+PLUGIN_NAME = "FIFShoeKit"
+PLUGIN_VERSION = "1.0"
+PLUGIN_DESCRIPTION = "Feet in Focus Shoe Kit utility plug-in for Rhino 3D"
 PLUGIN_URL = "https://ShoeLastMaker.com"
 
 # Directories inside this repository that contain plugin source
@@ -88,7 +88,7 @@ def _get_rhino8_plugin_dir() -> Path | None:
 
 
 def _get_plugin_dest() -> Path | None:
-    """Return the destination directory for the 3DShoemaker plugin."""
+    """Return the destination directory for the Feet in Focus Shoe Kit plugin."""
     base = _get_rhino8_plugin_dir()
     if base is None:
         return None
@@ -104,7 +104,7 @@ _MANIFEST_CONTENT = f"""\
 name: {PLUGIN_NAME}
 version: {PLUGIN_VERSION}
 authors:
-- '-'
+- 'Feet in Focus'
 description: {PLUGIN_DESCRIPTION}
 url: {PLUGIN_URL}
 keywords: []
@@ -156,11 +156,11 @@ def _copy_terms(dest_dir: Path) -> None:
 # ---------------------------------------------------------------------------
 
 def install() -> bool:
-    """Install the 3DShoemaker plugin for Rhino 8.
+    """Install the Feet in Focus Shoe Kit plugin for Rhino 8.
 
     Returns True on success.
     """
-    print(f"3DShoemaker Plugin Installer v{PLUGIN_VERSION}")
+    print(f"Feet in Focus Shoe Kit Plugin Installer v{PLUGIN_VERSION}")
     print("=" * 50)
 
     dest = _get_plugin_dest()
@@ -182,9 +182,9 @@ def install() -> bool:
             shutil.copy2(init_file, dest / "__init__.py")
             print(f"  Copied plugin entry point (__init__.py)")
         else:
-            print("  Warning: dev/3DShoemaker/__init__.py not found.")
+            print("  Warning: dev/FIFShoeKit/__init__.py not found.")
     else:
-        print("  Warning: dev/3DShoemaker/ directory not found.")
+        print("  Warning: dev/FIFShoeKit/ directory not found.")
 
     # 2. Copy the plugin package
     if _PLUGIN_SRC.is_dir():
@@ -219,10 +219,10 @@ def install() -> bool:
         print("=" * 50)
         print("Installation successful!")
         print()
-        print("Please restart Rhino 8 to load the 3DShoemaker plugin.")
+        print("Please restart Rhino 8 to load the Feet in Focus Shoe Kit plugin.")
         print(
             "The plugin will appear in the Rhino command line as "
-            "'3DShoemaker' commands."
+            "'Feet in Focus Shoe Kit' commands."
         )
         return True
     else:
@@ -236,11 +236,11 @@ def install() -> bool:
 # ---------------------------------------------------------------------------
 
 def uninstall() -> bool:
-    """Remove the 3DShoemaker plugin from Rhino 8.
+    """Remove the Feet in Focus Shoe Kit plugin from Rhino 8.
 
     Returns True on success.
     """
-    print(f"3DShoemaker Plugin Uninstaller v{PLUGIN_VERSION}")
+    print(f"Feet in Focus Shoe Kit Plugin Uninstaller v{PLUGIN_VERSION}")
     print("=" * 50)
 
     dest = _get_plugin_dest()
@@ -279,12 +279,12 @@ def uninstall() -> bool:
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="3DShoemaker Plugin Installer for Rhino 8",
+        description="Feet in Focus Shoe Kit Plugin Installer for Rhino 8",
     )
     parser.add_argument(
         "--uninstall",
         action="store_true",
-        help="Remove the 3DShoemaker plugin instead of installing it.",
+        help="Remove the Feet in Focus Shoe Kit plugin instead of installing it.",
     )
     parser.add_argument(
         "--dest",

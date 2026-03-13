@@ -1,7 +1,7 @@
 """
-layer_manager.py - Layer management for 3DShoemaker.
+layer_manager.py - Layer management for Feet in Focus Shoe Kit.
 
-Creates, deletes, and manages the layer hierarchy that the 3DShoemaker
+Creates, deletes, and manages the layer hierarchy that the Feet in Focus Shoe Kit
 plugin uses to organize shoe-last geometry inside a Rhino document.
 
 Layer tree structure::
