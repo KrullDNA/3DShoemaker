@@ -1,5 +1,5 @@
 """
-Bottom data model for 3DShoemaker Rhino 8 plugin.
+Bottom data model for Feet in Focus Shoe Kit Rhino 8 plugin.
 Represents sole, heel, and support components of footwear.
 """
 
@@ -306,7 +306,7 @@ class Bottom:
                     if offset_result:
                         attrs = rdo.ObjectAttributes()
                         attrs.Name = "BottomBody"
-                        layer_idx = doc.Layers.FindByFullPath("3DShoemaker::Bottom", -1)
+                        layer_idx = doc.Layers.FindByFullPath("Feet in Focus Shoe Kit::Bottom", -1)
                         if layer_idx >= 0:
                             attrs.LayerIndex = layer_idx
 

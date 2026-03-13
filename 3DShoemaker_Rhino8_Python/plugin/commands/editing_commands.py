@@ -1,5 +1,5 @@
 """
-3DShoemaker Rhino 8 Plugin - Geometry editing commands.
+Feet in Focus Shoe Kit Rhino 8 Plugin - Geometry editing commands.
 
 Commands:
     EditCurve                                  - Enters curve editing mode with grips.
@@ -349,7 +349,7 @@ class Sculpt(Rhino.Commands.Command):
     def RunCommand(self, doc, mode) -> Rhino.Commands.Result:
         plug = PodoCADPlugIn.instance()
         if not plug.is_licensed:
-            Rhino.RhinoApp.WriteLine("3DShoemaker: A valid license is required.")
+            Rhino.RhinoApp.WriteLine("Feet in Focus Shoe Kit: A valid license is required.")
             return Rhino.Commands.Result.Failure
 
         # Select surface or mesh
@@ -567,7 +567,7 @@ class BlendSurfaceToSurface(Rhino.Commands.Command):
     def RunCommand(self, doc, mode) -> Rhino.Commands.Result:
         plug = PodoCADPlugIn.instance()
         if not plug.is_licensed:
-            Rhino.RhinoApp.WriteLine("3DShoemaker: A valid license is required.")
+            Rhino.RhinoApp.WriteLine("Feet in Focus Shoe Kit: A valid license is required.")
             return Rhino.Commands.Result.Failure
 
         # Select first surface edge
@@ -693,7 +693,7 @@ class GirthCurveAveraging(Rhino.Commands.Command):
     def RunCommand(self, doc, mode) -> Rhino.Commands.Result:
         plug = PodoCADPlugIn.instance()
         if not plug.is_licensed:
-            Rhino.RhinoApp.WriteLine("3DShoemaker: A valid license is required.")
+            Rhino.RhinoApp.WriteLine("Feet in Focus Shoe Kit: A valid license is required.")
             return Rhino.Commands.Result.Failure
 
         # Select multiple curves
@@ -830,7 +830,7 @@ class AdjustSurfacingCurveControlPointPosition(Rhino.Commands.Command):
     def RunCommand(self, doc, mode) -> Rhino.Commands.Result:
         plug = PodoCADPlugIn.instance()
         if not plug.is_licensed:
-            Rhino.RhinoApp.WriteLine("3DShoemaker: A valid license is required.")
+            Rhino.RhinoApp.WriteLine("Feet in Focus Shoe Kit: A valid license is required.")
             return Rhino.Commands.Result.Failure
 
         # Select curve

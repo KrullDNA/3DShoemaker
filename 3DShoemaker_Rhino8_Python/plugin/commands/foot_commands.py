@@ -1,5 +1,5 @@
 """
-3DShoemaker Rhino 8 Plugin - Foot analysis commands.
+Feet in Focus Shoe Kit Rhino 8 Plugin - Foot analysis commands.
 
 Commands:
     ImportFoot              - Opens ImportFootForm for foot scan import.
@@ -282,7 +282,7 @@ class ImportFoot(Rhino.Commands.Command):
     def RunCommand(self, doc, mode) -> Rhino.Commands.Result:
         plug = PodoCADPlugIn.instance()
         if not plug.is_licensed:
-            Rhino.RhinoApp.WriteLine("3DShoemaker: A valid license is required.")
+            Rhino.RhinoApp.WriteLine("Feet in Focus Shoe Kit: A valid license is required.")
             return Rhino.Commands.Result.Failure
 
         # Build a filter string for all supported types
@@ -372,7 +372,7 @@ class OpenImportFootForm(Rhino.Commands.Command):
         Rhino.RhinoApp.WriteLine("ImportFoot command is not available. Running inline import.")
         plug = PodoCADPlugIn.instance()
         if not plug.is_licensed:
-            Rhino.RhinoApp.WriteLine("3DShoemaker: A valid license is required.")
+            Rhino.RhinoApp.WriteLine("Feet in Focus Shoe Kit: A valid license is required.")
             return Rhino.Commands.Result.Failure
 
         mesh_exts = " ".join(f"*{e}" for e in _SUPPORTED_MESH_EXTENSIONS)
@@ -435,7 +435,7 @@ class AnalyzePlantarFootScan(Rhino.Commands.Command):
     def RunCommand(self, doc, mode) -> Rhino.Commands.Result:
         plug = PodoCADPlugIn.instance()
         if not plug.is_licensed:
-            Rhino.RhinoApp.WriteLine("3DShoemaker: A valid license is required.")
+            Rhino.RhinoApp.WriteLine("Feet in Focus Shoe Kit: A valid license is required.")
             return Rhino.Commands.Result.Failure
 
         # Ask user to select a mesh

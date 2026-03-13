@@ -1,5 +1,5 @@
 """
-3DShoemaker Rhino 8 Plugin - Grading (size scaling) commands.
+Feet in Focus Shoe Kit Rhino 8 Plugin - Grading (size scaling) commands.
 
 Commands:
     GradeFootwear - Grades complete footwear to a different size using
@@ -302,7 +302,7 @@ class GradeFootwear(Rhino.Commands.Command):
     def RunCommand(self, doc, mode) -> Rhino.Commands.Result:
         plug = PodoCADPlugIn.instance()
         if not plug.is_licensed:
-            Rhino.RhinoApp.WriteLine("3DShoemaker: A valid license is required.")
+            Rhino.RhinoApp.WriteLine("Feet in Focus Shoe Kit: A valid license is required.")
             return Rhino.Commands.Result.Failure
 
         ds = plug.GetDocumentSettings(doc)
@@ -405,7 +405,7 @@ class BatchGrade(Rhino.Commands.Command):
     def RunCommand(self, doc, mode) -> Rhino.Commands.Result:
         plug = PodoCADPlugIn.instance()
         if not plug.is_licensed:
-            Rhino.RhinoApp.WriteLine("3DShoemaker: A valid license is required.")
+            Rhino.RhinoApp.WriteLine("Feet in Focus Shoe Kit: A valid license is required.")
             return Rhino.Commands.Result.Failure
 
         ds = plug.GetDocumentSettings(doc)

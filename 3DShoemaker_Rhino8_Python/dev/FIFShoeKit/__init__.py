@@ -1,5 +1,5 @@
 """
-3DShoemaker - Rhino 8 Python Plugin Entry Point.
+Feet in Focus Shoe Kit - Rhino 8 Python Plugin Entry Point.
 
 This module is the entry point that Rhino 8 loads when the plugin is
 installed into the PythonPlugIns directory.  Rhino discovers this file
@@ -9,7 +9,7 @@ code to register commands and initialize the plugin.
 Directory layout when installed::
 
     PythonPlugIns/
-      3DShoemaker/
+      FIFShoeKit/
         __init__.py          <-- this file
         manifest.yml
         Terms.txt
@@ -79,8 +79,8 @@ try:
     # Import all command modules -- this registers the command classes
     from plugin.commands import (
         # Activation
-        Activate3DShoemaker,
-        Deactivate3DShoemaker,
+        ActivateFIFShoeKit,
+        DeactivateFIFShoeKit,
         # Last
         NewBuild,
         NewBuildScriptable,
@@ -137,7 +137,7 @@ try:
 except Exception as _import_err:
     _IMPORTS_OK = False
     Rhino.RhinoApp.WriteLine(
-        f"[3DShoemaker] Import error: {_import_err}\n"
+        f"[Feet in Focus Shoe Kit] Import error: {_import_err}\n"
         f"{traceback.format_exc()}"
     )
 
@@ -153,8 +153,8 @@ except Exception as _import_err:
 if _IMPORTS_OK:
     _ALL_COMMANDS = [
         # Activation
-        Activate3DShoemaker,
-        Deactivate3DShoemaker,
+        ActivateFIFShoeKit,
+        DeactivateFIFShoeKit,
         # Last
         NewBuild,
         NewBuildScriptable,
@@ -203,10 +203,10 @@ else:
 # ---------------------------------------------------------------------------
 
 def _initialize_plugin() -> None:
-    """Initialize the 3DShoemaker plugin singleton and wire it into Rhino."""
+    """Initialize the Feet in Focus Shoe Kit plugin singleton and wire it into Rhino."""
     if not _IMPORTS_OK:
         Rhino.RhinoApp.WriteLine(
-            "[3DShoemaker] Skipping initialization due to import errors."
+            "[Feet in Focus Shoe Kit] Skipping initialization due to import errors."
         )
         return
 
@@ -215,18 +215,18 @@ def _initialize_plugin() -> None:
         success = instance.Initialize()
         if success:
             Rhino.RhinoApp.WriteLine(
-                f"[3DShoemaker] Plugin loaded: "
+                f"[Feet in Focus Shoe Kit] Plugin loaded: "
                 f"v{plugin_pkg.__version__}, "
                 f"{len(_ALL_COMMANDS)} commands registered."
             )
         else:
             Rhino.RhinoApp.WriteLine(
-                "[3DShoemaker] Plugin initialization returned False. "
+                "[Feet in Focus Shoe Kit] Plugin initialization returned False. "
                 "Some features may be unavailable."
             )
     except Exception as ex:
         Rhino.RhinoApp.WriteLine(
-            f"[3DShoemaker] Initialization failed: {ex}\n"
+            f"[Feet in Focus Shoe Kit] Initialization failed: {ex}\n"
             f"{traceback.format_exc()}"
         )
 

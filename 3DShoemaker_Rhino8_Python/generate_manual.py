@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Generate the 3DShoemaker Rhino 8 Plugin User Manual as a Word document.
+Generate the Feet in Focus Shoe Kit Rhino 8 Plugin User Manual as a Word document.
 """
 
 from docx import Document
@@ -38,7 +38,7 @@ def create_manual():
 
     title = doc.add_paragraph()
     title.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    run = title.add_run('3DShoemaker')
+    run = title.add_run('Feet in Focus Shoe Kit')
     run.font.size = Pt(36)
     run.bold = True
     run.font.color.rgb = RGBColor(0x1A, 0x3C, 0x6E)
@@ -112,13 +112,13 @@ def create_manual():
     # =====================================================================
     doc.add_heading('1. Introduction', level=1)
     doc.add_paragraph(
-        '3DShoemaker is a comprehensive footwear design plugin for Rhinoceros 3D (Rhino 8). '
+        'Feet in Focus Shoe Kit is a comprehensive footwear design plugin for Rhinoceros 3D (Rhino 8). '
         'It provides a complete suite of tools for designing shoe lasts, insoles, soles, heels, '
         'orthotics, sandals, and other footwear components. The plugin integrates directly into '
         'the Rhino 8 command line and provides over 90 specialized commands for footwear CAD.'
     )
     doc.add_paragraph(
-        'This Python 3 edition of 3DShoemaker is designed for Rhino 8 and leverages the '
+        'This Python 3 edition of Feet in Focus Shoe Kit is designed for Rhino 8 and leverages the '
         'RhinoCommon API, rhinoscriptsyntax, and Eto.Forms for cross-platform compatibility '
         'on both Windows and macOS.'
     )
@@ -192,7 +192,7 @@ def create_manual():
     run.font.name = 'Consolas'
     run.font.size = Pt(10)
     doc.add_paragraph(
-        'Files are installed to: %APPDATA%\\McNeel\\Rhinoceros\\8.0\\Plug-ins\\PythonPlugIns\\3DShoemaker\\'
+        'Files are installed to: %APPDATA%\\McNeel\\Rhinoceros\\8.0\\Plug-ins\\PythonPlugIns\\FIFShoeKit\\'
     )
 
     doc.add_heading('macOS', level=3)
@@ -201,7 +201,7 @@ def create_manual():
     run.font.name = 'Consolas'
     run.font.size = Pt(10)
     doc.add_paragraph(
-        'Files are installed to: ~/Library/Application Support/McNeel/Rhinoceros/8.0/Plug-ins/PythonPlugIns/3DShoemaker/'
+        'Files are installed to: ~/Library/Application Support/McNeel/Rhinoceros/8.0/Plug-ins/PythonPlugIns/FIFShoeKit/'
     )
 
     doc.add_heading('Uninstallation', level=2)
@@ -223,7 +223,7 @@ def create_manual():
 
     doc.add_heading('Installed File Structure', level=2)
     structure_lines = [
-        '3DShoemaker/',
+        'FIFShoeKit/',
         '  __init__.py              Plugin entry point',
         '  manifest.yml             Plugin metadata',
         '  Terms.txt                License agreement',
@@ -251,7 +251,7 @@ def create_manual():
     # =====================================================================
     doc.add_heading('4. Licensing & Activation', level=1)
     doc.add_paragraph(
-        '3DShoemaker uses the Cryptolens licensing system. Licenses are available in three editions:'
+        'Feet in Focus Shoe Kit uses the Cryptolens licensing system. Licenses are available in three editions:'
     )
 
     table = doc.add_table(rows=4, cols=3)
@@ -278,14 +278,14 @@ def create_manual():
 
     doc.add_heading('Activating Your License', level=2)
     doc.add_paragraph('1. Launch Rhino 8. The plugin loads automatically.')
-    doc.add_paragraph('2. Type Activate3DShoemaker in the Rhino command line.')
+    doc.add_paragraph('2. Type ActivateFIFShoeKit in the Rhino command line.')
     doc.add_paragraph('3. Enter your license key when prompted.')
     doc.add_paragraph('4. The plugin contacts the license server to validate your key.')
     doc.add_paragraph('5. On success, the license is cached locally for offline use.')
 
     doc.add_heading('Deactivating Your License', level=2)
     doc.add_paragraph(
-        'To transfer your license to a different machine, type Deactivate3DShoemaker in the '
+        'To transfer your license to a different machine, type DeactivateFIFShoeKit in the '
         'command line and confirm with "YES". This frees the machine slot on the server.'
     )
 
@@ -305,7 +305,7 @@ def create_manual():
 
     doc.add_heading('Plugin Initialization', level=2)
     doc.add_paragraph(
-        'When Rhino 8 starts, the 3DShoemaker plugin initializes automatically. You will see '
+        'When Rhino 8 starts, the Feet in Focus Shoe Kit plugin initializes automatically. You will see '
         'messages in the command line confirming the plugin version and the number of registered '
         'commands. The plugin sets up:'
     )
@@ -806,7 +806,7 @@ def create_manual():
         ('ExportInsertParameters', 'Exports insert parameters to a JSON file. Opens a save dialog '
          'and writes all serializable insert parameters.'),
         ('ExportSupportParameters', 'Exports bottom/support parameters to a JSON file.'),
-        ('Open3DShoemakerOptions', 'Opens the 3DShoemaker options/settings dialog (Eto.Forms). '
+        ('OpenFIFShoeKitOptions', 'Opens the Feet in Focus Shoe Kit options/settings dialog (Eto.Forms). '
          'Configure plugin preferences and workspace settings.'),
         ('OpenFolderWatcher', 'Opens a folder watcher window that monitors a directory for new '
          'scan files and automatically imports them when detected.'),
@@ -957,7 +957,7 @@ def create_manual():
     doc.add_paragraph(
         'The plugin supports reading both the current JSON format and the legacy pipe-delimited '
         'format (key1|value1||key2|value2||...) used by older .NET plugin versions. This ensures '
-        'backward compatibility with files created by the original 3DShoemaker plugin.'
+        'backward compatibility with files created by the original Feet in Focus Shoe Kit plugin.'
     )
 
     doc.add_heading('Automatic Save/Load', level=2)
@@ -988,7 +988,7 @@ def create_manual():
          '(alphanumeric with dashes). If the server is unreachable, try again later. Contact '
          'support at ShoeLastMaker.com if the issue persists.'),
         ('Commands not found', 'Type the exact command name (case-sensitive) in the Rhino command '
-         'line. Verify the plugin loaded successfully by checking for "[3DShoemaker]" messages '
+         'line. Verify the plugin loaded successfully by checking for "[Feet in Focus Shoe Kit]" messages '
          'in the command history. Run the Testing command for diagnostics.'),
         ('Geometry creation fails', 'Ensure a last has been created or imported first. Most '
          'component commands require an active last. Check that the current document has the '
@@ -1015,12 +1015,12 @@ def create_manual():
     # =====================================================================
     doc.add_heading('21. Terms and Conditions', level=1)
     doc.add_paragraph(
-        'The use of the 3DShoemaker plugin is governed by the Terms and Conditions available at '
+        'The use of the Feet in Focus Shoe Kit plugin is governed by the Terms and Conditions available at '
         'https://ShoeLastMaker.com and included in the Terms.txt file distributed with the plugin.'
     )
     doc.add_paragraph('Key points:')
     terms_points = [
-        'A valid license key is required, purchasable at 3DShoemaker.com.',
+        'A valid license key is required, purchasable at Feet in Focus Shoe Kit.com.',
         'Personal Edition may not be used for commercial purposes.',
         'Each license is tied to a single machine at a time.',
         'The software may not be copied, modified, or reverse-engineered.',
@@ -1038,7 +1038,7 @@ def create_manual():
     # Footer
     footer = doc.add_paragraph()
     footer.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    run = footer.add_run('3DShoemaker Plugin for Rhino 8 - User Manual v1.0')
+    run = footer.add_run('Feet in Focus Shoe Kit Plugin for Rhino 8 - User Manual v1.0')
     run.font.size = Pt(9)
     run.font.color.rgb = RGBColor(0x99, 0x99, 0x99)
     run = footer.add_run('\nhttps://ShoeLastMaker.com')
@@ -1048,7 +1048,7 @@ def create_manual():
     # Save
     output_path = os.path.join(
         os.path.dirname(os.path.abspath(__file__)),
-        '3DShoemaker_Rhino8_User_Manual.docx'
+        'FIFShoeKit_Rhino8_User_Manual.docx'
     )
     doc.save(output_path)
     print(f'Manual saved to: {output_path}')

@@ -1,5 +1,5 @@
 """
-vacuum_form.py - Vacuum forming preparation dialog for 3DShoemaker.
+vacuum_form.py - Vacuum forming preparation dialog for Feet in Focus Shoe Kit.
 
 Provides settings for preparing geometry for vacuum forming / thermoforming
 manufacture, including material selection, sheet thickness, and draft angles.
@@ -46,7 +46,7 @@ class VacuumForm(forms.Dialog[bool]):
     def __init__(self):
         super().__init__()
 
-        self.Title = "3DShoemaker - Vacuum Forming Preparation"
+        self.Title = "Feet in Focus Shoe Kit - Vacuum Forming Preparation"
         self.ClientSize = drawing.Size(440, 500)
         self.Padding = drawing.Padding(10)
         self.Resizable = True

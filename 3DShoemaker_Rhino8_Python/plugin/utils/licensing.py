@@ -1,5 +1,5 @@
 """
-licensing.py - License management for 3DShoemaker.
+licensing.py - License management for Feet in Focus Shoe Kit.
 
 Provides the ``LicenseManager`` class that handles license key validation,
 machine-based activation/deactivation, and edition detection.  Designed to
@@ -516,7 +516,7 @@ class LicenseManager:
     @staticmethod
     def _cache_path() -> str:
         appdata = os.environ.get("APPDATA") or os.path.expanduser("~")
-        folder = os.path.join(appdata, "3DShoemaker")
+        folder = os.path.join(appdata, "Feet in Focus Shoe Kit")
         os.makedirs(folder, exist_ok=True)
         return os.path.join(folder, "license.json")
 

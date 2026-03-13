@@ -1,5 +1,5 @@
 """
-3DShoemaker Rhino 8 Plugin - Sandal-specific commands.
+Feet in Focus Shoe Kit Rhino 8 Plugin - Sandal-specific commands.
 
 Commands:
     BuildSandal             - Creates sandal from last/insert data.
@@ -385,7 +385,7 @@ class BuildSandal(Rhino.Commands.Command):
     def RunCommand(self, doc, mode) -> Rhino.Commands.Result:
         plug = PodoCADPlugIn.instance()
         if not plug.is_licensed:
-            Rhino.RhinoApp.WriteLine("3DShoemaker: A valid license is required.")
+            Rhino.RhinoApp.WriteLine("Feet in Focus Shoe Kit: A valid license is required.")
             return Rhino.Commands.Result.Failure
 
         ds = plug.GetDocumentSettings(doc)
@@ -491,7 +491,7 @@ class BuildInsert(Rhino.Commands.Command):
     def RunCommand(self, doc, mode) -> Rhino.Commands.Result:
         plug = PodoCADPlugIn.instance()
         if not plug.is_licensed:
-            Rhino.RhinoApp.WriteLine("3DShoemaker: A valid license is required.")
+            Rhino.RhinoApp.WriteLine("Feet in Focus Shoe Kit: A valid license is required.")
             return Rhino.Commands.Result.Failure
 
         ds = plug.GetDocumentSettings(doc)
@@ -601,7 +601,7 @@ class AddSandalGroove(Rhino.Commands.Command):
     def RunCommand(self, doc, mode) -> Rhino.Commands.Result:
         plug = PodoCADPlugIn.instance()
         if not plug.is_licensed:
-            Rhino.RhinoApp.WriteLine("3DShoemaker: A valid license is required.")
+            Rhino.RhinoApp.WriteLine("Feet in Focus Shoe Kit: A valid license is required.")
             return Rhino.Commands.Result.Failure
 
         # Select sole
@@ -689,7 +689,7 @@ class AddThongSlot(Rhino.Commands.Command):
     def RunCommand(self, doc, mode) -> Rhino.Commands.Result:
         plug = PodoCADPlugIn.instance()
         if not plug.is_licensed:
-            Rhino.RhinoApp.WriteLine("3DShoemaker: A valid license is required.")
+            Rhino.RhinoApp.WriteLine("Feet in Focus Shoe Kit: A valid license is required.")
             return Rhino.Commands.Result.Failure
 
         # Select sole
@@ -803,7 +803,7 @@ class ToggleThongSlotInclusion(Rhino.Commands.Command):
     def RunCommand(self, doc, mode) -> Rhino.Commands.Result:
         plug = PodoCADPlugIn.instance()
         if not plug.is_licensed:
-            Rhino.RhinoApp.WriteLine("3DShoemaker: A valid license is required.")
+            Rhino.RhinoApp.WriteLine("Feet in Focus Shoe Kit: A valid license is required.")
             return Rhino.Commands.Result.Failure
 
         # Find thong slot objects
@@ -862,7 +862,7 @@ class AddMetpad(Rhino.Commands.Command):
     def RunCommand(self, doc, mode) -> Rhino.Commands.Result:
         plug = PodoCADPlugIn.instance()
         if not plug.is_licensed:
-            Rhino.RhinoApp.WriteLine("3DShoemaker: A valid license is required.")
+            Rhino.RhinoApp.WriteLine("Feet in Focus Shoe Kit: A valid license is required.")
             return Rhino.Commands.Result.Failure
 
         # Select insert/footbed

@@ -1,5 +1,5 @@
 """
-last.py - Last data model for 3DShoemaker.
+last.py - Last data model for Feet in Focus Shoe Kit.
 
 Represents a shoe last with all measurement parameters, curve IDs,
 cross-section data, body geometry, and style parameters.  Uses a

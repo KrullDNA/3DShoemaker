@@ -1,5 +1,5 @@
 """
-material_thicknesses.py - Material thickness parameters for 3DShoemaker.
+material_thicknesses.py - Material thickness parameters for Feet in Focus Shoe Kit.
 
 Stores thickness values for every material layer in a shoe last / insole
 build-up.  Persisted per-document as JSON.
@@ -12,7 +12,7 @@ from typing import Any, Dict, Optional
 class MaterialThicknesses:
     """
     Container for material-layer thicknesses (in mm) used throughout
-    the 3DShoemaker workflow.
+    the Feet in Focus Shoe Kit workflow.
 
     Instances are per-document and serialised into the .3dm user text
     alongside DocumentSettings.

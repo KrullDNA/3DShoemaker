@@ -1,10 +1,10 @@
 """
-3DShoemaker Rhino 8 Plugin - License activation / deactivation commands.
+Feet in Focus Shoe Kit Rhino 8 Plugin - License activation / deactivation commands.
 
 Commands:
-    Activate3DShoemaker   - Prompt for a license key, validate via the
+    ActivateFIFShoeKit   - Prompt for a license key, validate via the
                             Cryptolens network API, and activate the plugin.
-    Deactivate3DShoemaker - Deactivate the current license and free the
+    DeactivateFIFShoeKit - Deactivate the current license and free the
                             machine slot on the licensing server.
 """
 
@@ -43,7 +43,7 @@ def _get_machine_id() -> str:
 def _license_file_path() -> str:
     """Return the path to the local license cache file."""
     appdata = os.environ.get("APPDATA") or os.path.expanduser("~")
-    folder = os.path.join(appdata, "3DShoemaker")
+    folder = os.path.join(appdata, "Feet in Focus Shoe Kit")
     os.makedirs(folder, exist_ok=True)
     return os.path.join(folder, "license.json")
 
@@ -124,35 +124,35 @@ def _deactivate_license_network(license_key: str) -> tuple[bool, str]:
 
 
 # ---------------------------------------------------------------------------
-#  Activate3DShoemaker
+#  ActivateFIFShoeKit
 # ---------------------------------------------------------------------------
 
-class Activate3DShoemaker(Rhino.Commands.Command):
+class ActivateFIFShoeKit(Rhino.Commands.Command):
     """Prompt for a license key, validate via the network, and activate."""
 
-    _instance: Activate3DShoemaker | None = None
+    _instance: ActivateFIFShoeKit | None = None
 
     def __init__(self):
         super().__init__()
-        Activate3DShoemaker._instance = self
+        ActivateFIFShoeKit._instance = self
 
     # -- Singleton -----------------------------------------------------------
     @classmethod
     @property
-    def Instance(cls) -> Activate3DShoemaker | None:
+    def Instance(cls) -> ActivateFIFShoeKit | None:
         return cls._instance
 
     # -- Command metadata ----------------------------------------------------
     @property
     def EnglishName(self) -> str:
-        return "Activate3DShoemaker"
+        return "ActivateFIFShoeKit"
 
     # -- Execution -----------------------------------------------------------
     def RunCommand(self, doc, mode) -> Rhino.Commands.Result:
         # Check if already activated
         existing = _load_license()
         if existing and existing.get("activated"):
-            Rhino.RhinoApp.WriteLine("3DShoemaker is already activated.")
+            Rhino.RhinoApp.WriteLine("Feet in Focus Shoe Kit is already activated.")
             gs = Rhino.Input.Custom.GetString()
             gs.SetCommandPrompt("Enter 'Y' to re-activate with a new key, or press Enter to cancel")
             gs.AcceptNothing(True)
@@ -165,7 +165,7 @@ class Activate3DShoemaker(Rhino.Commands.Command):
 
         # Prompt for the license key
         gs = Rhino.Input.Custom.GetString()
-        gs.SetCommandPrompt("Enter your 3DShoemaker license key")
+        gs.SetCommandPrompt("Enter your Feet in Focus Shoe Kit license key")
         gs.Get()
         if gs.CommandResult() != Rhino.Commands.Result.Success:
             return Rhino.Commands.Result.Cancel
@@ -204,7 +204,7 @@ class Activate3DShoemaker(Rhino.Commands.Command):
                 "edition": edition,
                 "expires": info.get("expires", ""),
             })
-            Rhino.RhinoApp.WriteLine(f"3DShoemaker activated ({edition} edition). {message}")
+            Rhino.RhinoApp.WriteLine(f"Feet in Focus Shoe Kit activated ({edition} edition). {message}")
             return Rhino.Commands.Result.Success
         else:
             Rhino.RhinoApp.WriteLine(f"Activation failed: {message}")
@@ -212,34 +212,34 @@ class Activate3DShoemaker(Rhino.Commands.Command):
 
 
 # ---------------------------------------------------------------------------
-#  Deactivate3DShoemaker
+#  DeactivateFIFShoeKit
 # ---------------------------------------------------------------------------
 
-class Deactivate3DShoemaker(Rhino.Commands.Command):
+class DeactivateFIFShoeKit(Rhino.Commands.Command):
     """Deactivate the current license and free the machine slot."""
 
-    _instance: Deactivate3DShoemaker | None = None
+    _instance: DeactivateFIFShoeKit | None = None
 
     def __init__(self):
         super().__init__()
-        Deactivate3DShoemaker._instance = self
+        DeactivateFIFShoeKit._instance = self
 
     # -- Singleton -----------------------------------------------------------
     @classmethod
     @property
-    def Instance(cls) -> Deactivate3DShoemaker | None:
+    def Instance(cls) -> DeactivateFIFShoeKit | None:
         return cls._instance
 
     # -- Command metadata ----------------------------------------------------
     @property
     def EnglishName(self) -> str:
-        return "Deactivate3DShoemaker"
+        return "DeactivateFIFShoeKit"
 
     # -- Execution -----------------------------------------------------------
     def RunCommand(self, doc, mode) -> Rhino.Commands.Result:
         existing = _load_license()
         if not existing or not existing.get("activated"):
-            Rhino.RhinoApp.WriteLine("3DShoemaker is not currently activated.")
+            Rhino.RhinoApp.WriteLine("Feet in Focus Shoe Kit is not currently activated.")
             return Rhino.Commands.Result.Nothing
 
         # Confirm deactivation
@@ -261,7 +261,7 @@ class Deactivate3DShoemaker(Rhino.Commands.Command):
 
         if success:
             _delete_license()
-            Rhino.RhinoApp.WriteLine(f"3DShoemaker deactivated. {message}")
+            Rhino.RhinoApp.WriteLine(f"Feet in Focus Shoe Kit deactivated. {message}")
             return Rhino.Commands.Result.Success
         else:
             # Even on server failure, allow local deactivation so the user

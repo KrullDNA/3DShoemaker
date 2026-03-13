@@ -1,5 +1,5 @@
 """
-insert.py - Insert / insole data model for 3DShoemaker.
+insert.py - Insert / insole data model for Feet in Focus Shoe Kit.
 
 Represents an insert (orthotic / insole / footbed) with measurement
 parameters, design curves, cross-section curves, sandal curves, body

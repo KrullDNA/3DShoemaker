@@ -1,7 +1,7 @@
 """
-3DShoemaker Rhino 8 Plugin - UI Forms package.
+Feet in Focus Shoe Kit Rhino 8 Plugin - UI Forms package.
 
-All Eto.Forms-based dialogs and panels for the 3DShoemaker
+All Eto.Forms-based dialogs and panels for the Feet in Focus Shoe Kit
 footwear-design plugin.
 """
 

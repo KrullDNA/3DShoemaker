@@ -1,5 +1,5 @@
 """
-snap_curves.py - Curve snapping utility for 3DShoemaker.
+snap_curves.py - Curve snapping utility for Feet in Focus Shoe Kit.
 
 Provides the ``SnapCurves`` class that snaps (pulls / projects) curves
 onto surfaces and meshes.  Used during interactive editing operations

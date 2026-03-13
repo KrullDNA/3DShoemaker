@@ -1,5 +1,5 @@
 """
-document_settings.py - Per-document settings for 3DShoemaker.
+document_settings.py - Per-document settings for Feet in Focus Shoe Kit.
 
 Stores design parameters, user preferences, and project metadata
 that are persisted inside the .3dm file via JSON serialization.
@@ -11,7 +11,7 @@ from typing import Any, Dict, Optional
 
 class DocumentSettings:
     """
-    Container for all per-document settings used by the 3DShoemaker plugin.
+    Container for all per-document settings used by the Feet in Focus Shoe Kit plugin.
 
     Each open document gets its own DocumentSettings instance managed by
     PodoCADPlugIn.  The class provides ``to_dict`` / ``from_dict`` for

@@ -1,5 +1,5 @@
 """
-podoCAD_panel.py - Main dockable side panel for 3DShoemaker.
+podoCAD_panel.py - Main dockable side panel for Feet in Focus Shoe Kit.
 
 PodoCADPanel is the primary UI surface of the plugin.  It lives in
 Rhino's side-panel area and provides categorised buttons for every
@@ -92,7 +92,7 @@ _EDIT_CURVE_TYPES = [
 
 class PodoCADPanel(forms.Panel):
     """
-    Main dockable side panel for the 3DShoemaker plugin.
+    Main dockable side panel for the Feet in Focus Shoe Kit plugin.
 
     Provides categorised command buttons, curve-editing controls,
     clipping-plane management, layer visibility toggles, and status
@@ -145,7 +145,7 @@ class PodoCADPanel(forms.Panel):
 
         # Header
         header = forms.Label(
-            Text="3DShoemaker",
+            Text="Feet in Focus Shoe Kit",
             Font=drawing.Font(drawing.SystemFont.Bold, 12),
             TextAlignment=forms.TextAlignment.Center,
         )
@@ -496,7 +496,7 @@ class PodoCADPanel(forms.Panel):
 
         except Exception as ex:
             Rhino.RhinoApp.WriteLine(
-                f"[3DShoemaker] Add clipping plane error: {ex}"
+                f"[Feet in Focus Shoe Kit] Add clipping plane error: {ex}"
             )
 
     def _on_remove_clipping_planes(self, sender, e):

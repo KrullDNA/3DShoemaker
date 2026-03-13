@@ -1,5 +1,5 @@
 """
-Foot data model for 3DShoemaker Rhino 8 plugin.
+Foot data model for Feet in Focus Shoe Kit Rhino 8 plugin.
 Represents foot scan data, measurements, and landmarks.
 """
 
@@ -216,7 +216,7 @@ class Foot:
         if outline is not None:
             attrs = rdo.ObjectAttributes()
             attrs.Name = "FootOutlineXY"
-            layer_idx = doc.Layers.FindByFullPath("3DShoemaker::Foot", -1)
+            layer_idx = doc.Layers.FindByFullPath("Feet in Focus Shoe Kit::Foot", -1)
             if layer_idx >= 0:
                 attrs.LayerIndex = layer_idx
 

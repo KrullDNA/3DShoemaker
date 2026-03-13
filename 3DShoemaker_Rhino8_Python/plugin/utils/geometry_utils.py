@@ -1,5 +1,5 @@
 """
-geometry_utils.py - Geometry utility functions for 3DShoemaker.
+geometry_utils.py - Geometry utility functions for Feet in Focus Shoe Kit.
 
 Wraps Rhino.Geometry operations for boolean operations, surface creation,
 curve manipulation, meshing, and offset/projection tasks used throughout

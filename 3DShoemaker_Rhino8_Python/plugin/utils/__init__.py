@@ -1,5 +1,5 @@
 """
-3DShoemaker Rhino 8 Plugin - Utility modules.
+Feet in Focus Shoe Kit Rhino 8 Plugin - Utility modules.
 
 Provides geometry helpers, license management, JSON serialization,
 layer management, curve snapping, and squeeze deformation utilities.

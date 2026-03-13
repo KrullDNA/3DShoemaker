@@ -1,8 +1,8 @@
 ---
-name: 3DShoemaker
+name: FIFShoeKit
 version: 1.0
 authors:
 - 'Feet in Focus'
-description: 3DShoemaker utility plug-in for Rhino 3D
+description: Feet in Focus Shoe Kit utility plug-in for Rhino 3D
 url: https://ShoeLastMaker.com
 keywords: []

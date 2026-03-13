@@ -1,5 +1,5 @@
 """
-options_form.py - Plugin settings / preferences dialog for 3DShoemaker.
+options_form.py - Plugin settings / preferences dialog for Feet in Focus Shoe Kit.
 
 Displays license information, default parameter settings, unit
 preferences, and auto-save configuration.
@@ -39,7 +39,7 @@ class OptionsForm(forms.Dialog[bool]):
     def __init__(self):
         super().__init__()
 
-        self.Title = "3DShoemaker - Options"
+        self.Title = "Feet in Focus Shoe Kit - Options"
         self.ClientSize = drawing.Size(480, 580)
         self.Padding = drawing.Padding(10)
         self.Resizable = True

@@ -1,5 +1,5 @@
 """
-plugin_main.py - Main plugin class for 3DShoemaker (PodoCAD equivalent).
+plugin_main.py - Main plugin class for Feet in Focus Shoe Kit (PodoCAD equivalent).
 
 Handles plugin lifecycle, license validation, document serialization,
 layer management, rendering setup, and view population for Rhino 8.
@@ -48,7 +48,7 @@ def _machine_id() -> str:
 def _get_license_file_path() -> str:
     """Return path to the local license cache file."""
     appdata = os.environ.get("APPDATA", os.path.expanduser("~"))
-    directory = os.path.join(appdata, "3DShoemaker")
+    directory = os.path.join(appdata, "Feet in Focus Shoe Kit")
     os.makedirs(directory, exist_ok=True)
     return os.path.join(directory, "license.json")
 
@@ -123,13 +123,13 @@ class PodoCADPlugIn:
 
         try:
             Rhino.RhinoApp.WriteLine(
-                f"[3DShoemaker] Initializing v{self.plugin_version} ..."
+                f"[Feet in Focus Shoe Kit] Initializing v{self.plugin_version} ..."
             )
 
             # 1. Validate license
             if not self._on_load_license():
                 Rhino.RhinoApp.WriteLine(
-                    "[3DShoemaker] License validation failed. "
+                    "[Feet in Focus Shoe Kit] License validation failed. "
                     "Plugin features will be limited."
                 )
 
@@ -150,12 +150,12 @@ class PodoCADPlugIn:
                 self.PopulateClasses(doc)
 
             self._initialized = True
-            Rhino.RhinoApp.WriteLine("[3DShoemaker] Initialization complete.")
+            Rhino.RhinoApp.WriteLine("[Feet in Focus Shoe Kit] Initialization complete.")
             return True
 
         except Exception as ex:
             Rhino.RhinoApp.WriteLine(
-                f"[3DShoemaker] Initialization error: {ex}\n"
+                f"[Feet in Focus Shoe Kit] Initialization error: {ex}\n"
                 f"{traceback.format_exc()}"
             )
             return False
@@ -219,7 +219,7 @@ class PodoCADPlugIn:
                 json.dump(payload, fh, indent=2)
         except Exception as ex:
             Rhino.RhinoApp.WriteLine(
-                f"[3DShoemaker] Could not cache license: {ex}"
+                f"[Feet in Focus Shoe Kit] Could not cache license: {ex}"
             )
 
     def _validate_key_online(self, key: str) -> bool:
@@ -248,7 +248,7 @@ class PodoCADPlugIn:
                     cached.get("customer", ""),
                 )
                 Rhino.RhinoApp.WriteLine(
-                    "[3DShoemaker] License accepted (offline/dev mode)."
+                    "[Feet in Focus Shoe Kit] License accepted (offline/dev mode)."
                 )
                 return True
             return False
@@ -275,19 +275,19 @@ class PodoCADPlugIn:
                 self._apply_license(key, edition, expires, customer)
                 self._save_cached_license(key, edition, expires, customer)
                 Rhino.RhinoApp.WriteLine(
-                    f"[3DShoemaker] License validated: {edition} edition."
+                    f"[Feet in Focus Shoe Kit] License validated: {edition} edition."
                 )
                 return True
             else:
                 msg = body.get("message", "Unknown error")
                 Rhino.RhinoApp.WriteLine(
-                    f"[3DShoemaker] License rejected: {msg}"
+                    f"[Feet in Focus Shoe Kit] License rejected: {msg}"
                 )
                 return False
 
         except Exception as ex:
             Rhino.RhinoApp.WriteLine(
-                f"[3DShoemaker] Online validation error: {ex}"
+                f"[Feet in Focus Shoe Kit] Online validation error: {ex}"
             )
             # Fallback: accept cached license if present
             cached = self._read_cached_license()
@@ -299,7 +299,7 @@ class PodoCADPlugIn:
                     cached.get("customer", ""),
                 )
                 Rhino.RhinoApp.WriteLine(
-                    "[3DShoemaker] Using cached license (offline fallback)."
+                    "[Feet in Focus Shoe Kit] Using cached license (offline fallback)."
                 )
                 return True
             return False
@@ -338,7 +338,7 @@ class PodoCADPlugIn:
         try:
             getter = Rhino.Input.Custom.GetString()
             getter.SetCommandPrompt(
-                "Enter your 3DShoemaker license key "
+                "Enter your Feet in Focus Shoe Kit license key "
                 "(or press Escape to continue unlicensed)"
             )
             result = getter.Get()
@@ -371,7 +371,7 @@ class PodoCADPlugIn:
                 terms_text = fh.read()
         else:
             terms_text = (
-                "3DShoemaker Terms and Conditions\n"
+                "Feet in Focus Shoe Kit Terms and Conditions\n"
                 "Please visit https://ShoeLastMaker.com for full terms."
             )
 
@@ -381,7 +381,7 @@ class PodoCADPlugIn:
             import Eto.Drawing as ed
 
             dlg = ef.Dialog()
-            dlg.Title = "3DShoemaker - Terms and Conditions"
+            dlg.Title = "Feet in Focus Shoe Kit - Terms and Conditions"
             dlg.ClientSize = ed.Size(620, 480)
             dlg.Padding = ef.Padding(10)
 
@@ -423,7 +423,7 @@ class PodoCADPlugIn:
         except Exception as ex:
             # Fallback to command-line acceptance
             Rhino.RhinoApp.WriteLine("=" * 60)
-            Rhino.RhinoApp.WriteLine("3DShoemaker - Terms and Conditions")
+            Rhino.RhinoApp.WriteLine("Feet in Focus Shoe Kit - Terms and Conditions")
             Rhino.RhinoApp.WriteLine("=" * 60)
             for line in terms_text.split("\n")[:20]:
                 Rhino.RhinoApp.WriteLine(line)
@@ -561,7 +561,7 @@ class PodoCADPlugIn:
 
         except Exception as ex:
             Rhino.RhinoApp.WriteLine(
-                f"[3DShoemaker] SetRendering warning: {ex}"
+                f"[Feet in Focus Shoe Kit] SetRendering warning: {ex}"
             )
 
     # ------------------------------------------------------------------
@@ -592,7 +592,7 @@ class PodoCADPlugIn:
                     break
         except Exception as ex:
             Rhino.RhinoApp.WriteLine(
-                f"[3DShoemaker] PopulatePerspectiveView warning: {ex}"
+                f"[Feet in Focus Shoe Kit] PopulatePerspectiveView warning: {ex}"
             )
 
     # ------------------------------------------------------------------
@@ -691,7 +691,7 @@ class PodoCADPlugIn:
 
         except Exception as ex:
             Rhino.RhinoApp.WriteLine(
-                f"[3DShoemaker] WriteDocument error: {ex}\n"
+                f"[Feet in Focus Shoe Kit] WriteDocument error: {ex}\n"
                 f"{traceback.format_exc()}"
             )
             return False
@@ -775,7 +775,7 @@ class PodoCADPlugIn:
 
         except Exception as ex:
             Rhino.RhinoApp.WriteLine(
-                f"[3DShoemaker] ReadDocument error: {ex}\n"
+                f"[Feet in Focus Shoe Kit] ReadDocument error: {ex}\n"
                 f"{traceback.format_exc()}"
             )
             return False
@@ -850,7 +850,7 @@ class PodoCADPlugIn:
             self._should_write_document = True
         except Exception as ex:
             Rhino.RhinoApp.WriteLine(
-                f"[3DShoemaker] StoreGeometry error for '{key}': {ex}"
+                f"[Feet in Focus Shoe Kit] StoreGeometry error for '{key}': {ex}"
             )
 
     def GetGeometryFromStoredString(
@@ -874,7 +874,7 @@ class PodoCADPlugIn:
                 return geom
         except Exception as ex:
             Rhino.RhinoApp.WriteLine(
-                f"[3DShoemaker] GetGeometryFromStoredString error "
+                f"[Feet in Focus Shoe Kit] GetGeometryFromStoredString error "
                 f"for '{key}': {ex}"
             )
         return None
@@ -946,7 +946,7 @@ class PodoCADPlugIn:
                 self.WriteDocument(doc)
         except Exception as ex:
             Rhino.RhinoApp.WriteLine(
-                f"[3DShoemaker] _on_begin_save_document error: {ex}"
+                f"[Feet in Focus Shoe Kit] _on_begin_save_document error: {ex}"
             )
 
     def _on_end_save_document(self, sender, e) -> None:
@@ -967,7 +967,7 @@ class PodoCADPlugIn:
                 self.PopulateClasses(doc)
         except Exception as ex:
             Rhino.RhinoApp.WriteLine(
-                f"[3DShoemaker] _on_end_open_document error: {ex}"
+                f"[Feet in Focus Shoe Kit] _on_end_open_document error: {ex}"
             )
 
     def _on_close_document(self, sender, e) -> None:
@@ -993,7 +993,7 @@ class PodoCADPlugIn:
                 self.PopulateClasses(doc)
         except Exception as ex:
             Rhino.RhinoApp.WriteLine(
-                f"[3DShoemaker] _on_new_document error: {ex}"
+                f"[Feet in Focus Shoe Kit] _on_new_document error: {ex}"
             )
 
     # ------------------------------------------------------------------

@@ -1,5 +1,5 @@
 """
-View and display commands for 3DShoemaker Rhino 8 plugin.
+View and display commands for Feet in Focus Shoe Kit Rhino 8 plugin.
 Handles clipping planes, rendering, flattening, and print preparation.
 """
 
@@ -50,12 +50,12 @@ class DrawClippingPlanes(Rhino.Commands.Command):
                 "Heel": last.parameters.get("HeelGirthLocalPlane"),
             }
 
-            layer_name = "3DShoemaker::ClippingPlanes"
+            layer_name = "Feet in Focus Shoe Kit::ClippingPlanes"
             layer_index = doc.Layers.FindByFullPath(layer_name, -1)
             if layer_index < 0:
                 layer = rdo.Layer()
                 layer.Name = "ClippingPlanes"
-                parent_idx = doc.Layers.FindByFullPath("3DShoemaker", -1)
+                parent_idx = doc.Layers.FindByFullPath("Feet in Focus Shoe Kit", -1)
                 if parent_idx >= 0:
                     layer.ParentLayerId = doc.Layers[parent_idx].Id
                 layer.Color = System.Drawing.Color.FromArgb(128, 128, 128)
@@ -229,11 +229,11 @@ class FlattenInsert(Rhino.Commands.Command):
         offset = rg.Vector3d(bbox.Diagonal.X * 1.5, 0, 0)
         flat_mesh.Translate(offset)
 
-        layer_index = doc.Layers.FindByFullPath("3DShoemaker::Flattened", -1)
+        layer_index = doc.Layers.FindByFullPath("Feet in Focus Shoe Kit::Flattened", -1)
         if layer_index < 0:
             layer = rdo.Layer()
             layer.Name = "Flattened"
-            parent_idx = doc.Layers.FindByFullPath("3DShoemaker", -1)
+            parent_idx = doc.Layers.FindByFullPath("Feet in Focus Shoe Kit", -1)
             if parent_idx >= 0:
                 layer.ParentLayerId = doc.Layers[parent_idx].Id
             layer_index = doc.Layers.Add(layer)
@@ -399,12 +399,12 @@ class PrintPrep(Rhino.Commands.Command):
             maximize_printable = form.maximize_printable_area
             post_process = form.for_post_processing
 
-            layer_name = "3DShoemaker::PrintPrep"
+            layer_name = "Feet in Focus Shoe Kit::PrintPrep"
             layer_index = doc.Layers.FindByFullPath(layer_name, -1)
             if layer_index < 0:
                 layer = rdo.Layer()
                 layer.Name = "PrintPrep"
-                parent_idx = doc.Layers.FindByFullPath("3DShoemaker", -1)
+                parent_idx = doc.Layers.FindByFullPath("Feet in Focus Shoe Kit", -1)
                 if parent_idx >= 0:
                     layer.ParentLayerId = doc.Layers[parent_idx].Id
                 layer_index = doc.Layers.Add(layer)

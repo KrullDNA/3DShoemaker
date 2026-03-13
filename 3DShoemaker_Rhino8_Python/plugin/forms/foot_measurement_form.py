@@ -1,5 +1,5 @@
 """
-foot_measurement_form.py - Manual foot measurement input for 3DShoemaker.
+foot_measurement_form.py - Manual foot measurement input for Feet in Focus Shoe Kit.
 
 Provides a dialog for entering all standard foot measurements used
 in last design and insole fabrication.
@@ -48,7 +48,7 @@ class FootMeasurementForm(forms.Dialog[bool]):
     def __init__(self, initial_values: Optional[Dict[str, float]] = None):
         super().__init__()
 
-        self.Title = "3DShoemaker - Foot Measurements"
+        self.Title = "Feet in Focus Shoe Kit - Foot Measurements"
         self.ClientSize = drawing.Size(420, 620)
         self.Padding = drawing.Padding(10)
         self.Resizable = True

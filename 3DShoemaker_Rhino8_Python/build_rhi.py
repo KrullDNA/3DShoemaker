@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-build_rhi.py - Build a .rhi installer package for the 3DShoemaker Rhino 8 plugin.
+build_rhi.py - Build a .rhi installer package for the Feet in Focus Shoe Kit Rhino 8 plugin.
 
 A .rhi file is a ZIP archive that Rhino's package manager can install by
 double-clicking.  This script packages all required plugin files into the
@@ -24,7 +24,7 @@ from pathlib import Path
 # Constants
 # ---------------------------------------------------------------------------
 
-PLUGIN_NAME = "3DShoemaker"
+PLUGIN_NAME = "FIFShoeKit"
 PLUGIN_VERSION = "1.0"
 
 _SCRIPT_DIR = Path(__file__).resolve().parent
@@ -63,7 +63,7 @@ def build_rhi(output_path: Path) -> None:
 
     Structure inside the ZIP::
 
-        3DShoemaker/
+        FIFShoeKit/
             __init__.py          (plugin entry point)
             manifest.yml
             Terms.txt
@@ -145,13 +145,13 @@ def build_rhi(output_path: Path) -> None:
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="Build a .rhi installer for 3DShoemaker Rhino 8 plugin",
+        description="Build a .rhi installer for Feet in Focus Shoe Kit Rhino 8 plugin",
     )
     parser.add_argument(
         "--output", "-o",
         type=str,
         default=None,
-        help="Output filename (default: 3DShoemaker_<version>.rhi)",
+        help="Output filename (default: Feet in Focus Shoe Kit_<version>.rhi)",
     )
     args = parser.parse_args()
 

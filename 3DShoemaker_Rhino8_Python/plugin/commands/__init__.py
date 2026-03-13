@@ -1,13 +1,13 @@
 """
-3DShoemaker Rhino 8 Plugin - Command modules.
+Feet in Focus Shoe Kit Rhino 8 Plugin - Command modules.
 
-All Rhino commands for the 3DShoemaker footwear-design plugin are
+All Rhino commands for the Feet in Focus Shoe Kit footwear-design plugin are
 registered from the sub-modules in this package.
 """
 
 from plugin.commands.activation_commands import (
-    Activate3DShoemaker,
-    Deactivate3DShoemaker,
+    ActivateFIFShoeKit,
+    DeactivateFIFShoeKit,
 )
 from plugin.commands.last_commands import (
     NewBuild,
@@ -110,7 +110,7 @@ from plugin.commands.view_commands import (
 from plugin.commands.export_commands import (
     ExportInsertParameters,
     ExportSupportParameters,
-    Open3DShoemakerOptions,
+    OpenFIFShoeKitOptions,
     OpenFolderWatcher,
     RebuildFootwear,
     VacuumFormCommand,
@@ -123,7 +123,7 @@ from plugin.commands.export_commands import (
 
 __all__ = [
     # Activation
-    "Activate3DShoemaker", "Deactivate3DShoemaker",
+    "ActivateFIFShoeKit", "DeactivateFIFShoeKit",
     # Last
     "NewBuild", "NewBuildScriptable", "UpdateLast", "ImportLast", "ExportLast",
     "GradeLast", "FlattenLast", "GazeAtLast", "ChangeLastParameterization",
@@ -162,7 +162,7 @@ __all__ = [
     "FlattenBottomSides", "PrintPrep",
     # Export/Utility
     "ExportInsertParameters", "ExportSupportParameters",
-    "Open3DShoemakerOptions", "OpenFolderWatcher", "RebuildFootwear",
+    "OpenFIFShoeKitOptions", "OpenFolderWatcher", "RebuildFootwear",
     "VacuumFormCommand", "MeasureLast", "ChangeClippingPlane",
     "SnapCurvesCommand", "SqueezeCommand", "TestingCommand",
 ]

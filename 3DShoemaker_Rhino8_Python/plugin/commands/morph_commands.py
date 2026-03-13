@@ -1,5 +1,5 @@
 """
-3DShoemaker Rhino 8 Plugin - Morphing / shape transformation commands.
+Feet in Focus Shoe Kit Rhino 8 Plugin - Morphing / shape transformation commands.
 
 Commands:
     Morph              - Main morph command with FFD and point-to-point morphing.
@@ -42,8 +42,8 @@ def _require_license() -> bool:
     plug = _get_plugin()
     if not plug.is_licensed:
         Rhino.RhinoApp.WriteLine(
-            "[3DShoemaker] This command requires a valid license. "
-            "Run Activate3DShoemaker first."
+            "[Feet in Focus Shoe Kit] This command requires a valid license. "
+            "Run ActivateFIFShoeKit first."
         )
         return False
     return True
@@ -211,7 +211,7 @@ class Morph(Rhino.Commands.Command):
         """
         if len(source_points) != len(target_points):
             Rhino.RhinoApp.WriteLine(
-                "[3DShoemaker] FFD: source and target point counts must match."
+                "[Feet in Focus Shoe Kit] FFD: source and target point counts must match."
             )
             return None
 
@@ -499,7 +499,7 @@ class Morph(Rhino.Commands.Command):
         if not _require_license():
             return Rhino.Commands.Result.Failure
 
-        Rhino.RhinoApp.WriteLine("[3DShoemaker] Morph Command")
+        Rhino.RhinoApp.WriteLine("[Feet in Focus Shoe Kit] Morph Command")
 
         # Present morph operation options
         gs = Rhino.Input.Custom.GetString()
@@ -570,7 +570,7 @@ class Morph(Rhino.Commands.Command):
         Rhino.RhinoApp.WriteLine(f"Pick {len(source)} target control points:")
         target = _pick_points("Target points", len(source))
         if not target or len(target) != len(source):
-            Rhino.RhinoApp.WriteLine("[3DShoemaker] Source/target point count mismatch.")
+            Rhino.RhinoApp.WriteLine("[Feet in Focus Shoe Kit] Source/target point count mismatch.")
             return Rhino.Commands.Result.Failure
 
         Morph.SourcePoints = source
@@ -585,7 +585,7 @@ class Morph(Rhino.Commands.Command):
                 doc.Objects.Replace(ref.ObjectId, morphed)
 
         doc.Views.Redraw()
-        Rhino.RhinoApp.WriteLine("[3DShoemaker] FFD morph applied.")
+        Rhino.RhinoApp.WriteLine("[Feet in Focus Shoe Kit] FFD morph applied.")
         return Rhino.Commands.Result.Success
 
     def _run_p2p(self, doc, tol) -> Rhino.Commands.Result:
@@ -612,7 +612,7 @@ class Morph(Rhino.Commands.Command):
         if morphed is not None:
             doc.Objects.Replace(mesh_ref.ObjectId, morphed)
             doc.Views.Redraw()
-            Rhino.RhinoApp.WriteLine("[3DShoemaker] P2P morph applied.")
+            Rhino.RhinoApp.WriteLine("[Feet in Focus Shoe Kit] P2P morph applied.")
             return Rhino.Commands.Result.Success
 
         return Rhino.Commands.Result.Failure
@@ -641,7 +641,7 @@ class Morph(Rhino.Commands.Command):
         if morphed is not None:
             doc.Objects.Replace(mesh_ref.ObjectId, morphed)
             doc.Views.Redraw()
-            Rhino.RhinoApp.WriteLine("[3DShoemaker] M2M morph applied.")
+            Rhino.RhinoApp.WriteLine("[Feet in Focus Shoe Kit] M2M morph applied.")
             return Rhino.Commands.Result.Success
 
         return Rhino.Commands.Result.Failure
@@ -670,7 +670,7 @@ class Morph(Rhino.Commands.Command):
         if morphed is not None:
             doc.Objects.Replace(mesh_ref.ObjectId, morphed)
             doc.Views.Redraw()
-            Rhino.RhinoApp.WriteLine("[3DShoemaker] M2P morph applied.")
+            Rhino.RhinoApp.WriteLine("[Feet in Focus Shoe Kit] M2P morph applied.")
             return Rhino.Commands.Result.Success
 
         return Rhino.Commands.Result.Failure
@@ -718,7 +718,7 @@ class Morph(Rhino.Commands.Command):
 
         doc.Views.Redraw()
         label = "ForeFootTwist" if forefoot else "RearFootTwist"
-        Rhino.RhinoApp.WriteLine(f"[3DShoemaker] {label} morph applied ({angle_deg} deg).")
+        Rhino.RhinoApp.WriteLine(f"[Feet in Focus Shoe Kit] {label} morph applied ({angle_deg} deg).")
         return Rhino.Commands.Result.Success
 
     def _run_nurbs_p2p(self, doc, tol) -> Rhino.Commands.Result:
@@ -760,7 +760,7 @@ class Morph(Rhino.Commands.Command):
                 doc.Objects.Replace(oid, brep)
 
         doc.Views.Redraw()
-        Rhino.RhinoApp.WriteLine("[3DShoemaker] NURBS P2P morph applied.")
+        Rhino.RhinoApp.WriteLine("[Feet in Focus Shoe Kit] NURBS P2P morph applied.")
         return Rhino.Commands.Result.Success
 
 
@@ -835,7 +835,7 @@ class NewMorph(Rhino.Commands.Command):
         if not _require_license():
             return Rhino.Commands.Result.Failure
 
-        Rhino.RhinoApp.WriteLine("[3DShoemaker] Interactive Morph")
+        Rhino.RhinoApp.WriteLine("[Feet in Focus Shoe Kit] Interactive Morph")
 
         # Try to show Eto-based morph form
         try:
@@ -843,7 +843,7 @@ class NewMorph(Rhino.Commands.Command):
             import Eto.Drawing as ed
 
             dlg = ef.Dialog()
-            dlg.Title = "3DShoemaker - Morph"
+            dlg.Title = "Feet in Focus Shoe Kit - Morph"
             dlg.ClientSize = ed.Size(450, 380)
             dlg.Padding = ef.Padding(10)
 
@@ -932,7 +932,7 @@ class NewMorph(Rhino.Commands.Command):
 
         except Exception as ex:
             Rhino.RhinoApp.WriteLine(
-                f"[3DShoemaker] Morph form error: {ex}. "
+                f"[Feet in Focus Shoe Kit] Morph form error: {ex}. "
                 "Falling back to command-line interface."
             )
             # Fall back to the main Morph command
@@ -1013,6 +1013,6 @@ class NewMorphScriptable(Rhino.Commands.Command):
             return morph_cmd._run_nurbs_p2p(doc, tol)
         else:
             Rhino.RhinoApp.WriteLine(
-                f"[3DShoemaker] Unknown morph type: {morph_type}"
+                f"[Feet in Focus Shoe Kit] Unknown morph type: {morph_type}"
             )
             return Rhino.Commands.Result.Failure

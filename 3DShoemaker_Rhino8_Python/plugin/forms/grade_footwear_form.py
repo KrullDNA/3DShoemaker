@@ -1,5 +1,5 @@
 """
-grade_footwear_form.py - Size grading dialog for 3DShoemaker.
+grade_footwear_form.py - Size grading dialog for Feet in Focus Shoe Kit.
 
 Provides a UI for grading (scaling) footwear geometry from one shoe
 size to another using standard grading systems (EU, US, UK, Mondopoint).
@@ -57,7 +57,7 @@ class GradeFootwearForm(forms.Dialog[bool]):
                  grading_system: str = "EU"):
         super().__init__()
 
-        self.Title = "3DShoemaker - Grade Footwear"
+        self.Title = "Feet in Focus Shoe Kit - Grade Footwear"
         self.ClientSize = drawing.Size(440, 480)
         self.Padding = drawing.Padding(10)
         self.Resizable = True
@@ -322,7 +322,7 @@ class GradeFootwearForm(forms.Dialog[bool]):
             if count > 0:
                 doc.Views.Redraw()
                 Rhino.RhinoApp.WriteLine(
-                    f"[3DShoemaker] Graded {count} objects "
+                    f"[Feet in Focus Shoe Kit] Graded {count} objects "
                     f"({self.current_size} -> {self.target_size} "
                     f"{self.grading_system})."
                 )
@@ -330,7 +330,7 @@ class GradeFootwearForm(forms.Dialog[bool]):
 
         except Exception as ex:
             Rhino.RhinoApp.WriteLine(
-                f"[3DShoemaker] TransformGeomtries error: {ex}"
+                f"[Feet in Focus Shoe Kit] TransformGeomtries error: {ex}"
             )
             return False
 
@@ -355,7 +355,7 @@ class GradeFootwearForm(forms.Dialog[bool]):
             layer_idx = doc.Layers.FindByFullPath(insert_layer_path, -1)
             if layer_idx < 0:
                 Rhino.RhinoApp.WriteLine(
-                    "[3DShoemaker] Insert layer not found for grading."
+                    "[Feet in Focus Shoe Kit] Insert layer not found for grading."
                 )
                 return False
 
@@ -363,7 +363,7 @@ class GradeFootwearForm(forms.Dialog[bool]):
             objs = doc.Objects.FindByLayer(layer)
             if objs is None or len(objs) == 0:
                 Rhino.RhinoApp.WriteLine(
-                    "[3DShoemaker] No insole geometry found to grade."
+                    "[Feet in Focus Shoe Kit] No insole geometry found to grade."
                 )
                 return False
 
@@ -372,13 +372,13 @@ class GradeFootwearForm(forms.Dialog[bool]):
 
             doc.Views.Redraw()
             Rhino.RhinoApp.WriteLine(
-                f"[3DShoemaker] Graded {len(objs)} insole objects."
+                f"[Feet in Focus Shoe Kit] Graded {len(objs)} insole objects."
             )
             return True
 
         except Exception as ex:
             Rhino.RhinoApp.WriteLine(
-                f"[3DShoemaker] GradeInsole error: {ex}"
+                f"[Feet in Focus Shoe Kit] GradeInsole error: {ex}"
             )
             return False
 
