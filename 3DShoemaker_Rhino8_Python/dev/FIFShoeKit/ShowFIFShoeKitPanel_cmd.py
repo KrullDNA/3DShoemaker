@@ -148,7 +148,10 @@ def _build_panel():
     form.Resizable = True
 
     scrollable = ef.Scrollable()
-    scrollable.Border = ef.BorderType.None_
+    try:
+        scrollable.Border = getattr(ef.BorderType, "None")
+    except Exception:
+        pass  # default is no border
     scrollable.ExpandContentWidth = True
 
     root = ef.DynamicLayout()
