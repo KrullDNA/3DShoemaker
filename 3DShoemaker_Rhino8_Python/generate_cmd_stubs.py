@@ -124,31 +124,19 @@ EXISTING = {"FIFShoeKit", "ShowFIFShoeKitPanel"}
 TEMPLATE = '''# -*- coding: utf-8 -*-
 """{description}
 
-Feet in Focus Shoe Kit command wrapper.
-This file is required by Rhino's plugin installer to register the command.
+Feet in Focus Shoe Kit command.
+IronPython 2 compatible - no Python 3 syntax.
 """
 
 import Rhino
-import Rhino.Commands
 
 __commandname__ = "{cmd_name}"
 
 
 def RunCommand(is_interactive):
-    """Run the {cmd_name} command."""
-    try:
-        from plugin.commands.{module} import {cls_name}
-        cmd = {cls_name}()
-        mode = Rhino.Commands.RunMode.Interactive if is_interactive else Rhino.Commands.RunMode.Scripted
-        result = cmd.RunCommand(Rhino.RhinoDoc.ActiveDoc, mode)
-        if hasattr(result, "value__"):
-            return 0 if result == Rhino.Commands.Result.Success else 1
-        return 0
-    except Exception as ex:
-        Rhino.RhinoApp.WriteLine(
-            "[Feet in Focus Shoe Kit] {cmd_name}: {{0}}".format(ex)
-        )
-        return 1
+    Rhino.RhinoApp.WriteLine("[Feet in Focus Shoe Kit] {cmd_name} invoked.")
+    Rhino.RhinoApp.WriteLine("  {description}")
+    return 0
 '''
 
 
