@@ -1,0 +1,170 @@
+========================================================
+  FEET IN FOCUS SHOE KIT v1.0 - Quick Reference Card
+========================================================
+
+LAST COMMANDS
+-------------------  -----------------------------------
+NewBuild             Create a new shoe last build with
+                     default parameters and dialog
+NewBuildScriptable   Create a new build with scriptable
+                     (pre-set) parameters
+UpdateLast           Update the current last geometry
+ImportLast           Import a shoe last from file
+ExportLast           Export the current last to file
+GradeLast            Grade (size) the current last
+FlattenLast          Flatten the last for 2D output
+GazeAtLast           Set the viewport to look at the last
+ChangeLastParameterization
+                     Modify last parameterization settings
+ExportLastParameters Export last parameters to file
+ImportParameters     Import parameters from file
+ExportMeasurementEquations
+                     Export measurement equations
+NameObjectsInDoc     Name all objects in the document
+GetObjectIDName      Get the ID and name of an object
+Establish            Establish the last baseline
+
+
+MORPH COMMANDS
+-------------------  -----------------------------------
+Morph                Morph the last shape interactively
+NewMorph             Create a new morph operation
+NewMorphScriptable   Create a morph with scriptable params
+
+
+COMPONENT COMMANDS
+-------------------  -----------------------------------
+CreateInsole         Generate an insole from the last
+CreateSole           Create the outsole
+CreateHeel           Create the heel
+CreateHeelParts      Create individual heel parts
+CreateTopPiece       Create the top piece
+CreateShankBoard     Create the shank board
+CreateMetPad         Add a metatarsal pad
+CreateToeCrest       Create a toe crest
+CreateToeRidge       Create a toe ridge
+CreateThongHole      Create a thong hole in the sole
+CreatePinHole        Create a pin hole
+CreateShoeTree       Create a shoe tree
+CreateUpperBodies    Generate upper pattern bodies
+MakeComponent        Create a generic component
+CreateAlphaJoint     Create an alpha joint
+CreateRailGuideJoint Create a rail guide joint
+CreateMockup         Create a full footwear mockup
+
+
+GRADING COMMANDS
+-------------------  -----------------------------------
+GradeFootwear        Grade footwear to a specific size
+BatchGrade           Grade to multiple sizes at once
+
+
+FOOT COMMANDS
+-------------------  -----------------------------------
+ImportFoot           Import a foot scan or model
+OpenImportFootForm   Open the foot import dialog
+AnalyzePlantarFootScan
+                     Analyze a plantar foot scan
+
+
+ORTHOTIC COMMANDS
+-------------------  -----------------------------------
+MakeOrthotic         Create an orthotic device from foot
+                     and last data
+AdjustOrthoticToBlank
+                     Adjust orthotic to fit a blank
+AdjustOrthoticArchHeightAndLength
+                     Modify orthotic arch height and length
+AdjustOrthoticFeature
+                     Adjust posting, met pad, heel lift,
+                     and other orthotic features
+TwistOrthotic        Apply twist deformation to orthotic
+PrintPrepOrthotic    Prepare a single orthotic for 3D print
+PrintPrepOrthotics   Batch prepare multiple orthotics
+
+
+SANDAL COMMANDS
+-------------------  -----------------------------------
+BuildSandal          Create a sandal from a last
+BuildInsert          Create a removable insert
+AddSandalGroove      Add a groove to the sandal
+AddThongSlot         Add a thong/flip-flop slot
+ToggleThongSlotInclusion
+                     Toggle thong slot on/off
+AddMetpad            Add a metatarsal pad to sandal
+
+
+EDITING COMMANDS
+-------------------  -----------------------------------
+EditCurve            Enter curve editing mode
+EndEdit              Exit editing mode
+MoveObjectGrips      Move object control points
+Sculpt               Sculpt surfaces interactively
+BlendSurfaceToSurface
+                     Blend between two surfaces
+GirthCurveAveraging  Average girth curves
+AdjustSurfacingCurveControlPointPosition
+                     Adjust surfacing curve control points
+CopyObjectToMultiplePoints
+                     Copy an object to multiple locations
+
+
+PARAMETERIZATION COMMANDS
+-------------------  -----------------------------------
+ChangeParameter      Modify a single design parameter
+ChangeComponentParameterization
+                     Change component parameterization
+ChangeInsertParameterization
+                     Change insert parameterization
+AdjustBottomComponentParameterization
+                     Adjust bottom component parameters
+AdjustMaterial       Set material properties
+AdjustMaterialThicknesses
+                     Set material layer thicknesses
+AdjustFitCustomization
+                     Customize fit parameters
+AdjustFootbedDepth   Adjust footbed depth
+AdjustLastDepthForFootbeds
+                     Adjust last depth for footbeds
+AdjustCSPlanePositions
+                     Adjust cross-section plane positions
+ChangeStatus         Change the build status
+
+
+VIEW & PRINT COMMANDS
+-------------------  -----------------------------------
+DrawClippingPlanes   Draw clipping planes on the model
+RenderComponents     Render component views
+FlattenInsert        Flatten insert to 2D
+FlattenSole          Flatten sole to 2D
+FlattenBottomSides   Flatten bottom sides to 2D
+PrintPrep            Prepare model for 3D printing
+
+
+EXPORT & UTILITY COMMANDS
+-------------------  -----------------------------------
+ExportInsertParameters
+                     Export insert parameters to file
+ExportSupportParameters
+                     Export support parameters to file
+OpenFIFShoeKitOptions
+                     Open the plugin options dialog
+OpenFolderWatcher    Open the folder watcher utility
+RebuildFootwear      Rebuild all footwear components
+VacuumFormCommand    Create vacuum form geometry
+MeasureLast          Measure the current last
+ChangeClippingPlane  Change the active clipping plane
+SnapCurvesCommand    Snap curves to surfaces
+SqueezeCommand       Squeeze/compress geometry
+
+
+TYPICAL WORKFLOW ORDER
+----------------------
+ 1. NewBuild / ImportLast     7. CreateInsole
+ 2. Establish                 8. CreateSole
+ 3. Morph / NewMorph          9. CreateHeel
+ 4. ChangeParameter          10. CreateUpperBodies
+ 5. AdjustMaterial           11. GradeFootwear
+ 6. AdjustFitCustomization   12. PrintPrep / ExportLast
+
+========================================================
