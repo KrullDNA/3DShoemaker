@@ -29,6 +29,7 @@ PLUGIN_VERSION = "1.0"
 
 _SCRIPT_DIR = Path(__file__).resolve().parent
 _DEV_INIT = _SCRIPT_DIR / "dev" / PLUGIN_NAME / "__init__.py"
+_PLUGIN_PY = _SCRIPT_DIR / "__plugin__.py"
 _PLUGIN_DIR = _SCRIPT_DIR / "plugin"
 _MANIFEST = _SCRIPT_DIR / "manifest.yml"
 _TERMS_PRIMARY = _SCRIPT_DIR.parent / "8.4.0.8" / "Terms.txt"
@@ -64,23 +65,27 @@ def _should_skip(path: Path) -> bool:
 def build_rhi(output_path: Path) -> None:
     """Build the .rhi package.
 
-    Structure inside the ZIP::
+    Structure inside the ZIP (flat -- matching Orthotic Toolkit format
+    so that Rhino's installer engine recognises it as a Python plugin)::
 
-        FIFShoeKit/
-            __init__.py          (plugin entry point)
-            manifest.yml
-            Terms.txt
-            plugin/
-                __init__.py
-                plugin_main.py
-                commands/
-                    ...
-                forms/
-                    ...
-                models/
-                    ...
-                utils/
-                    ...
+        __plugin__.py        (plugin metadata: id, version, title)
+        __init__.py          (plugin entry point)
+        manifest.yml
+        Terms.txt
+        README_INSTALL.txt
+        QUICK_REFERENCE.txt
+        FIFShoeKit.rui
+        plugin/
+            __init__.py
+            plugin_main.py
+            commands/
+                ...
+            forms/
+                ...
+            models/
+                ...
+            utils/
+                ...
     """
     print(f"Building {output_path.name} ...")
     print(f"  Plugin: {PLUGIN_NAME} v{PLUGIN_VERSION}")
@@ -89,62 +94,64 @@ def build_rhi(output_path: Path) -> None:
     file_count = 0
 
     with zipfile.ZipFile(output_path, "w", zipfile.ZIP_DEFLATED) as zf:
-        # 1. Plugin entry point
+        # 1. __plugin__.py -- required for Rhino to detect Python plugin
+        if not _PLUGIN_PY.is_file():
+            print(f"  ERROR: __plugin__.py not found: {_PLUGIN_PY}")
+            sys.exit(1)
+        zf.write(_PLUGIN_PY, "__plugin__.py")
+        file_count += 1
+        print("  + __plugin__.py")
+
+        # 2. Plugin entry point
         if not _DEV_INIT.is_file():
             print(f"  ERROR: Entry point not found: {_DEV_INIT}")
             sys.exit(1)
-        arc_name = f"{PLUGIN_NAME}/__init__.py"
-        zf.write(_DEV_INIT, arc_name)
+        zf.write(_DEV_INIT, "__init__.py")
         file_count += 1
-        print(f"  + {arc_name}")
+        print("  + __init__.py")
 
-        # 2. Manifest
+        # 3. Manifest
         if not _MANIFEST.is_file():
             print(f"  ERROR: manifest.yml not found: {_MANIFEST}")
             sys.exit(1)
-        arc_name = f"{PLUGIN_NAME}/manifest.yml"
-        zf.write(_MANIFEST, arc_name)
+        zf.write(_MANIFEST, "manifest.yml")
         file_count += 1
-        print(f"  + {arc_name}")
+        print("  + manifest.yml")
 
-        # 3. Terms.txt
+        # 4. Terms.txt
         terms = _find_terms()
         if terms:
-            arc_name = f"{PLUGIN_NAME}/Terms.txt"
-            zf.write(terms, arc_name)
+            zf.write(terms, "Terms.txt")
             file_count += 1
-            print(f"  + {arc_name}")
+            print("  + Terms.txt")
         else:
             print("  Warning: Terms.txt not found, skipping.")
 
-        # 4. README_INSTALL.txt
+        # 5. README_INSTALL.txt
         if _README_INSTALL.is_file():
-            arc_name = f"{PLUGIN_NAME}/README_INSTALL.txt"
-            zf.write(_README_INSTALL, arc_name)
+            zf.write(_README_INSTALL, "README_INSTALL.txt")
             file_count += 1
-            print(f"  + {arc_name}")
+            print("  + README_INSTALL.txt")
         else:
             print("  Warning: README_INSTALL.txt not found, skipping.")
 
-        # 5. QUICK_REFERENCE.txt
+        # 6. QUICK_REFERENCE.txt
         if _QUICK_REFERENCE.is_file():
-            arc_name = f"{PLUGIN_NAME}/QUICK_REFERENCE.txt"
-            zf.write(_QUICK_REFERENCE, arc_name)
+            zf.write(_QUICK_REFERENCE, "QUICK_REFERENCE.txt")
             file_count += 1
-            print(f"  + {arc_name}")
+            print("  + QUICK_REFERENCE.txt")
         else:
             print("  Warning: QUICK_REFERENCE.txt not found, skipping.")
 
-        # 6. FIFShoeKit.rui toolbar
+        # 7. FIFShoeKit.rui toolbar
         if _RUI_FILE.is_file():
-            arc_name = f"{PLUGIN_NAME}/FIFShoeKit.rui"
-            zf.write(_RUI_FILE, arc_name)
+            zf.write(_RUI_FILE, "FIFShoeKit.rui")
             file_count += 1
-            print(f"  + {arc_name}")
+            print("  + FIFShoeKit.rui")
         else:
             print("  Warning: FIFShoeKit.rui not found, skipping.")
 
-        # 7. Entire plugin/ package
+        # 8. Entire plugin/ package
         if not _PLUGIN_DIR.is_dir():
             print(f"  ERROR: plugin/ directory not found: {_PLUGIN_DIR}")
             sys.exit(1)
@@ -156,7 +163,7 @@ def build_rhi(output_path: Path) -> None:
                 continue
 
             rel = filepath.relative_to(_PLUGIN_DIR)
-            arc_name = f"{PLUGIN_NAME}/plugin/{rel}"
+            arc_name = f"plugin/{rel}"
             zf.write(filepath, arc_name)
             file_count += 1
             print(f"  + {arc_name}")
