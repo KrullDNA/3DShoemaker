@@ -28,8 +28,10 @@ PLUGIN_NAME = "FIFShoeKit"
 PLUGIN_VERSION = "1.0"
 
 _SCRIPT_DIR = Path(__file__).resolve().parent
-_DEV_INIT = _SCRIPT_DIR / "dev" / PLUGIN_NAME / "__init__.py"
-_DEV_PLUGIN = _SCRIPT_DIR / "dev" / PLUGIN_NAME / "__plugin__.py"
+_DEV_DIR = _SCRIPT_DIR / "dev" / PLUGIN_NAME
+_DEV_INIT = _DEV_DIR / "__init__.py"
+_DEV_PLUGIN = _DEV_DIR / "__plugin__.py"
+_DEV_CMD = _DEV_DIR / "FIFShoeKit_cmd.py"
 _PLUGIN_DIR = _SCRIPT_DIR / "plugin"
 _MANIFEST = _SCRIPT_DIR / "manifest.yml"
 _TERMS_PRIMARY = _SCRIPT_DIR.parent / "8.4.0.8" / "Terms.txt"
@@ -68,6 +70,7 @@ def build_rhi(output_path: Path) -> None:
     Structure inside the ZIP (flat, matching Orthotic Toolkit format)::
 
         __plugin__.py        (plugin identifier - required by Rhino)
+        FIFShoeKit_cmd.py    (bootstrap command - required by Rhino installer)
         __init__.py          (plugin entry point)
         manifest.yml
         Terms.txt
@@ -105,7 +108,16 @@ def build_rhi(output_path: Path) -> None:
         file_count += 1
         print(f"  + {arc_name}")
 
-        # 2. Plugin entry point
+        # 2. Bootstrap command (required by Rhino installer to validate package)
+        if not _DEV_CMD.is_file():
+            print(f"  ERROR: FIFShoeKit_cmd.py not found: {_DEV_CMD}")
+            sys.exit(1)
+        arc_name = "FIFShoeKit_cmd.py"
+        zf.write(_DEV_CMD, arc_name)
+        file_count += 1
+        print(f"  + {arc_name}")
+
+        # 3. Plugin entry point
         if not _DEV_INIT.is_file():
             print(f"  ERROR: Entry point not found: {_DEV_INIT}")
             sys.exit(1)
