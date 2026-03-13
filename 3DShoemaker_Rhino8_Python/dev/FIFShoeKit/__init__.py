@@ -21,7 +21,6 @@ Directory layout when installed::
           preview_module.py
           commands/
             __init__.py
-            activation_commands.py
             last_commands.py
             morph_commands.py
             component_commands.py
@@ -32,7 +31,6 @@ Directory layout when installed::
           utils/
             __init__.py
             geometry_utils.py
-            licensing.py
             json_serializer.py
             layer_manager.py
             snap_curves.py
@@ -78,9 +76,6 @@ try:
 
     # Import all command modules -- this registers the command classes
     from plugin.commands import (
-        # Activation
-        ActivateFIFShoeKit,
-        DeactivateFIFShoeKit,
         # Last
         NewBuild,
         NewBuildScriptable,
@@ -124,8 +119,6 @@ try:
     # Import utility modules (makes them available for commands)
     from plugin.utils import (
         GeometryUtils,
-        LicenseManager,
-        Edition,
         JsonSerializer,
         LayerManager,
         SnapCurves,
@@ -152,9 +145,6 @@ except Exception as _import_err:
 
 if _IMPORTS_OK:
     _ALL_COMMANDS = [
-        # Activation
-        ActivateFIFShoeKit,
-        DeactivateFIFShoeKit,
         # Last
         NewBuild,
         NewBuildScriptable,

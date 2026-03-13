@@ -301,10 +301,6 @@ class GradeFootwear(Rhino.Commands.Command):
 
     def RunCommand(self, doc, mode) -> Rhino.Commands.Result:
         plug = PodoCADPlugIn.instance()
-        if not plug.is_licensed:
-            Rhino.RhinoApp.WriteLine("Feet in Focus Shoe Kit: A valid license is required.")
-            return Rhino.Commands.Result.Failure
-
         ds = plug.GetDocumentSettings(doc)
         current_size = ds.get("last_size", 0.0)
         size_system = ds.get("last_size_system", "EU")
@@ -404,10 +400,6 @@ class BatchGrade(Rhino.Commands.Command):
 
     def RunCommand(self, doc, mode) -> Rhino.Commands.Result:
         plug = PodoCADPlugIn.instance()
-        if not plug.is_licensed:
-            Rhino.RhinoApp.WriteLine("Feet in Focus Shoe Kit: A valid license is required.")
-            return Rhino.Commands.Result.Failure
-
         ds = plug.GetDocumentSettings(doc)
         current_size = ds.get("last_size", 0.0)
         size_system = ds.get("last_size_system", "EU")

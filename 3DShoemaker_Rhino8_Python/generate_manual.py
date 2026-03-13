@@ -138,7 +138,7 @@ def create_manual():
         'Alpha joint and rail guide joint assembly systems',
         'Batch grading to multiple sizes simultaneously',
         'JSON parameter import/export for workflow automation',
-        'Cryptolens license management (Personal, Business, Enterprise editions)',
+        'Free to use -- no license required',
     ]
     for f in features:
         doc.add_paragraph(f, style='List Bullet')
@@ -166,7 +166,7 @@ def create_manual():
         ('Software', 'Rhinoceros 3D Version 8.0 or later'),
         ('Operating System', 'Windows 10/11 (64-bit) or macOS 12+'),
         ('Python', 'Python 3 (included with Rhino 8)'),
-        ('Internet', 'Required for license activation and validation'),
+        ('Internet', 'Not required (free plugin, no activation needed)'),
     ]
     for i, (key, val) in enumerate(data):
         cells = table.rows[i + 1].cells
@@ -226,7 +226,7 @@ def create_manual():
         'FIFShoeKit/',
         '  __init__.py              Plugin entry point',
         '  manifest.yml             Plugin metadata',
-        '  Terms.txt                License agreement',
+        '  Terms.txt                Terms of use',
         '  plugin/',
         '    __init__.py            Package init',
         '    plugin_main.py         Main plugin singleton',
@@ -247,53 +247,12 @@ def create_manual():
     doc.add_page_break()
 
     # =====================================================================
-    # 4. LICENSING & ACTIVATION
+    # 4. LICENSE
     # =====================================================================
-    doc.add_heading('4. Licensing & Activation', level=1)
+    doc.add_heading('4. License', level=1)
     doc.add_paragraph(
-        'Feet in Focus Shoe Kit uses the Cryptolens licensing system. Licenses are available in three editions:'
-    )
-
-    table = doc.add_table(rows=4, cols=3)
-    table.style = 'Light Grid Accent 1'
-    cells = table.rows[0].cells
-    cells[0].text = 'Edition'
-    cells[1].text = 'Usage'
-    cells[2].text = 'Features'
-    for cell in cells:
-        for paragraph in cell.paragraphs:
-            for run in paragraph.runs:
-                run.bold = True
-
-    editions = [
-        ('Personal', 'Non-commercial use only', 'All design tools, single machine'),
-        ('Business', 'Commercial/professional use', 'All design tools, email support, single machine'),
-        ('Enterprise', 'Commercial with extended support', 'All tools, priority support, training options'),
-    ]
-    for i, (ed, usage, feat) in enumerate(editions):
-        cells = table.rows[i + 1].cells
-        cells[0].text = ed
-        cells[1].text = usage
-        cells[2].text = feat
-
-    doc.add_heading('Activating Your License', level=2)
-    doc.add_paragraph('1. Launch Rhino 8. The plugin loads automatically.')
-    doc.add_paragraph('2. Type ActivateFIFShoeKit in the Rhino command line.')
-    doc.add_paragraph('3. Enter your license key when prompted.')
-    doc.add_paragraph('4. The plugin contacts the license server to validate your key.')
-    doc.add_paragraph('5. On success, the license is cached locally for offline use.')
-
-    doc.add_heading('Deactivating Your License', level=2)
-    doc.add_paragraph(
-        'To transfer your license to a different machine, type DeactivateFIFShoeKit in the '
-        'command line and confirm with "YES". This frees the machine slot on the server.'
-    )
-
-    doc.add_heading('Offline Mode', level=2)
-    doc.add_paragraph(
-        'Once activated, the plugin caches the license locally. If the license server is '
-        'unreachable, the plugin falls back to the cached license. An internet connection '
-        'is required for the initial activation.'
+        'Feet in Focus Shoe Kit is a free plugin. No license key or activation is '
+        'required. All features are available immediately after installation.'
     )
 
     doc.add_page_break()
@@ -826,7 +785,7 @@ def create_manual():
         ('Squeeze', 'Applies squeeze deformation to geometry. Select objects and specify a '
          'squeeze factor (0.5 = compress to half, 2.0 = expand to double).'),
         ('Testing', 'Debug and diagnostic command. Reports plugin status including: whether the '
-         'plugin is loaded, presence of Last/Insert/Bottom/Foot data, edition, license status, '
+         'plugin is loaded, presence of Last/Insert/Bottom/Foot data, '
          'document name, and object/layer counts.'),
     ]
 
@@ -984,9 +943,6 @@ def create_manual():
         ('Plugin does not load', 'Verify that the plugin files are in the correct PythonPlugIns '
          'directory for Rhino 8. Check the Rhino command line for error messages during startup. '
          'Ensure the manifest.yml file exists alongside __init__.py.'),
-        ('License activation fails', 'Check your internet connection. Verify the license key format '
-         '(alphanumeric with dashes). If the server is unreachable, try again later. Contact '
-         'support at ShoeLastMaker.com if the issue persists.'),
         ('Commands not found', 'Type the exact command name (case-sensitive) in the Rhino command '
          'line. Verify the plugin loaded successfully by checking for "[Feet in Focus Shoe Kit]" messages '
          'in the command history. Run the Testing command for diagnostics.'),
@@ -1020,14 +976,11 @@ def create_manual():
     )
     doc.add_paragraph('Key points:')
     terms_points = [
-        'A valid license key is required, purchasable at Feet in Focus Shoe Kit.com.',
-        'Personal Edition may not be used for commercial purposes.',
-        'Each license is tied to a single machine at a time.',
+        'This is a free plugin. No license key is required.',
         'The software may not be copied, modified, or reverse-engineered.',
         'Customer outputs (models, designs, products) are owned by the customer.',
         'The software is provided "as is" without warranty.',
         'The software does not provide medical or clinical advice.',
-        'An active internet connection is required to operate.',
     ]
     for point in terms_points:
         doc.add_paragraph(point, style='List Bullet')

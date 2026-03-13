@@ -223,12 +223,10 @@ class PodoCADPanel(forms.Panel):
         status_layout.DefaultSpacing = drawing.Size(4, 2)
         status_layout.Padding = drawing.Padding(6)
 
-        self._lbl_status_edition = forms.Label(Text="Edition: --")
         self._lbl_status_size = forms.Label(Text="Size: --")
         self._lbl_status_foot = forms.Label(Text="Foot: --")
         self._lbl_status_layers = forms.Label(Text="Layers: --")
 
-        status_layout.AddRow(self._lbl_status_edition)
         status_layout.AddRow(self._lbl_status_size)
         status_layout.AddRow(self._lbl_status_foot)
         status_layout.AddRow(self._lbl_status_layers)
@@ -614,7 +612,6 @@ class PodoCADPanel(forms.Panel):
         doc = Rhino.RhinoDoc.ActiveDoc
 
         # Update status labels
-        self._lbl_status_edition.Text = f"Edition: {plug.edition}"
 
         if doc is not None:
             ds = plug.GetDocumentSettings(doc)
@@ -635,18 +632,9 @@ class PodoCADPanel(forms.Panel):
             self._lbl_status_foot.Text = "Foot: --"
             self._lbl_status_layers.Text = "Layers: --"
 
-        # Enable/disable commands based on license
-        commercial_only = [
-            "cmd_grade_footwear", "cmd_vacuum_form",
-            "cmd_print_prep", "cmd_export_stl", "cmd_export_obj",
-        ]
-        has_license = plug.is_licensed
-
+        # Enable all commands (free plugin)
         for method_name, btn in self._buttons.items():
-            if method_name in commercial_only:
-                btn.Enabled = has_license
-            else:
-                btn.Enabled = True
+            btn.Enabled = True
 
     # ------------------------------------------------------------------
     # Options

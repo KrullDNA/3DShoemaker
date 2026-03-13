@@ -593,8 +593,6 @@ class TestingCommand(Rhino.Commands.Command):
                 Rhino.RhinoApp.WriteLine(f"  Insert: {plugin.insert is not None}")
                 Rhino.RhinoApp.WriteLine(f"  Bottom: {plugin.bottom is not None}")
                 Rhino.RhinoApp.WriteLine(f"  Foot: {plugin.foot is not None}")
-                Rhino.RhinoApp.WriteLine(f"  Edition: {plugin.edition}")
-                Rhino.RhinoApp.WriteLine(f"  Licensed: {plugin.is_licensed}")
 
             Rhino.RhinoApp.WriteLine(f"  Document: {doc.Name}")
             Rhino.RhinoApp.WriteLine(f"  Objects: {doc.Objects.Count}")

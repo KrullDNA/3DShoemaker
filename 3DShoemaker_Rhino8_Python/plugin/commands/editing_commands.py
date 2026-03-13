@@ -348,10 +348,6 @@ class Sculpt(Rhino.Commands.Command):
 
     def RunCommand(self, doc, mode) -> Rhino.Commands.Result:
         plug = PodoCADPlugIn.instance()
-        if not plug.is_licensed:
-            Rhino.RhinoApp.WriteLine("Feet in Focus Shoe Kit: A valid license is required.")
-            return Rhino.Commands.Result.Failure
-
         # Select surface or mesh
         go = Rhino.Input.Custom.GetObject()
         go.SetCommandPrompt("Select surface or mesh to sculpt")
@@ -566,10 +562,6 @@ class BlendSurfaceToSurface(Rhino.Commands.Command):
 
     def RunCommand(self, doc, mode) -> Rhino.Commands.Result:
         plug = PodoCADPlugIn.instance()
-        if not plug.is_licensed:
-            Rhino.RhinoApp.WriteLine("Feet in Focus Shoe Kit: A valid license is required.")
-            return Rhino.Commands.Result.Failure
-
         # Select first surface edge
         go1 = Rhino.Input.Custom.GetObject()
         go1.SetCommandPrompt("Select first surface edge")
@@ -692,10 +684,6 @@ class GirthCurveAveraging(Rhino.Commands.Command):
 
     def RunCommand(self, doc, mode) -> Rhino.Commands.Result:
         plug = PodoCADPlugIn.instance()
-        if not plug.is_licensed:
-            Rhino.RhinoApp.WriteLine("Feet in Focus Shoe Kit: A valid license is required.")
-            return Rhino.Commands.Result.Failure
-
         # Select multiple curves
         go = Rhino.Input.Custom.GetObject()
         go.SetCommandPrompt("Select girth curves to average (minimum 2)")
@@ -829,10 +817,6 @@ class AdjustSurfacingCurveControlPointPosition(Rhino.Commands.Command):
 
     def RunCommand(self, doc, mode) -> Rhino.Commands.Result:
         plug = PodoCADPlugIn.instance()
-        if not plug.is_licensed:
-            Rhino.RhinoApp.WriteLine("Feet in Focus Shoe Kit: A valid license is required.")
-            return Rhino.Commands.Result.Failure
-
         # Select curve
         go = Rhino.Input.Custom.GetObject()
         go.SetCommandPrompt("Select surfacing curve")

@@ -1,17 +1,14 @@
 """
 plugin_main.py - Main plugin class for Feet in Focus Shoe Kit (PodoCAD equivalent).
 
-Handles plugin lifecycle, license validation, document serialization,
-layer management, rendering setup, and view population for Rhino 8.
+Handles plugin lifecycle, document serialization, layer management,
+rendering setup, and view population for Rhino 8.
 """
 
 import json
 import os
 import sys
 import traceback
-import urllib.request
-import urllib.parse
-import uuid
 from collections import OrderedDict
 from typing import Any, Dict, List, Optional, Tuple
 
@@ -30,27 +27,6 @@ import System.Drawing
 import plugin as plugin_constants
 from plugin.document_settings import DocumentSettings
 from plugin.material_thicknesses import MaterialThicknesses
-
-
-# ---------------------------------------------------------------------------
-# Helpers -- kept at module level so they are importable independently
-# ---------------------------------------------------------------------------
-
-def _machine_id() -> str:
-    """Return a stable per-machine identifier for license binding."""
-    try:
-        mac = uuid.getnode()
-        return f"{mac:012x}"
-    except Exception:
-        return "unknown-machine"
-
-
-def _get_license_file_path() -> str:
-    """Return path to the local license cache file."""
-    appdata = os.environ.get("APPDATA", os.path.expanduser("~"))
-    directory = os.path.join(appdata, "Feet in Focus Shoe Kit")
-    os.makedirs(directory, exist_ok=True)
-    return os.path.join(directory, "license.json")
 
 
 # ---------------------------------------------------------------------------
@@ -79,13 +55,6 @@ class PodoCADPlugIn:
         self.plugin_name: str = plugin_constants.__plugin_name__
         self.plugin_version: str = plugin_constants.__version__
         self.plugin_url: str = plugin_constants.__plugin_url__
-
-        # License state
-        self.is_licensed: bool = False
-        self.edition: str = plugin_constants.EDITION_UNKNOWN
-        self.license_key: str = ""
-        self.license_expires: Optional[str] = None
-        self.license_customer: str = ""
 
         # Runtime flags
         self._initialized: bool = False
@@ -126,14 +95,7 @@ class PodoCADPlugIn:
                 f"[Feet in Focus Shoe Kit] Initializing v{self.plugin_version} ..."
             )
 
-            # 1. Validate license
-            if not self._on_load_license():
-                Rhino.RhinoApp.WriteLine(
-                    "[Feet in Focus Shoe Kit] License validation failed. "
-                    "Plugin features will be limited."
-                )
-
-            # 2. Hook into document events
+            # 1. Hook into document events
             Rhino.RhinoDoc.BeginSaveDocument += self._on_begin_save_document
             Rhino.RhinoDoc.EndSaveDocument += self._on_end_save_document
             Rhino.RhinoDoc.BeginOpenDocument += self._on_begin_open_document
@@ -141,7 +103,7 @@ class PodoCADPlugIn:
             Rhino.RhinoDoc.CloseDocument += self._on_close_document
             Rhino.RhinoDoc.NewDocument += self._on_new_document
 
-            # 3. Setup layers in the active document (if one is open)
+            # 2. Setup layers in the active document (if one is open)
             doc = Rhino.RhinoDoc.ActiveDoc
             if doc is not None:
                 self.SetupLayers(doc)
@@ -159,194 +121,6 @@ class PodoCADPlugIn:
                 f"{traceback.format_exc()}"
             )
             return False
-
-    # ------------------------------------------------------------------
-    # License helpers (Cryptolens / SKM-compatible)
-    # ------------------------------------------------------------------
-
-    def _on_load_license(self) -> bool:
-        """
-        Attempt to validate the license.
-
-        Strategy:
-        1. Try to read a cached license from disk.
-        2. If the cached license is still valid, accept it.
-        3. Otherwise prompt the user for a key and validate online.
-
-        Returns True when a valid license is confirmed.
-        """
-        # Try cached first
-        cached = self._read_cached_license()
-        if cached is not None:
-            if self._validate_key_online(cached["key"]):
-                return True
-
-        # Prompt for a key
-        key = self._prompt_license_key()
-        if key and self._validate_key_online(key):
-            return True
-
-        return False
-
-    def _read_cached_license(self) -> Optional[Dict[str, Any]]:
-        """Read a previously-saved license from the local cache file."""
-        path = _get_license_file_path()
-        if not os.path.isfile(path):
-            return None
-        try:
-            with open(path, "r", encoding="utf-8") as fh:
-                data = json.load(fh)
-            if "key" in data:
-                return data
-        except Exception:
-            pass
-        return None
-
-    def _save_cached_license(self, key: str, edition: str,
-                             expires: Optional[str],
-                             customer: str) -> None:
-        """Persist validated license information to disk."""
-        path = _get_license_file_path()
-        payload = {
-            "key": key,
-            "edition": edition,
-            "expires": expires,
-            "customer": customer,
-            "machine": _machine_id(),
-        }
-        try:
-            with open(path, "w", encoding="utf-8") as fh:
-                json.dump(payload, fh, indent=2)
-        except Exception as ex:
-            Rhino.RhinoApp.WriteLine(
-                f"[Feet in Focus Shoe Kit] Could not cache license: {ex}"
-            )
-
-    def _validate_key_online(self, key: str) -> bool:
-        """
-        Validate *key* against the Cryptolens REST API.
-
-        If CRYPTOLENS_AUTH_TOKEN is not configured the method falls back
-        to offline/cached validation so development builds still work.
-        """
-        if not key:
-            return False
-
-        auth_token = plugin_constants.CRYPTOLENS_AUTH_TOKEN
-        product_id = plugin_constants.CRYPTOLENS_PRODUCT_ID
-        rsa_pub = plugin_constants.CRYPTOLENS_RSA_PUB_KEY
-
-        # When credentials are not configured, accept cached keys with a
-        # warning -- this keeps the plugin usable in dev environments.
-        if not auth_token or not rsa_pub:
-            cached = self._read_cached_license()
-            if cached and cached.get("key") == key:
-                self._apply_license(
-                    key,
-                    cached.get("edition", plugin_constants.EDITION_PERSONAL),
-                    cached.get("expires"),
-                    cached.get("customer", ""),
-                )
-                Rhino.RhinoApp.WriteLine(
-                    "[Feet in Focus Shoe Kit] License accepted (offline/dev mode)."
-                )
-                return True
-            return False
-
-        try:
-            params = urllib.parse.urlencode({
-                "token": auth_token,
-                "ProductId": product_id,
-                "Key": key,
-                "MachineCode": _machine_id(),
-            })
-            url = f"{plugin_constants.LICENSE_VALIDATE_URL}?{params}"
-            req = urllib.request.Request(url, method="GET")
-            with urllib.request.urlopen(req, timeout=15) as resp:
-                body = json.loads(resp.read().decode("utf-8"))
-
-            if body.get("result") == 0:
-                license_key_obj = body.get("licenseKey", {})
-                edition = self._detect_edition(license_key_obj)
-                expires = license_key_obj.get("expires")
-                customer = (
-                    license_key_obj.get("customer", {}).get("name", "")
-                )
-                self._apply_license(key, edition, expires, customer)
-                self._save_cached_license(key, edition, expires, customer)
-                Rhino.RhinoApp.WriteLine(
-                    f"[Feet in Focus Shoe Kit] License validated: {edition} edition."
-                )
-                return True
-            else:
-                msg = body.get("message", "Unknown error")
-                Rhino.RhinoApp.WriteLine(
-                    f"[Feet in Focus Shoe Kit] License rejected: {msg}"
-                )
-                return False
-
-        except Exception as ex:
-            Rhino.RhinoApp.WriteLine(
-                f"[Feet in Focus Shoe Kit] Online validation error: {ex}"
-            )
-            # Fallback: accept cached license if present
-            cached = self._read_cached_license()
-            if cached and cached.get("key") == key:
-                self._apply_license(
-                    key,
-                    cached.get("edition", plugin_constants.EDITION_PERSONAL),
-                    cached.get("expires"),
-                    cached.get("customer", ""),
-                )
-                Rhino.RhinoApp.WriteLine(
-                    "[Feet in Focus Shoe Kit] Using cached license (offline fallback)."
-                )
-                return True
-            return False
-
-    def _apply_license(self, key: str, edition: str,
-                       expires: Optional[str], customer: str) -> None:
-        """Store validated license data on the singleton."""
-        self.license_key = key
-        self.edition = edition
-        self.license_expires = expires
-        self.license_customer = customer
-        self.is_licensed = True
-
-    @staticmethod
-    def _detect_edition(license_key_obj: Dict[str, Any]) -> str:
-        """
-        Determine the edition from a Cryptolens licenseKey object.
-
-        The .NET version inspects Feature flags (F1-F8).  We replicate
-        that logic here using the ``f1`` .. ``f8`` bool fields.
-        """
-        if not license_key_obj:
-            return plugin_constants.EDITION_UNKNOWN
-
-        # Feature 3 -> Enterprise, Feature 2 -> Business, Feature 1 -> Personal
-        if license_key_obj.get("f3", False):
-            return plugin_constants.EDITION_ENTERPRISE
-        if license_key_obj.get("f2", False):
-            return plugin_constants.EDITION_BUSINESS
-        if license_key_obj.get("f1", False):
-            return plugin_constants.EDITION_PERSONAL
-        return plugin_constants.EDITION_UNKNOWN
-
-    def _prompt_license_key(self) -> Optional[str]:
-        """Ask the user for a license key via the Rhino command line."""
-        try:
-            getter = Rhino.Input.Custom.GetString()
-            getter.SetCommandPrompt(
-                "Enter your Feet in Focus Shoe Kit license key "
-                "(or press Escape to continue unlicensed)"
-            )
-            result = getter.Get()
-            if result == Rhino.Input.GetResult.String:
-                return getter.StringResult().strip()
-        except Exception:
-            pass
-        return None
 
     # ------------------------------------------------------------------
     # Terms & Conditions dialog
@@ -997,30 +771,8 @@ class PodoCADPlugIn:
             )
 
     # ------------------------------------------------------------------
-    # Edition helpers
-    # ------------------------------------------------------------------
-
-    def IsPersonal(self) -> bool:
-        return self.edition == plugin_constants.EDITION_PERSONAL
-
-    def IsBusiness(self) -> bool:
-        return self.edition == plugin_constants.EDITION_BUSINESS
-
-    def IsEnterprise(self) -> bool:
-        return self.edition == plugin_constants.EDITION_ENTERPRISE
-
-    def HasCommercialLicense(self) -> bool:
-        return self.edition in (
-            plugin_constants.EDITION_BUSINESS,
-            plugin_constants.EDITION_ENTERPRISE,
-        )
-
-    # ------------------------------------------------------------------
     # Repr
     # ------------------------------------------------------------------
 
     def __repr__(self) -> str:
-        return (
-            f"<PodoCADPlugIn v{self.plugin_version} "
-            f"edition={self.edition} licensed={self.is_licensed}>"
-        )
+        return f"<PodoCADPlugIn v{self.plugin_version}>"

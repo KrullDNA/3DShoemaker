@@ -40,12 +40,6 @@ def _get_plugin() -> PodoCADPlugIn:
 
 def _require_license() -> bool:
     plug = _get_plugin()
-    if not plug.is_licensed:
-        Rhino.RhinoApp.WriteLine(
-            "[Feet in Focus Shoe Kit] This command requires a valid license. "
-            "Run ActivateFIFShoeKit first."
-        )
-        return False
     return True
 
 

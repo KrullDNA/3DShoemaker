@@ -5,10 +5,6 @@ All Rhino commands for the Feet in Focus Shoe Kit footwear-design plugin are
 registered from the sub-modules in this package.
 """
 
-from plugin.commands.activation_commands import (
-    ActivateFIFShoeKit,
-    DeactivateFIFShoeKit,
-)
 from plugin.commands.last_commands import (
     NewBuild,
     NewBuildScriptable,
@@ -122,8 +118,6 @@ from plugin.commands.export_commands import (
 )
 
 __all__ = [
-    # Activation
-    "ActivateFIFShoeKit", "DeactivateFIFShoeKit",
     # Last
     "NewBuild", "NewBuildScriptable", "UpdateLast", "ImportLast", "ExportLast",
     "GradeLast", "FlattenLast", "GazeAtLast", "ChangeLastParameterization",
