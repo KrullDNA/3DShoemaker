@@ -8,8 +8,8 @@ and related footwear components.
 Namespace equivalent: PodoCAD
 """
 
-__version__ = "8.4.0.8"
-__author__ = "3DShoemaker"
+__version__ = "1.0"
+__author__ = "Feet in Focus"
 __plugin_name__ = "3DShoemaker"
 __plugin_url__ = "https://ShoeLastMaker.com"
 

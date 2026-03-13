@@ -26,7 +26,7 @@ from pathlib import Path
 # ---------------------------------------------------------------------------
 
 PLUGIN_NAME = "3DShoemaker"
-PLUGIN_VERSION = "8.4.0.8"
+PLUGIN_VERSION = "1.0"
 PLUGIN_DESCRIPTION = "3DShoemaker utility plug-in for Rhino 3D"
 PLUGIN_URL = "https://ShoeLastMaker.com"
 
@@ -104,7 +104,7 @@ _MANIFEST_CONTENT = f"""\
 name: {PLUGIN_NAME}
 version: {PLUGIN_VERSION}
 authors:
-- '-'
+- 'Feet in Focus'
 description: {PLUGIN_DESCRIPTION}
 url: {PLUGIN_URL}
 keywords: []

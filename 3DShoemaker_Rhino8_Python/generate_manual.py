@@ -53,7 +53,13 @@ def create_manual():
 
     version = doc.add_paragraph()
     version.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    run = version.add_run('Version 8.4.0.8')
+    run = version.add_run('Version 1.0')
+    run.font.size = Pt(14)
+    run.font.color.rgb = RGBColor(0x66, 0x66, 0x66)
+
+    author = doc.add_paragraph()
+    author.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    run = author.add_run('by Feet in Focus')
     run.font.size = Pt(14)
     run.font.color.rgb = RGBColor(0x66, 0x66, 0x66)
 
@@ -1032,7 +1038,7 @@ def create_manual():
     # Footer
     footer = doc.add_paragraph()
     footer.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    run = footer.add_run('3DShoemaker Plugin for Rhino 8 - User Manual v8.4.0.8')
+    run = footer.add_run('3DShoemaker Plugin for Rhino 8 - User Manual v1.0')
     run.font.size = Pt(9)
     run.font.color.rgb = RGBColor(0x99, 0x99, 0x99)
     run = footer.add_run('\nhttps://ShoeLastMaker.com')

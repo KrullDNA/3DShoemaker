@@ -25,7 +25,7 @@ from pathlib import Path
 # ---------------------------------------------------------------------------
 
 PLUGIN_NAME = "3DShoemaker"
-PLUGIN_VERSION = "8.4.0.8"
+PLUGIN_VERSION = "1.0"
 
 _SCRIPT_DIR = Path(__file__).resolve().parent
 _DEV_INIT = _SCRIPT_DIR / "dev" / PLUGIN_NAME / "__init__.py"
