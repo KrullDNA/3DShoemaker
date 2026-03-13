@@ -1,0 +1,71 @@
+3DShoemaker Software Terms and Conditions
+
+These Terms and Conditions (“Agreement”) govern the use of the 3DShoemaker plugin (“Software”) for Rhinoceros 3D (“Rhino”) and related products and services from 3DShoemaker, operated by Sam Lochner. By downloading, installing, or using the Software or other 3DShoemaker products, you (“User,” “Licensee,” or “Customer”) agree to be bound by the terms of this Agreement. If you do not agree, you may not use the Software or other 3DShoemaker products.
+
+License Grant
+1.1 The Software requires a valid license key, which may be purchased at 3DShoemaker.com.
+1.2 Upon purchase, the Licensee is granted a non-exclusive, non-transferable, revocable license to install and use the Software solely for its intended purposes and subject to the terms of this Agreement.
+1.3 Licenses are edition-based (e.g., Personal, Business, Enterprise) and must be used in accordance with the edition-specific restrictions set forth herein.
+
+License Restrictions
+2.1 Edition Use: Personal Edition may not be used for commercial, professional, or other for-profit purposes. Business and Enterprise Editions may be used for commercial and professional purposes, subject to the restrictions of this Agreement.
+2.2 The Software may not be copied, modified, reverse-engineered, disassembled, or otherwise altered.
+2.3 The Software may not be distributed, sublicensed, rented, or transferred to third parties except by the Vendor or official resellers authorized by the Vendor.
+2.4 Use of Jointed Models: The Licensee may create models incorporating the Software’s alpha and rail joints (“Jointed Models”) and may use these to manufacture an unlimited number of footwear products, including for commercial sale. The Licensee may not sell, license, or otherwise distribute the Jointed Models themselves (digital or physical) to third parties.
+2.5 The Licensee may not distribute or duplicate support content (including but not limited to emails, videos, and screen-sharing sessions) provided by 3DShoemaker.
+2.6 Machine Restriction: Each license is tied to a single machine at a time. The Licensee may transfer the license key to a different machine, but the Software may only be active on one machine at any given time.
+2.7 Permitted and Restricted Uses Regarding Digital Models: The Software is intended solely as a tool to assist users in the creation of digital designs for the purpose of manufacturing physical footwear and associated parts. Users may use the Software to create digital designs for themselves or on behalf of third-party clients for manufacturing and commercial purposes. However, users may not use the Software to create digital designs intended to compete with 3DShoemaker’s digital model offerings. Specifically:
+
+Users may not create, distribute, sell, or otherwise commercially exploit digital models that are substantially similar to, or function as substitutes for, any digital model offered by 3DShoemaker.
+
+Users may not operate a business that directly sells or licenses digital models that compete with 3DShoemaker.
+This Section does not prohibit designing digital models for third-party clients for manufacturing and commercial use, provided the models are not sold or distributed as digital products that compete with 3DShoemaker.
+2.8 No Automated or Bot-Driven Use: The Software may not be used through automated systems, bots, scripts, batch processes, or other non-human-controlled automation without explicit written permission from Sam Lochner.
+2.9 Professional Responsibility: If the Software is used in any professional, commercial, clinical, or manufacturing workflow, the User acknowledges that they are acting as the responsible designer and/or manufacturer of any resulting products. The User is solely responsible for ensuring that any products created using the Software comply with all applicable laws, regulations, professional standards, and safety requirements.
+
+Free Trial
+3.1 A one-month free trial may be available for Business or Enterprise/Commercial use.
+3.2 Proof of business identity is required: request the trial by emailing from a company domain email address with a link to the company website.
+3.3 Trial licenses are for evaluation purposes only and are not intended for personal or individual use.
+3.4 During the trial, no license fees will be charged. Training, extended support, or other professional services may be offered at additional cost if separately agreed in writing.
+3.5 At the end of the trial period, continued use requires purchase of a valid paid license.
+
+Intellectual Property
+4.1 The Software is proprietary to the Vendor and is protected by copyright and other intellectual property laws.
+4.2 This Agreement does not transfer to the Licensee any ownership, title, or interest in the Software or related intellectual property rights.
+4.3 Any feedback, suggestions, or improvements provided by the Licensee may be incorporated into the Software at Vendor’s discretion without compensation.
+4.4 Customer Outputs: All models, designs, products, and other outputs that Customer creates through use of the Software (“Customer Outputs”) are owned by Customer.
+4.5 Custom Work: Any custom development, deliverables, or services for Customer will be governed by a separate written agreement. Vendor retains ownership of the underlying Software.
+4.6 Handling of Submitted Models: Vendor will not share any models, designs, or files provided by Customers for troubleshooting or feedback purposes without explicit permission.
+
+Support and Training
+5.1 All editions include email support for installation.
+5.2 Only Business and Enterprise Editions include ongoing email support for usage. Support is limited to one designated contact per license.
+5.3 Training may be purchased separately on an hourly basis.
+5.4 Free tutorials and documentation are available and may be updated from time to time.
+
+Connectivity
+The Software requires an active internet connection to operate.
+
+Disclaimer of Warranties
+7.1 The Software is provided “as is” without warranty of any kind, whether express, implied, or statutory.
+7.2 The Vendor makes no representations regarding the accuracy, reliability, or error-free operation of the Software.
+7.3 The Licensee assumes all risks associated with use of the Software, including the design, manufacture, or use of any models or products created with it.
+7.4 Vendor does not warrant compatibility with future versions of third-party software, including Rhinoceros 3D.
+7.5 Vendor shall not be liable for inability to maintain, repair, or update the Software due to circumstances beyond its control, including personal emergencies or health issues.
+7.6 No Medical or Clinical Function: The Software is a computer-aided design tool intended solely to assist in the creation of digital models of footwear components, including insoles, footbeds, and related geometries. The Software does not provide medical, clinical, or therapeutic advice, diagnosis, recommendations, or treatment of any kind. All design parameters, geometry, fit, materials, manufacturing methods, and end-use applications are determined solely by the User. The User is solely responsible for reviewing, approving, validating, and verifying all designs before they are manufactured, sold, fitted, or used by any person.
+
+Limitation of Liability
+To the maximum extent permitted by law, Vendor shall not be liable for any indirect, incidental, special, consequential, or punitive damages, including loss of profits, data, or business opportunities, arising out of or related to the use of the Software.
+8.2 Vendor shall not be liable for any claims arising from or related to the physical manufacture, fitting, prescription, distribution, or use of any footwear, insole, footbed, or other physical product created using the Software.
+
+Termination
+9.1 This Agreement is effective until terminated.
+9.2 Licensee rights terminate automatically if any terms are breached.
+9.3 Upon termination, the Licensee must cease all use of the Software and destroy all copies.
+
+Changes to Agreement
+Vendor may propose changes to this Agreement. Any changes are valid only if provided in writing and agreed to by both Vendor and Licensee.
+
+Governing Law
+This Agreement shall be governed by and construed in accordance with the laws of the Province of Ontario, Canada.
