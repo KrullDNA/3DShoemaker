@@ -29,6 +29,7 @@ PLUGIN_VERSION = "1.0"
 
 _SCRIPT_DIR = Path(__file__).resolve().parent
 _DEV_INIT = _SCRIPT_DIR / "dev" / PLUGIN_NAME / "__init__.py"
+_DEV_PLUGIN = _SCRIPT_DIR / "dev" / PLUGIN_NAME / "__plugin__.py"
 _PLUGIN_DIR = _SCRIPT_DIR / "plugin"
 _MANIFEST = _SCRIPT_DIR / "manifest.yml"
 _TERMS_PRIMARY = _SCRIPT_DIR.parent / "8.4.0.8" / "Terms.txt"
@@ -66,6 +67,7 @@ def build_rhi(output_path: Path) -> None:
 
     Structure inside the ZIP (flat, matching Orthotic Toolkit format)::
 
+        __plugin__.py        (plugin identifier - required by Rhino)
         __init__.py          (plugin entry point)
         manifest.yml
         Terms.txt
@@ -94,7 +96,16 @@ def build_rhi(output_path: Path) -> None:
     file_count = 0
 
     with zipfile.ZipFile(output_path, "w", zipfile.ZIP_DEFLATED) as zf:
-        # 1. Plugin entry point (flat, at root of ZIP)
+        # 1. Plugin identifier (required by Rhino to recognize as Python plugin)
+        if not _DEV_PLUGIN.is_file():
+            print(f"  ERROR: __plugin__.py not found: {_DEV_PLUGIN}")
+            sys.exit(1)
+        arc_name = "__plugin__.py"
+        zf.write(_DEV_PLUGIN, arc_name)
+        file_count += 1
+        print(f"  + {arc_name}")
+
+        # 2. Plugin entry point
         if not _DEV_INIT.is_file():
             print(f"  ERROR: Entry point not found: {_DEV_INIT}")
             sys.exit(1)
@@ -103,7 +114,7 @@ def build_rhi(output_path: Path) -> None:
         file_count += 1
         print(f"  + {arc_name}")
 
-        # 2. Manifest
+        # 4. Manifest
         if not _MANIFEST.is_file():
             print(f"  ERROR: manifest.yml not found: {_MANIFEST}")
             sys.exit(1)
@@ -112,7 +123,7 @@ def build_rhi(output_path: Path) -> None:
         file_count += 1
         print(f"  + {arc_name}")
 
-        # 3. Terms.txt
+        # 5. Terms.txt
         terms = _find_terms()
         if terms:
             arc_name = "Terms.txt"
@@ -122,7 +133,7 @@ def build_rhi(output_path: Path) -> None:
         else:
             print("  Warning: Terms.txt not found, skipping.")
 
-        # 4. README_INSTALL.txt
+        # 6. README_INSTALL.txt
         if _README_INSTALL.is_file():
             arc_name = "README_INSTALL.txt"
             zf.write(_README_INSTALL, arc_name)
@@ -131,7 +142,7 @@ def build_rhi(output_path: Path) -> None:
         else:
             print("  Warning: README_INSTALL.txt not found, skipping.")
 
-        # 5. QUICK_REFERENCE.txt
+        # 7. QUICK_REFERENCE.txt
         if _QUICK_REFERENCE.is_file():
             arc_name = "QUICK_REFERENCE.txt"
             zf.write(_QUICK_REFERENCE, arc_name)
@@ -140,7 +151,7 @@ def build_rhi(output_path: Path) -> None:
         else:
             print("  Warning: QUICK_REFERENCE.txt not found, skipping.")
 
-        # 6. FIFShoeKit.rui toolbar
+        # 8. FIFShoeKit.rui toolbar
         if _RUI_FILE.is_file():
             arc_name = "FIFShoeKit.rui"
             zf.write(_RUI_FILE, arc_name)
@@ -149,7 +160,7 @@ def build_rhi(output_path: Path) -> None:
         else:
             print("  Warning: FIFShoeKit.rui not found, skipping.")
 
-        # 7. Entire plugin/ package
+        # 9. Entire plugin/ package
         if not _PLUGIN_DIR.is_dir():
             print(f"  ERROR: plugin/ directory not found: {_PLUGIN_DIR}")
             sys.exit(1)
