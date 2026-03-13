@@ -64,23 +64,28 @@ def _should_skip(path: Path) -> bool:
 def build_rhi(output_path: Path) -> None:
     """Build the .rhi package.
 
-    Structure inside the ZIP::
+    Structure inside the ZIP (flat, matching Orthotic Toolkit format)::
 
-        FIFShoeKit/
-            __init__.py          (plugin entry point)
-            manifest.yml
-            Terms.txt
-            plugin/
-                __init__.py
-                plugin_main.py
-                commands/
-                    ...
-                forms/
-                    ...
-                models/
-                    ...
-                utils/
-                    ...
+        __init__.py          (plugin entry point)
+        manifest.yml
+        Terms.txt
+        README_INSTALL.txt
+        QUICK_REFERENCE.txt
+        FIFShoeKit.rui
+        plugin/
+            __init__.py
+            plugin_main.py
+            commands/
+                ...
+            forms/
+                ...
+            models/
+                ...
+            utils/
+                ...
+
+    Rhino extracts these into a folder named after the plugin
+    (PythonPlugIns/FIFShoeKit/) automatically during installation.
     """
     print(f"Building {output_path.name} ...")
     print(f"  Plugin: {PLUGIN_NAME} v{PLUGIN_VERSION}")
@@ -89,11 +94,11 @@ def build_rhi(output_path: Path) -> None:
     file_count = 0
 
     with zipfile.ZipFile(output_path, "w", zipfile.ZIP_DEFLATED) as zf:
-        # 1. Plugin entry point
+        # 1. Plugin entry point (flat, at root of ZIP)
         if not _DEV_INIT.is_file():
             print(f"  ERROR: Entry point not found: {_DEV_INIT}")
             sys.exit(1)
-        arc_name = f"{PLUGIN_NAME}/__init__.py"
+        arc_name = "__init__.py"
         zf.write(_DEV_INIT, arc_name)
         file_count += 1
         print(f"  + {arc_name}")
@@ -102,7 +107,7 @@ def build_rhi(output_path: Path) -> None:
         if not _MANIFEST.is_file():
             print(f"  ERROR: manifest.yml not found: {_MANIFEST}")
             sys.exit(1)
-        arc_name = f"{PLUGIN_NAME}/manifest.yml"
+        arc_name = "manifest.yml"
         zf.write(_MANIFEST, arc_name)
         file_count += 1
         print(f"  + {arc_name}")
@@ -110,7 +115,7 @@ def build_rhi(output_path: Path) -> None:
         # 3. Terms.txt
         terms = _find_terms()
         if terms:
-            arc_name = f"{PLUGIN_NAME}/Terms.txt"
+            arc_name = "Terms.txt"
             zf.write(terms, arc_name)
             file_count += 1
             print(f"  + {arc_name}")
@@ -119,7 +124,7 @@ def build_rhi(output_path: Path) -> None:
 
         # 4. README_INSTALL.txt
         if _README_INSTALL.is_file():
-            arc_name = f"{PLUGIN_NAME}/README_INSTALL.txt"
+            arc_name = "README_INSTALL.txt"
             zf.write(_README_INSTALL, arc_name)
             file_count += 1
             print(f"  + {arc_name}")
@@ -128,7 +133,7 @@ def build_rhi(output_path: Path) -> None:
 
         # 5. QUICK_REFERENCE.txt
         if _QUICK_REFERENCE.is_file():
-            arc_name = f"{PLUGIN_NAME}/QUICK_REFERENCE.txt"
+            arc_name = "QUICK_REFERENCE.txt"
             zf.write(_QUICK_REFERENCE, arc_name)
             file_count += 1
             print(f"  + {arc_name}")
@@ -137,7 +142,7 @@ def build_rhi(output_path: Path) -> None:
 
         # 6. FIFShoeKit.rui toolbar
         if _RUI_FILE.is_file():
-            arc_name = f"{PLUGIN_NAME}/FIFShoeKit.rui"
+            arc_name = "FIFShoeKit.rui"
             zf.write(_RUI_FILE, arc_name)
             file_count += 1
             print(f"  + {arc_name}")
@@ -156,7 +161,7 @@ def build_rhi(output_path: Path) -> None:
                 continue
 
             rel = filepath.relative_to(_PLUGIN_DIR)
-            arc_name = f"{PLUGIN_NAME}/plugin/{rel}"
+            arc_name = f"plugin/{rel}"
             zf.write(filepath, arc_name)
             file_count += 1
             print(f"  + {arc_name}")
