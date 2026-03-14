@@ -63,29 +63,18 @@ def _add_component(doc, geometry, layer_suffix, name):
     return guid
 
 
-def _geometry_as_brep(geom):
-    """Convert geometry to Brep if possible (handles Mesh, Brep, Surface, Extrusion)."""
-    if isinstance(geom, Rhino.Geometry.Brep):
-        return geom
-    if isinstance(geom, Rhino.Geometry.Extrusion):
-        return geom.ToBrep()
-    if isinstance(geom, Rhino.Geometry.Surface):
-        return geom.ToBrep()
-    if isinstance(geom, Rhino.Geometry.Mesh):
-        brep = Rhino.Geometry.Brep.CreateFromMesh(geom, False)
-        if brep is not None:
-            return brep
-    return None
+def _get_last_geometry(doc):
+    """Retrieve last geometry from selection or SLM::Last layer.
 
-
-def _get_last_brep(doc):
-    """Retrieve last geometry from selection or SLM::Last layer."""
+    Returns the raw geometry (Mesh, Brep, etc.) without conversion.
+    """
     # 1. Check pre-selected objects
     selected = [obj for obj in doc.Objects if obj.IsSelected(False)]
     for obj in selected:
-        brep = _geometry_as_brep(obj.Geometry)
-        if brep is not None:
-            return brep
+        geom = obj.Geometry
+        if isinstance(geom, (Rhino.Geometry.Mesh, Rhino.Geometry.Brep,
+                             Rhino.Geometry.Surface, Rhino.Geometry.Extrusion)):
+            return geom
 
     # 2. Prompt user to pick
     go = Rhino.Input.Custom.GetObject()
@@ -101,9 +90,7 @@ def _get_last_brep(doc):
         ref = go.Object(0)
         geom = ref.Geometry()
         if geom is not None:
-            brep = _geometry_as_brep(geom)
-            if brep is not None:
-                return brep
+            return geom
 
     # 3. Fall back to SLM::Last layer
     last_path = "{0}::{1}".format(SLM_LAYER_PREFIX, CLASS_LAST)
@@ -114,9 +101,7 @@ def _get_last_brep(doc):
     objs = doc.Objects.FindByLayer(layer)
     if objs:
         for obj in objs:
-            brep = _geometry_as_brep(obj.Geometry)
-            if brep is not None:
-                return brep
+            return obj.Geometry
     return None
 
 
@@ -133,20 +118,47 @@ def _prompt_float(prompt, default):
     return None
 
 
-def _create_bottom_outline(brep, z_offset, tolerance):
-    """Extract the bottom outline of a brep at the given Z level."""
-    bbox = brep.GetBoundingBox(True)
+def _cross_section_curves(geom, plane, tolerance):
+    """Get cross-section curves from mesh or brep geometry."""
+    if isinstance(geom, Rhino.Geometry.Mesh):
+        polylines = Rhino.Geometry.Intersect.Intersection.MeshPlane(geom, plane)
+        if polylines:
+            curves = []
+            for pl in polylines:
+                if pl and pl.Count > 2:
+                    pl.Close()
+                    curves.append(pl.ToNurbsCurve())
+            return curves
+        return []
+
+    brep = geom
+    if isinstance(geom, Rhino.Geometry.Extrusion):
+        brep = geom.ToBrep()
+    elif isinstance(geom, Rhino.Geometry.Surface):
+        brep = geom.ToBrep()
+
+    if brep is not None and isinstance(brep, Rhino.Geometry.Brep):
+        curves = Rhino.Geometry.Brep.CreateContourCurves(
+            brep,
+            plane.Origin,
+            plane.Origin + Rhino.Geometry.Vector3d.ZAxis,
+            tolerance,
+        )
+        if curves:
+            return list(curves)
+    return []
+
+
+def _create_bottom_outline(geom, z_offset, tolerance):
+    """Extract the bottom outline of geometry at the given Z level."""
+    bbox = geom.GetBoundingBox(True)
     z_level = bbox.Min.Z + z_offset
 
-    curves = Rhino.Geometry.Brep.CreateContourCurves(
-        brep,
+    plane = Rhino.Geometry.Plane(
         Rhino.Geometry.Point3d(0, 0, z_level),
-        Rhino.Geometry.Point3d(0, 0, z_level + 1),
-        tolerance,
+        Rhino.Geometry.Vector3d.ZAxis,
     )
-    if curves:
-        return list(curves)
-    return []
+    return _cross_section_curves(geom, plane, tolerance)
 
 
 def _extrude_curves_to_brep(curves, direction, cap=True):
@@ -174,8 +186,8 @@ def RunCommand(is_interactive):
     doc = sc.doc
     tol = doc.ModelAbsoluteTolerance
 
-    last_brep = _get_last_brep(doc)
-    if last_brep is None:
+    last_geom = _get_last_geometry(doc)
+    if last_geom is None:
         Rhino.RhinoApp.WriteLine("[Feet in Focus Shoe Kit] No last geometry found.")
         return Rhino.Commands.Result.Failure
 
@@ -185,8 +197,8 @@ def RunCommand(is_interactive):
 
     Rhino.RhinoApp.WriteLine("[Feet in Focus Shoe Kit] Creating sole...")
 
-    bbox = last_brep.GetBoundingBox(True)
-    bottom_curves = _create_bottom_outline(last_brep, tol, tol)
+    bbox = last_geom.GetBoundingBox(True)
+    bottom_curves = _create_bottom_outline(last_geom, tol, tol)
 
     if not bottom_curves:
         center = Rhino.Geometry.Point3d(

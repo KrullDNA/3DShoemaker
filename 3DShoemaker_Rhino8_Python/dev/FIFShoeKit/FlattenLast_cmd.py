@@ -68,6 +68,38 @@ def _find_last_objects(doc):
     return list(objs) if objs else []
 
 
+def _cross_section_curves_at_plane(geom, plane, tol):
+    """Get cross-section curves for mesh or brep at a given plane."""
+    if isinstance(geom, Rhino.Geometry.Mesh):
+        polylines = Rhino.Geometry.Intersect.Intersection.MeshPlane(geom, plane)
+        if polylines:
+            curves = []
+            for pl in polylines:
+                if pl and pl.Count > 2:
+                    pl.Close()
+                    curves.append(pl.ToNurbsCurve())
+            return curves
+        return []
+
+    # For brep/surface/extrusion
+    brep = geom
+    if isinstance(geom, Rhino.Geometry.Extrusion):
+        brep = geom.ToBrep()
+    elif isinstance(geom, Rhino.Geometry.Surface):
+        brep = geom.ToBrep()
+
+    if brep is not None and isinstance(brep, Rhino.Geometry.Brep):
+        curves = Rhino.Geometry.Brep.CreateContourCurves(
+            brep,
+            plane.Origin,
+            plane.Origin + Rhino.Geometry.Vector3d.ZAxis,
+            tol,
+        )
+        if curves:
+            return list(curves)
+    return []
+
+
 # ---- Command ----
 
 def RunCommand(is_interactive):
@@ -80,73 +112,50 @@ def RunCommand(is_interactive):
 
     Rhino.RhinoApp.WriteLine("[Feet in Focus Shoe Kit] Flattening last bottom...")
 
-    # Find brep objects among the last objects
-    breps = []
+    tol = doc.ModelAbsoluteTolerance
+
+    # Collect raw geometry from objects
+    geometries = []
     for obj in last_objs:
         geom = obj.Geometry
-        if isinstance(geom, Rhino.Geometry.Brep):
-            breps.append(geom)
-        elif isinstance(geom, Rhino.Geometry.Extrusion):
-            b = geom.ToBrep()
-            if b is not None:
-                breps.append(b)
-        elif isinstance(geom, Rhino.Geometry.Surface):
-            b = geom.ToBrep()
-            if b is not None:
-                breps.append(b)
-        elif isinstance(geom, Rhino.Geometry.Mesh):
-            b = Rhino.Geometry.Brep.CreateFromMesh(geom, False)
-            if b is not None:
-                breps.append(b)
+        if isinstance(geom, (Rhino.Geometry.Brep, Rhino.Geometry.Mesh,
+                             Rhino.Geometry.Surface, Rhino.Geometry.Extrusion)):
+            geometries.append(geom)
 
-    if not breps:
+    if not geometries:
         Rhino.RhinoApp.WriteLine("[Feet in Focus Shoe Kit] No suitable geometry to flatten.")
         return 1
 
     # Create a cutting plane at Z=0
     cut_plane = Rhino.Geometry.Plane.WorldXY
-    tol = doc.ModelAbsoluteTolerance
 
     pattern_curves = []
-    for brep in breps:
-        # Intersect the brep with the XY plane
-        intersections = Rhino.Geometry.Brep.CreateContourCurves(
-            brep,
-            cut_plane.Origin,
-            cut_plane.Origin + Rhino.Geometry.Vector3d.ZAxis,
-            tol,
-        )
-        if intersections:
-            for curve in intersections:
-                # Project to Z=0
-                projected = Rhino.Geometry.Curve.ProjectToPlane(
-                    curve, Rhino.Geometry.Plane.WorldXY
-                )
-                if projected is not None:
-                    pattern_curves.append(projected)
+    for geom in geometries:
+        intersections = _cross_section_curves_at_plane(geom, cut_plane, tol)
+        for curve in intersections:
+            # Project to Z=0
+            projected = Rhino.Geometry.Curve.ProjectToPlane(
+                curve, Rhino.Geometry.Plane.WorldXY
+            )
+            if projected is not None:
+                pattern_curves.append(projected)
 
     if not pattern_curves:
         # Fallback: project the bottom outline
-        for brep in breps:
-            bbox = brep.GetBoundingBox(True)
+        for geom in geometries:
+            bbox = geom.GetBoundingBox(True)
             z_min = bbox.Min.Z
             section_plane = Rhino.Geometry.Plane(
                 Rhino.Geometry.Point3d(0, 0, z_min + tol),
                 Rhino.Geometry.Vector3d.ZAxis,
             )
-            sections = Rhino.Geometry.Brep.CreateContourCurves(
-                brep,
-                section_plane.Origin,
-                section_plane.Origin + Rhino.Geometry.Vector3d.ZAxis,
-                tol,
-            )
-            if sections:
-                for curve in sections:
-                    projected = Rhino.Geometry.Curve.ProjectToPlane(
-                        curve, Rhino.Geometry.Plane.WorldXY
-                    )
-                    if projected is not None:
-                        pattern_curves.append(projected)
+            sections = _cross_section_curves_at_plane(geom, section_plane, tol)
+            for curve in sections:
+                projected = Rhino.Geometry.Curve.ProjectToPlane(
+                    curve, Rhino.Geometry.Plane.WorldXY
+                )
+                if projected is not None:
+                    pattern_curves.append(projected)
 
     if not pattern_curves:
         Rhino.RhinoApp.WriteLine("[Feet in Focus Shoe Kit] Could not generate flatten pattern.")

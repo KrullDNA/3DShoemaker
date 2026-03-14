@@ -63,29 +63,20 @@ def _add_component(doc, geometry, layer_suffix, name):
     return guid
 
 
-def _geometry_as_brep(geom):
-    """Convert geometry to Brep if possible (handles Mesh, Brep, Surface, Extrusion)."""
-    if isinstance(geom, Rhino.Geometry.Brep):
-        return geom
-    if isinstance(geom, Rhino.Geometry.Extrusion):
-        return geom.ToBrep()
-    if isinstance(geom, Rhino.Geometry.Surface):
-        return geom.ToBrep()
-    if isinstance(geom, Rhino.Geometry.Mesh):
-        brep = Rhino.Geometry.Brep.CreateFromMesh(geom, False)
-        if brep is not None:
-            return brep
-    return None
+def _get_last_geometry(doc):
+    """Retrieve last geometry from selection or SLM::Last layer.
 
-
-def _get_last_brep(doc):
-    """Retrieve last geometry from selection or SLM::Last layer."""
+    Returns the raw geometry (Mesh, Brep, etc.) without conversion.
+    """
+    # 1. Check pre-selected objects
     selected = [obj for obj in doc.Objects if obj.IsSelected(False)]
     for obj in selected:
-        brep = _geometry_as_brep(obj.Geometry)
-        if brep is not None:
-            return brep
+        geom = obj.Geometry
+        if isinstance(geom, (Rhino.Geometry.Mesh, Rhino.Geometry.Brep,
+                             Rhino.Geometry.Surface, Rhino.Geometry.Extrusion)):
+            return geom
 
+    # 2. Prompt user to pick
     go = Rhino.Input.Custom.GetObject()
     go.SetCommandPrompt("Select last geometry (mesh or brep)")
     go.GeometryFilter = (
@@ -99,10 +90,9 @@ def _get_last_brep(doc):
         ref = go.Object(0)
         geom = ref.Geometry()
         if geom is not None:
-            brep = _geometry_as_brep(geom)
-            if brep is not None:
-                return brep
+            return geom
 
+    # 3. Fall back to SLM::Last layer
     last_path = "{0}::{1}".format(SLM_LAYER_PREFIX, CLASS_LAST)
     layer_idx = doc.Layers.FindByFullPath(last_path, -1)
     if layer_idx < 0:
@@ -111,9 +101,7 @@ def _get_last_brep(doc):
     objs = doc.Objects.FindByLayer(layer)
     if objs:
         for obj in objs:
-            brep = _geometry_as_brep(obj.Geometry)
-            if brep is not None:
-                return brep
+            return obj.Geometry
     return None
 
 
@@ -155,8 +143,8 @@ def RunCommand(is_interactive):
     doc = sc.doc
     tol = doc.ModelAbsoluteTolerance
 
-    last_brep = _get_last_brep(doc)
-    if last_brep is None:
+    last_geom = _get_last_geometry(doc)
+    if last_geom is None:
         Rhino.RhinoApp.WriteLine("[Feet in Focus Shoe Kit] No last geometry found.")
         return Rhino.Commands.Result.Failure
 
@@ -168,7 +156,7 @@ def RunCommand(is_interactive):
     if width is None:
         return Rhino.Commands.Result.Cancel
 
-    bbox = last_brep.GetBoundingBox(True)
+    bbox = last_geom.GetBoundingBox(True)
     last_length = bbox.Max.Y - bbox.Min.Y
 
     # Shank region: ~30% to ~55% of last length from heel

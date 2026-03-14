@@ -62,29 +62,20 @@ def _add_component(doc, geometry, layer_suffix, name):
     return guid
 
 
-def _geometry_as_brep(geom):
-    """Convert geometry to Brep if possible (handles Mesh, Brep, Surface, Extrusion)."""
-    if isinstance(geom, Rhino.Geometry.Brep):
-        return geom
-    if isinstance(geom, Rhino.Geometry.Extrusion):
-        return geom.ToBrep()
-    if isinstance(geom, Rhino.Geometry.Surface):
-        return geom.ToBrep()
-    if isinstance(geom, Rhino.Geometry.Mesh):
-        brep = Rhino.Geometry.Brep.CreateFromMesh(geom, False)
-        if brep is not None:
-            return brep
-    return None
+def _get_last_geometry(doc):
+    """Retrieve last geometry from selection or SLM::Last layer.
 
-
-def _get_last_brep(doc):
-    """Retrieve last geometry from selection or SLM::Last layer."""
+    Returns the raw geometry (Mesh, Brep, etc.) without conversion.
+    """
+    # 1. Check pre-selected objects
     selected = [obj for obj in doc.Objects if obj.IsSelected(False)]
     for obj in selected:
-        brep = _geometry_as_brep(obj.Geometry)
-        if brep is not None:
-            return brep
+        geom = obj.Geometry
+        if isinstance(geom, (Rhino.Geometry.Mesh, Rhino.Geometry.Brep,
+                             Rhino.Geometry.Surface, Rhino.Geometry.Extrusion)):
+            return geom
 
+    # 2. Prompt user to pick
     go = Rhino.Input.Custom.GetObject()
     go.SetCommandPrompt("Select last geometry (mesh or brep)")
     go.GeometryFilter = (
@@ -98,10 +89,9 @@ def _get_last_brep(doc):
         ref = go.Object(0)
         geom = ref.Geometry()
         if geom is not None:
-            brep = _geometry_as_brep(geom)
-            if brep is not None:
-                return brep
+            return geom
 
+    # 3. Fall back to SLM::Last layer
     last_path = "{0}::{1}".format(SLM_LAYER_PREFIX, CLASS_LAST)
     layer_idx = doc.Layers.FindByFullPath(last_path, -1)
     if layer_idx < 0:
@@ -110,9 +100,24 @@ def _get_last_brep(doc):
     objs = doc.Objects.FindByLayer(layer)
     if objs:
         for obj in objs:
-            brep = _geometry_as_brep(obj.Geometry)
-            if brep is not None:
-                return brep
+            return obj.Geometry
+    return None
+
+
+def _ensure_brep(geom):
+    """Convert geometry to brep. For meshes, decimates first to avoid hang."""
+    if isinstance(geom, Rhino.Geometry.Brep):
+        return geom
+    if isinstance(geom, Rhino.Geometry.Extrusion):
+        return geom.ToBrep()
+    if isinstance(geom, Rhino.Geometry.Surface):
+        return geom.ToBrep()
+    if isinstance(geom, Rhino.Geometry.Mesh):
+        work_mesh = geom.DuplicateMesh()
+        if work_mesh.Faces.Count > 5000:
+            work_mesh.Reduce(5000, True, 5, True)
+        brep = Rhino.Geometry.Brep.CreateFromMesh(work_mesh, False)
+        return brep
     return None
 
 
@@ -129,13 +134,34 @@ def _prompt_float(prompt, default):
     return None
 
 
-def _create_offset_surface(brep, offset_distance, tolerance):
-    """Create an offset surface from a brep at the given distance."""
-    offsets = Rhino.Geometry.Brep.CreateOffsetBrep(
-        brep, offset_distance, True, True, tolerance
-    )
-    if offsets and len(offsets) > 0:
-        return offsets[0]
+def _create_offset_surface(geom, offset_distance, tolerance):
+    """Create an offset surface from geometry at the given distance."""
+    if isinstance(geom, Rhino.Geometry.Mesh):
+        offset_mesh = geom.Offset(offset_distance)
+        if offset_mesh is not None:
+            return offset_mesh
+        # Fallback: convert decimated mesh to brep and offset
+        brep = _ensure_brep(geom)
+        if brep is not None:
+            offsets = Rhino.Geometry.Brep.CreateOffsetBrep(
+                brep, offset_distance, True, True, tolerance
+            )
+            if offsets and len(offsets) > 0:
+                return offsets[0]
+        return None
+
+    brep = geom
+    if isinstance(geom, Rhino.Geometry.Extrusion):
+        brep = geom.ToBrep()
+    elif isinstance(geom, Rhino.Geometry.Surface):
+        brep = geom.ToBrep()
+
+    if brep is not None and isinstance(brep, Rhino.Geometry.Brep):
+        offsets = Rhino.Geometry.Brep.CreateOffsetBrep(
+            brep, offset_distance, True, True, tolerance
+        )
+        if offsets and len(offsets) > 0:
+            return offsets[0]
     return None
 
 
@@ -143,8 +169,8 @@ def RunCommand(is_interactive):
     doc = sc.doc
     tol = doc.ModelAbsoluteTolerance
 
-    last_brep = _get_last_brep(doc)
-    if last_brep is None:
+    last_geom = _get_last_geometry(doc)
+    if last_geom is None:
         Rhino.RhinoApp.WriteLine("[Feet in Focus Shoe Kit] No last geometry found.")
         return Rhino.Commands.Result.Failure
 
@@ -155,11 +181,11 @@ def RunCommand(is_interactive):
     Rhino.RhinoApp.WriteLine("[Feet in Focus Shoe Kit] Creating shoe tree...")
 
     # Offset the last inward to create the tree shape
-    tree_brep = _create_offset_surface(last_brep, clearance, tol)
+    tree_brep = _create_offset_surface(last_geom, clearance, tol)
     if tree_brep is None:
         # Fallback: scale slightly smaller
-        tree_brep = last_brep.Duplicate()
-        bbox = last_brep.GetBoundingBox(True)
+        tree_brep = last_geom.Duplicate()
+        bbox = last_geom.GetBoundingBox(True)
         center = bbox.Center
         diag_len = bbox.Diagonal.Length
         if diag_len < 1.0:

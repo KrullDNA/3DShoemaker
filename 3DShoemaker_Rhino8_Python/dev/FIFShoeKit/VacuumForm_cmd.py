@@ -49,33 +49,47 @@ def RunCommand(is_interactive):
         if geom is None:
             return rc.Result.Failure
 
+        thickness = opt_thickness.CurrentValue
+
+        attrs = rdo.ObjectAttributes()
+        attrs.Name = "VacuumFormed"
+        layer_idx = doc.Layers.FindByFullPath(
+            "Feet in Focus Shoe Kit::VacuumForm", -1
+        )
+        if layer_idx >= 0:
+            attrs.LayerIndex = layer_idx
+
+        # For meshes, use Mesh.Offset directly (fast, no brep conversion)
+        if isinstance(geom, rg.Mesh):
+            offset_mesh = geom.Offset(thickness)
+            if offset_mesh is not None:
+                doc.Objects.AddMesh(offset_mesh, attrs)
+                doc.Views.Redraw()
+                Rhino.RhinoApp.WriteLine("Vacuum form shell created.")
+                return rc.Result.Success
+
+        # Convert to brep for offset
         brep = None
         if isinstance(geom, rg.Brep):
             brep = geom
         elif isinstance(geom, rg.SubD):
             brep = geom.ToBrep(rg.SubDToBrepOptions())
         elif isinstance(geom, rg.Mesh):
-            brep = rg.Brep.CreateFromMesh(geom, True)
+            # Mesh.Offset failed above; decimate and convert
+            work_mesh = geom.DuplicateMesh()
+            if work_mesh.Faces.Count > 5000:
+                work_mesh.Reduce(5000, True, 5, True)
+            brep = rg.Brep.CreateFromMesh(work_mesh, False)
 
         if brep is None:
             Rhino.RhinoApp.WriteLine("Could not process geometry.")
             return rc.Result.Failure
-
-        thickness = opt_thickness.CurrentValue
 
         offset_brep = rg.Brep.CreateOffsetBrep(
             brep, thickness, True, True, 0.01
         )
 
         if offset_brep and len(offset_brep) > 0:
-            attrs = rdo.ObjectAttributes()
-            attrs.Name = "VacuumFormed"
-            layer_idx = doc.Layers.FindByFullPath(
-                "Feet in Focus Shoe Kit::VacuumForm", -1
-            )
-            if layer_idx >= 0:
-                attrs.LayerIndex = layer_idx
-
             for b in offset_brep:
                 if isinstance(b, rg.Brep):
                     doc.Objects.AddBrep(b, attrs)
