@@ -7,7 +7,10 @@ IronPython 2 compatible - no Python 3 syntax.
 
 import Rhino
 import Rhino.Commands
+import Rhino.DocObjects
 import Rhino.Geometry
+import Rhino.Input
+import Rhino.Input.Custom
 import scriptcontext as sc
 
 __commandname__ = "FlattenLast"
@@ -36,6 +39,27 @@ def _get_last_layer_index(doc):
 
 
 def _find_last_objects(doc):
+    """Find last objects from selection first, then prompt, then layer."""
+    # 1. Check pre-selected objects
+    selected = [obj for obj in doc.Objects if obj.IsSelected(False)]
+    if selected:
+        return selected
+
+    # 2. Prompt user to pick
+    go = Rhino.Input.Custom.GetObject()
+    go.SetCommandPrompt("Select last geometry (mesh or brep)")
+    go.GeometryFilter = (
+        Rhino.DocObjects.ObjectType.Brep
+        | Rhino.DocObjects.ObjectType.Mesh
+        | Rhino.DocObjects.ObjectType.Surface
+        | Rhino.DocObjects.ObjectType.Extrusion
+    )
+    go.AcceptNothing(True)
+    if go.Get() == Rhino.Input.GetResult.Object:
+        ref = go.Object(0)
+        return [ref.Object()]
+
+    # 3. Fall back to SLM::Last layer
     layer_idx = _get_last_layer_index(doc)
     if layer_idx < 0:
         return []
@@ -62,8 +86,16 @@ def RunCommand(is_interactive):
         geom = obj.Geometry
         if isinstance(geom, Rhino.Geometry.Brep):
             breps.append(geom)
+        elif isinstance(geom, Rhino.Geometry.Extrusion):
+            b = geom.ToBrep()
+            if b is not None:
+                breps.append(b)
+        elif isinstance(geom, Rhino.Geometry.Surface):
+            b = geom.ToBrep()
+            if b is not None:
+                breps.append(b)
         elif isinstance(geom, Rhino.Geometry.Mesh):
-            b = Rhino.Geometry.Brep.CreateFromMesh(geom, True)
+            b = Rhino.Geometry.Brep.CreateFromMesh(geom, False)
             if b is not None:
                 breps.append(b)
 

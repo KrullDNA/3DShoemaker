@@ -63,8 +63,46 @@ def _add_component(doc, geometry, layer_suffix, name):
     return guid
 
 
+def _geometry_as_brep(geom):
+    """Convert geometry to Brep if possible (handles Mesh, Brep, Surface, Extrusion)."""
+    if isinstance(geom, Rhino.Geometry.Brep):
+        return geom
+    if isinstance(geom, Rhino.Geometry.Extrusion):
+        return geom.ToBrep()
+    if isinstance(geom, Rhino.Geometry.Surface):
+        return geom.ToBrep()
+    if isinstance(geom, Rhino.Geometry.Mesh):
+        brep = Rhino.Geometry.Brep.CreateFromMesh(geom, False)
+        if brep is not None:
+            return brep
+    return None
+
+
 def _get_last_brep(doc):
-    """Retrieve the last brep from the document."""
+    """Retrieve last geometry from selection or SLM::Last layer."""
+    selected = [obj for obj in doc.Objects if obj.IsSelected(False)]
+    for obj in selected:
+        brep = _geometry_as_brep(obj.Geometry)
+        if brep is not None:
+            return brep
+
+    go = Rhino.Input.Custom.GetObject()
+    go.SetCommandPrompt("Select last geometry (mesh or brep)")
+    go.GeometryFilter = (
+        Rhino.DocObjects.ObjectType.Brep
+        | Rhino.DocObjects.ObjectType.Mesh
+        | Rhino.DocObjects.ObjectType.Surface
+        | Rhino.DocObjects.ObjectType.Extrusion
+    )
+    go.AcceptNothing(True)
+    if go.Get() == Rhino.Input.GetResult.Object:
+        ref = go.Object(0)
+        geom = ref.Geometry()
+        if geom is not None:
+            brep = _geometry_as_brep(geom)
+            if brep is not None:
+                return brep
+
     last_path = "{0}::{1}".format(SLM_LAYER_PREFIX, CLASS_LAST)
     layer_idx = doc.Layers.FindByFullPath(last_path, -1)
     if layer_idx < 0:
@@ -73,8 +111,9 @@ def _get_last_brep(doc):
     objs = doc.Objects.FindByLayer(layer)
     if objs:
         for obj in objs:
-            if isinstance(obj.Geometry, Rhino.Geometry.Brep):
-                return obj.Geometry
+            brep = _geometry_as_brep(obj.Geometry)
+            if brep is not None:
+                return brep
     return None
 
 
