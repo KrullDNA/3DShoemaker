@@ -126,8 +126,9 @@ def _cross_section_curves(geom, plane, tolerance):
             curves = []
             for pl in polylines:
                 if pl and pl.Count > 2:
-                    pl.Close()
-                    curves.append(pl.ToNurbsCurve())
+                    if pl[0].DistanceTo(pl[pl.Count - 1]) > tolerance:
+                        pl.Add(pl[0])
+                    curves.append(Rhino.Geometry.PolylineCurve(pl))
             return curves
         return []
 

@@ -134,8 +134,11 @@ def _get_bottom_outline_from_mesh(mesh, z_offset, tolerance):
         curves = []
         for pl in polylines:
             if pl and pl.Count > 2:
-                pl.Close()
-                curves.append(pl.ToNurbsCurve())
+                # Close the polyline by appending the first point
+                if pl[0].DistanceTo(pl[pl.Count - 1]) > tolerance:
+                    pl.Add(pl[0])
+                crv = Rhino.Geometry.PolylineCurve(pl)
+                curves.append(crv)
         if curves:
             return curves
 
