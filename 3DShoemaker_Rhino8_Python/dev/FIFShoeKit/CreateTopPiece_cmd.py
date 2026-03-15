@@ -142,7 +142,8 @@ def RunCommand(is_interactive):
     if tp_brep is None:
         return Rhino.Commands.Result.Failure
 
-    move = Rhino.Geometry.Transform.Translation(0, 0, bbox.Min.Z)
+    tp_bbox = tp_brep.GetBoundingBox(True)
+    move = Rhino.Geometry.Transform.Translation(0, 0, bbox.Min.Z - tp_bbox.Max.Z)
     tp_brep.Transform(move)
 
     _add_component(doc, tp_brep, CLASS_BOTTOM, "SLM_TopPiece")

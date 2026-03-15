@@ -259,8 +259,9 @@ def RunCommand(is_interactive):
         return Rhino.Commands.Result.Failure
 
     # Position below the insole
-    insole_bottom = bbox.Min.Z - 3.0  # default insole thickness
-    move = Rhino.Geometry.Transform.Translation(0, 0, insole_bottom)
+    sole_bbox = sole_brep.GetBoundingBox(True)
+    desired_top_z = bbox.Min.Z - 3.0  # default insole thickness
+    move = Rhino.Geometry.Transform.Translation(0, 0, desired_top_z - sole_bbox.Max.Z)
     sole_brep.Transform(move)
 
     guid = _add_component(doc, sole_brep, CLASS_BOTTOM, "SLM_Sole")

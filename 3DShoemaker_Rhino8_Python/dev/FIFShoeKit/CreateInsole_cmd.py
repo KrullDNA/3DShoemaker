@@ -273,8 +273,11 @@ def RunCommand(is_interactive):
         Rhino.RhinoApp.WriteLine("[Feet in Focus Shoe Kit] Failed to create insole geometry.")
         return Rhino.Commands.Result.Failure
 
-    # Position at bottom of last
-    move = Rhino.Geometry.Transform.Translation(0, 0, bbox.Min.Z - top_cover)
+    # Position the insole so its top sits at (bbox.Min.Z - top_cover)
+    insole_bbox = insole_brep.GetBoundingBox(True)
+    desired_top_z = bbox.Min.Z - top_cover
+    current_top_z = insole_bbox.Max.Z
+    move = Rhino.Geometry.Transform.Translation(0, 0, desired_top_z - current_top_z)
     insole_brep.Transform(move)
 
     guid = _add_component(doc, insole_brep, CLASS_INSERT, "SLM_Insole")
