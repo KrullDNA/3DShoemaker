@@ -171,17 +171,35 @@ def _create_bottom_outline(
     z_offset: float,
     tolerance: float,
 ) -> List[Rhino.Geometry.Curve]:
-    """Extract the bottom outline of a brep at the given Z level."""
+    """Extract the bottom outline of a brep at the given Z level.
+
+    Uses a single cross-section plane at the specified Z offset above the
+    bounding-box minimum.  When multiple contour curves are returned, only
+    the largest (by area) is kept so the insole matches the outer sole
+    outline rather than any interior features.
+    """
     bbox = brep.GetBoundingBox(True)
     z_level = bbox.Min.Z + z_offset
 
-    curves = Rhino.Geometry.Brep.CreateContourCurves(
-        brep,
+    # Use a cutting plane instead of contour intervals to get exactly one slice
+    cut_plane = Rhino.Geometry.Plane(
         Rhino.Geometry.Point3d(0, 0, z_level),
-        Rhino.Geometry.Point3d(0, 0, z_level + 1),
-        tolerance,
+        Rhino.Geometry.Vector3d.ZAxis,
     )
-    return list(curves) if curves else []
+    curves = Rhino.Geometry.Brep.CreateContourCurves(
+        brep, cut_plane
+    )
+
+    if not curves or len(curves) == 0:
+        return []
+
+    # Keep only the largest closed curve (the outer sole outline)
+    closed = [c for c in curves if c.IsClosed]
+    if closed:
+        largest = max(closed, key=lambda c: abs(Rhino.Geometry.AreaMassProperties.Compute(c).Area))
+        return [largest]
+
+    return [curves[0]]
 
 
 def _extrude_curves_to_brep(
@@ -255,9 +273,13 @@ class CreateInsole(Rhino.Commands.Command):
         Rhino.RhinoApp.WriteLine("[Feet in Focus Shoe Kit] Creating insole...")
 
         bbox = last_brep.GetBoundingBox(True)
+        last_height = bbox.Max.Z - bbox.Min.Z
 
-        # Extract bottom contour of the last
-        bottom_curves = _create_bottom_outline(last_brep, tol, tol)
+        # Section the last near the bottom to get the sole outline.
+        # Use 5% of the last height as the slice level — high enough to
+        # capture the full sole outline, not just the very tip.
+        sole_offset = max(last_height * 0.05, 2.0)
+        bottom_curves = _create_bottom_outline(last_brep, sole_offset, tol)
         if not bottom_curves:
             # Fallback: create an outline from the bounding box bottom
             center = Rhino.Geometry.Point3d(
@@ -268,7 +290,7 @@ class CreateInsole(Rhino.Commands.Command):
             length = bbox.Max.Y - bbox.Min.Y
             width = bbox.Max.X - bbox.Min.X
             plane = Rhino.Geometry.Plane(center, Rhino.Geometry.Vector3d.ZAxis)
-            ellipse = Rhino.Geometry.Ellipse(plane, width * 0.48, length * 0.48)
+            ellipse = Rhino.Geometry.Ellipse(plane, width * 0.5, length * 0.5)
             bottom_curves = [ellipse.ToNurbsCurve()]
 
         # Extrude downward to create the insole body
