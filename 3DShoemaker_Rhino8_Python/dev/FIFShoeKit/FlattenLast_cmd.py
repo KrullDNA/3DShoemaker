@@ -142,16 +142,29 @@ def RunCommand(is_interactive):
                 pattern_curves.append(projected)
 
     if not pattern_curves:
-        # Fallback: project the bottom outline
+        # Fallback: project the bottom outline (try several z-levels for meshes)
         for geom in geometries:
             bbox = geom.GetBoundingBox(True)
             z_min = bbox.Min.Z
-            section_plane = Rhino.Geometry.Plane(
-                Rhino.Geometry.Point3d(0, 0, z_min + tol),
-                Rhino.Geometry.Vector3d.ZAxis,
-            )
-            sections = _cross_section_curves_at_plane(geom, section_plane, tol)
-            for curve in sections:
+            height = bbox.Max.Z - bbox.Min.Z
+            if isinstance(geom, Rhino.Geometry.Mesh) and height > 0:
+                offsets = [tol, height * 0.01, height * 0.02, height * 0.03, height * 0.05]
+            else:
+                offsets = [tol]
+            best_sections = []
+            best_length = 0.0
+            for off in offsets:
+                section_plane = Rhino.Geometry.Plane(
+                    Rhino.Geometry.Point3d(0, 0, z_min + off),
+                    Rhino.Geometry.Vector3d.ZAxis,
+                )
+                sections = _cross_section_curves_at_plane(geom, section_plane, tol)
+                if sections:
+                    total_len = sum(c.GetLength() for c in sections)
+                    if total_len > best_length:
+                        best_length = total_len
+                        best_sections = sections
+            for curve in best_sections:
                 projected = Rhino.Geometry.Curve.ProjectToPlane(
                     curve, Rhino.Geometry.Plane.WorldXY
                 )

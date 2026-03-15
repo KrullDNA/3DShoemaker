@@ -118,31 +118,59 @@ def _prompt_float(prompt, default):
     return None
 
 
+def _polylines_to_curves(polylines, tolerance):
+    """Convert MeshPlane polyline results to closed curves."""
+    curves = []
+    if not polylines:
+        return curves
+    for pl in polylines:
+        if pl and pl.Count > 2:
+            if pl[0].DistanceTo(pl[pl.Count - 1]) > tolerance:
+                pl.Add(pl[0])
+            crv = Rhino.Geometry.PolylineCurve(pl)
+            curves.append(crv)
+    return curves
+
+
 def _get_bottom_outline_from_mesh(mesh, z_offset, tolerance):
-    """Get the bottom cross-section of a mesh using mesh plane intersection."""
+    """Get the bottom cross-section of a mesh using mesh plane intersection.
+
+    Slices at several heights above the bottom of the bounding box and returns
+    the longest (largest perimeter) closed outline.  A single slice right at
+    bbox.Min.Z often yields a degenerate sliver.
+    """
     bbox = mesh.GetBoundingBox(True)
-    z_level = bbox.Min.Z + z_offset
+    height = bbox.Max.Z - bbox.Min.Z
+    if height <= 0:
+        return []
 
-    section_plane = Rhino.Geometry.Plane(
-        Rhino.Geometry.Point3d(0, 0, z_level),
-        Rhino.Geometry.Vector3d.ZAxis,
-    )
+    # Try several z-levels in the bottom 5 % of the last
+    offsets = [
+        z_offset,
+        height * 0.01,
+        height * 0.02,
+        height * 0.03,
+        height * 0.05,
+    ]
 
-    # MeshPlane returns polylines at the intersection
-    polylines = Rhino.Geometry.Intersect.Intersection.MeshPlane(mesh, section_plane)
-    if polylines:
-        curves = []
-        for pl in polylines:
-            if pl and pl.Count > 2:
-                # Close the polyline by appending the first point
-                if pl[0].DistanceTo(pl[pl.Count - 1]) > tolerance:
-                    pl.Add(pl[0])
-                crv = Rhino.Geometry.PolylineCurve(pl)
-                curves.append(crv)
+    best_curves = []
+    best_length = 0.0
+
+    for off in offsets:
+        z_level = bbox.Min.Z + off
+        section_plane = Rhino.Geometry.Plane(
+            Rhino.Geometry.Point3d(0, 0, z_level),
+            Rhino.Geometry.Vector3d.ZAxis,
+        )
+        polylines = Rhino.Geometry.Intersect.Intersection.MeshPlane(mesh, section_plane)
+        curves = _polylines_to_curves(polylines, tolerance)
         if curves:
-            return curves
+            total_len = sum(c.GetLength() for c in curves)
+            if total_len > best_length:
+                best_length = total_len
+                best_curves = curves
 
-    return []
+    return best_curves
 
 
 def _get_bottom_outline_from_brep(brep, z_offset, tolerance):

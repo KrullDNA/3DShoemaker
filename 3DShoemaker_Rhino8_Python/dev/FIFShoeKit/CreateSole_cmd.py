@@ -151,15 +151,38 @@ def _cross_section_curves(geom, plane, tolerance):
 
 
 def _create_bottom_outline(geom, z_offset, tolerance):
-    """Extract the bottom outline of geometry at the given Z level."""
-    bbox = geom.GetBoundingBox(True)
-    z_level = bbox.Min.Z + z_offset
+    """Extract the bottom outline of geometry at a suitable Z level.
 
-    plane = Rhino.Geometry.Plane(
-        Rhino.Geometry.Point3d(0, 0, z_level),
-        Rhino.Geometry.Vector3d.ZAxis,
-    )
-    return _cross_section_curves(geom, plane, tolerance)
+    For meshes, a single slice right at bbox.Min can produce a degenerate
+    sliver, so we try several heights in the bottom 5 % and keep the best.
+    """
+    bbox = geom.GetBoundingBox(True)
+    height = bbox.Max.Z - bbox.Min.Z
+
+    if not isinstance(geom, Rhino.Geometry.Mesh) or height <= 0:
+        z_level = bbox.Min.Z + z_offset
+        plane = Rhino.Geometry.Plane(
+            Rhino.Geometry.Point3d(0, 0, z_level),
+            Rhino.Geometry.Vector3d.ZAxis,
+        )
+        return _cross_section_curves(geom, plane, tolerance)
+
+    offsets = [z_offset, height * 0.01, height * 0.02, height * 0.03, height * 0.05]
+    best_curves = []
+    best_length = 0.0
+    for off in offsets:
+        z_level = bbox.Min.Z + off
+        plane = Rhino.Geometry.Plane(
+            Rhino.Geometry.Point3d(0, 0, z_level),
+            Rhino.Geometry.Vector3d.ZAxis,
+        )
+        curves = _cross_section_curves(geom, plane, tolerance)
+        if curves:
+            total_len = sum(c.GetLength() for c in curves)
+            if total_len > best_length:
+                best_length = total_len
+                best_curves = curves
+    return best_curves
 
 
 def _extrude_curves_to_brep(curves, direction, cap=True):
