@@ -121,6 +121,12 @@ def _prompt_float(prompt, default):
     return None
 
 
+def _mm_to_model(value, doc):
+    """Convert a value in millimetres to model units."""
+    scale = Rhino.RhinoMath.UnitScale(Rhino.UnitSystem.Millimeters, doc.ModelUnitSystem)
+    return value * scale
+
+
 def _extrude_curves_to_brep(curves, direction, cap=True):
     """Extrude curves along a direction to form a brep."""
     breps = []
@@ -152,25 +158,31 @@ def RunCommand(is_interactive):
         return Rhino.Commands.Result.Failure
 
     # Joint parameters
-    joint_width = _prompt_float("Joint width (mm)", 12.0)
-    if joint_width is None:
+    joint_width_mm = _prompt_float("Joint width (mm)", 12.0)
+    if joint_width_mm is None:
         return Rhino.Commands.Result.Cancel
 
-    joint_height = _prompt_float("Joint height (mm)", 30.0)
-    if joint_height is None:
+    joint_height_mm = _prompt_float("Joint height (mm)", 30.0)
+    if joint_height_mm is None:
         return Rhino.Commands.Result.Cancel
 
-    slippage_comp = _prompt_float("Slippage compensation (mm)", 0.5)
-    if slippage_comp is None:
+    slippage_comp_mm = _prompt_float("Slippage compensation (mm)", 0.5)
+    if slippage_comp_mm is None:
         return Rhino.Commands.Result.Cancel
 
-    rail_recess = _prompt_float("Rail recess depth (mm)", 2.0)
-    if rail_recess is None:
+    rail_recess_mm = _prompt_float("Rail recess depth (mm)", 2.0)
+    if rail_recess_mm is None:
         return Rhino.Commands.Result.Cancel
 
-    clearance = _prompt_float("Clearance (mm)", 0.3)
-    if clearance is None:
+    clearance_mm = _prompt_float("Clearance (mm)", 0.3)
+    if clearance_mm is None:
         return Rhino.Commands.Result.Cancel
+
+    joint_width = _mm_to_model(joint_width_mm, doc)
+    joint_height = _mm_to_model(joint_height_mm, doc)
+    slippage_comp = _mm_to_model(slippage_comp_mm, doc)
+    rail_recess = _mm_to_model(rail_recess_mm, doc)
+    clearance = _mm_to_model(clearance_mm, doc)
 
     # Allow point pick or default position
     gp = Rhino.Input.Custom.GetPoint()

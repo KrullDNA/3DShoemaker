@@ -120,6 +120,12 @@ def _prompt_float(prompt, default):
     return None
 
 
+def _mm_to_model(value, doc):
+    """Convert a value in millimetres to model units."""
+    scale = Rhino.RhinoMath.UnitScale(Rhino.UnitSystem.Millimeters, doc.ModelUnitSystem)
+    return value * scale
+
+
 def RunCommand(is_interactive):
     doc = sc.doc
 
@@ -128,13 +134,16 @@ def RunCommand(is_interactive):
         Rhino.RhinoApp.WriteLine("[Feet in Focus Shoe Kit] No last geometry found.")
         return Rhino.Commands.Result.Failure
 
-    height = _prompt_float("Toe crest height (mm)", 5.0)
-    if height is None:
+    height_mm = _prompt_float("Toe crest height (mm)", 5.0)
+    if height_mm is None:
         return Rhino.Commands.Result.Cancel
 
-    width = _prompt_float("Toe crest width (mm)", 40.0)
-    if width is None:
+    width_mm = _prompt_float("Toe crest width (mm)", 40.0)
+    if width_mm is None:
         return Rhino.Commands.Result.Cancel
+
+    height = _mm_to_model(height_mm, doc)
+    width = _mm_to_model(width_mm, doc)
 
     bbox = last_geom.GetBoundingBox(True)
     last_length = bbox.Max.Y - bbox.Min.Y

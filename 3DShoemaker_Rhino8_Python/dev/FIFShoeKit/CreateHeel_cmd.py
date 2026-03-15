@@ -118,6 +118,12 @@ def _prompt_float(prompt, default):
     return None
 
 
+def _mm_to_model(value, doc):
+    """Convert a value in millimetres to model units."""
+    scale = Rhino.RhinoMath.UnitScale(Rhino.UnitSystem.Millimeters, doc.ModelUnitSystem)
+    return value * scale
+
+
 def RunCommand(is_interactive):
     doc = sc.doc
     tol = doc.ModelAbsoluteTolerance
@@ -127,9 +133,10 @@ def RunCommand(is_interactive):
         Rhino.RhinoApp.WriteLine("[Feet in Focus Shoe Kit] No last geometry found.")
         return Rhino.Commands.Result.Failure
 
-    heel_height = _prompt_float("Heel height (mm)", 25.0)
-    if heel_height is None:
+    heel_height_mm = _prompt_float("Heel height (mm)", 25.0)
+    if heel_height_mm is None:
         return Rhino.Commands.Result.Cancel
+    heel_height = _mm_to_model(heel_height_mm, doc)
 
     if heel_height <= 0:
         Rhino.RhinoApp.WriteLine("[Feet in Focus Shoe Kit] Heel height must be positive.")

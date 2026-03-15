@@ -117,6 +117,12 @@ def _prompt_float(prompt, default):
     return None
 
 
+def _mm_to_model(value, doc):
+    """Convert a value in millimetres to model units."""
+    scale = Rhino.RhinoMath.UnitScale(Rhino.UnitSystem.Millimeters, doc.ModelUnitSystem)
+    return value * scale
+
+
 def RunCommand(is_interactive):
     doc = sc.doc
 
@@ -125,13 +131,16 @@ def RunCommand(is_interactive):
         Rhino.RhinoApp.WriteLine("[Feet in Focus Shoe Kit] No last geometry found.")
         return Rhino.Commands.Result.Failure
 
-    diameter = _prompt_float("Pin hole diameter (mm)", 8.0)
-    if diameter is None:
+    diameter_mm = _prompt_float("Pin hole diameter (mm)", 8.0)
+    if diameter_mm is None:
         return Rhino.Commands.Result.Cancel
 
-    depth = _prompt_float("Pin hole depth (mm)", 25.0)
-    if depth is None:
+    depth_mm = _prompt_float("Pin hole depth (mm)", 25.0)
+    if depth_mm is None:
         return Rhino.Commands.Result.Cancel
+
+    diameter = _mm_to_model(diameter_mm, doc)
+    depth = _mm_to_model(depth_mm, doc)
 
     # Pin hole at heel center top
     bbox = last_geom.GetBoundingBox(True)

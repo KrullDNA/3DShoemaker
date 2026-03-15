@@ -118,6 +118,12 @@ def _prompt_float(prompt, default):
     return None
 
 
+def _mm_to_model(value, doc):
+    """Convert a value in millimetres to model units."""
+    scale = Rhino.RhinoMath.UnitScale(Rhino.UnitSystem.Millimeters, doc.ModelUnitSystem)
+    return value * scale
+
+
 def _cross_section_curves(geom, plane, tolerance):
     """Get cross-section curves from mesh or brep geometry."""
     if isinstance(geom, Rhino.Geometry.Mesh):
@@ -215,9 +221,10 @@ def RunCommand(is_interactive):
         Rhino.RhinoApp.WriteLine("[Feet in Focus Shoe Kit] No last geometry found.")
         return Rhino.Commands.Result.Failure
 
-    thickness = _prompt_float("Sole thickness (mm)", 5.0)
-    if thickness is None:
+    thickness_mm = _prompt_float("Sole thickness (mm)", 5.0)
+    if thickness_mm is None:
         return Rhino.Commands.Result.Cancel
+    thickness = _mm_to_model(thickness_mm, doc)
 
     Rhino.RhinoApp.WriteLine("[Feet in Focus Shoe Kit] Creating sole...")
 

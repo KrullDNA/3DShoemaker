@@ -75,6 +75,12 @@ def _prompt_float(prompt, default):
     return None
 
 
+def _mm_to_model(value, doc):
+    """Convert a value in millimetres to model units."""
+    scale = Rhino.RhinoMath.UnitScale(Rhino.UnitSystem.Millimeters, doc.ModelUnitSystem)
+    return value * scale
+
+
 def _find_heel_brep(doc):
     """Find heel brep on the Bottom layer by name."""
     bottom_path = "{0}::{1}".format(SLM_LAYER_PREFIX, CLASS_BOTTOM)
@@ -115,9 +121,10 @@ def RunCommand(is_interactive):
     doc = sc.doc
     tol = doc.ModelAbsoluteTolerance
 
-    thickness = _prompt_float("Top piece thickness (mm)", 4.0)
-    if thickness is None:
+    thickness_mm = _prompt_float("Top piece thickness (mm)", 4.0)
+    if thickness_mm is None:
         return Rhino.Commands.Result.Cancel
+    thickness = _mm_to_model(thickness_mm, doc)
 
     heel_geom = _find_heel_brep(doc)
     if heel_geom is None or not isinstance(heel_geom, Rhino.Geometry.Brep):

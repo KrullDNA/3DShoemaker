@@ -22,6 +22,15 @@ SLM_LAYER_PREFIX = "SLM"
 CLASS_INSERT = "Insert"
 CLASS_LAST = "Last"
 
+# Unit-system IDs used by Rhino.UnitSystem
+_MM_UNIT = Rhino.UnitSystem.Millimeters
+
+
+def _mm_to_model(value, doc):
+    """Convert a value in millimetres to model units."""
+    scale = Rhino.RhinoMath.UnitScale(_MM_UNIT, doc.ModelUnitSystem)
+    return value * scale
+
 
 def _get_layer_index(doc, layer_suffix):
     """Return the index of a SLM::<suffix> layer, creating it if needed."""
@@ -238,13 +247,17 @@ def RunCommand(is_interactive):
         Rhino.RhinoApp.WriteLine("[Feet in Focus Shoe Kit] No last geometry found. Build a last first.")
         return Rhino.Commands.Result.Failure
 
-    thickness = _prompt_float("Insole thickness (mm)", 3.0)
-    if thickness is None:
+    thickness_mm = _prompt_float("Insole thickness (mm)", 3.0)
+    if thickness_mm is None:
         return Rhino.Commands.Result.Cancel
 
-    top_cover = _prompt_float("Top cover thickness (mm)", 1.0)
-    if top_cover is None:
+    top_cover_mm = _prompt_float("Top cover thickness (mm)", 1.0)
+    if top_cover_mm is None:
         return Rhino.Commands.Result.Cancel
+
+    # Convert to model units (user enters mm but model may be cm, m, etc.)
+    thickness = _mm_to_model(thickness_mm, doc)
+    top_cover = _mm_to_model(top_cover_mm, doc)
 
     Rhino.RhinoApp.WriteLine("[Feet in Focus Shoe Kit] Creating insole...")
 

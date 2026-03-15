@@ -118,6 +118,12 @@ def _prompt_float(prompt, default):
     return None
 
 
+def _mm_to_model(value, doc):
+    """Convert a value in millimetres to model units."""
+    scale = Rhino.RhinoMath.UnitScale(Rhino.UnitSystem.Millimeters, doc.ModelUnitSystem)
+    return value * scale
+
+
 def _extrude_curves_to_brep(curves, direction, cap=True):
     """Extrude curves along a direction to form a brep."""
     breps = []
@@ -148,13 +154,16 @@ def RunCommand(is_interactive):
         Rhino.RhinoApp.WriteLine("[Feet in Focus Shoe Kit] No last geometry found.")
         return Rhino.Commands.Result.Failure
 
-    thickness = _prompt_float("Shank board thickness (mm)", 2.0)
-    if thickness is None:
+    thickness_mm = _prompt_float("Shank board thickness (mm)", 2.0)
+    if thickness_mm is None:
         return Rhino.Commands.Result.Cancel
 
-    width = _prompt_float("Shank board width (mm)", 20.0)
-    if width is None:
+    width_mm = _prompt_float("Shank board width (mm)", 20.0)
+    if width_mm is None:
         return Rhino.Commands.Result.Cancel
+
+    thickness = _mm_to_model(thickness_mm, doc)
+    width = _mm_to_model(width_mm, doc)
 
     bbox = last_geom.GetBoundingBox(True)
     last_length = bbox.Max.Y - bbox.Min.Y

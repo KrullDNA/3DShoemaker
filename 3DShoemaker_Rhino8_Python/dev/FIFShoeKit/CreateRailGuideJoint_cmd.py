@@ -121,6 +121,12 @@ def _prompt_float(prompt, default):
     return None
 
 
+def _mm_to_model(value, doc):
+    """Convert a value in millimetres to model units."""
+    scale = Rhino.RhinoMath.UnitScale(Rhino.UnitSystem.Millimeters, doc.ModelUnitSystem)
+    return value * scale
+
+
 def _extrude_curves_to_brep(curves, direction, cap=True):
     """Extrude curves along a direction to form a brep."""
     breps = []
@@ -152,17 +158,21 @@ def RunCommand(is_interactive):
         return Rhino.Commands.Result.Failure
 
     # Parameters
-    rail_length = _prompt_float("Rail length (mm)", 50.0)
-    if rail_length is None:
+    rail_length_mm = _prompt_float("Rail length (mm)", 50.0)
+    if rail_length_mm is None:
         return Rhino.Commands.Result.Cancel
 
-    rail_width = _prompt_float("Rail channel width (mm)", 5.0)
-    if rail_width is None:
+    rail_width_mm = _prompt_float("Rail channel width (mm)", 5.0)
+    if rail_width_mm is None:
         return Rhino.Commands.Result.Cancel
 
-    rail_depth = _prompt_float("Rail channel depth (mm)", 3.0)
-    if rail_depth is None:
+    rail_depth_mm = _prompt_float("Rail channel depth (mm)", 3.0)
+    if rail_depth_mm is None:
         return Rhino.Commands.Result.Cancel
+
+    rail_length = _mm_to_model(rail_length_mm, doc)
+    rail_width = _mm_to_model(rail_width_mm, doc)
+    rail_depth = _mm_to_model(rail_depth_mm, doc)
 
     # Position
     gp = Rhino.Input.Custom.GetPoint()

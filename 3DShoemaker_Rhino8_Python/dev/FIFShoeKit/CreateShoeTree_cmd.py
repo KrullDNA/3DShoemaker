@@ -134,6 +134,12 @@ def _prompt_float(prompt, default):
     return None
 
 
+def _mm_to_model(value, doc):
+    """Convert a value in millimetres to model units."""
+    scale = Rhino.RhinoMath.UnitScale(Rhino.UnitSystem.Millimeters, doc.ModelUnitSystem)
+    return value * scale
+
+
 def _create_offset_surface(geom, offset_distance, tolerance):
     """Create an offset surface from geometry at the given distance."""
     if isinstance(geom, Rhino.Geometry.Mesh):
@@ -174,9 +180,10 @@ def RunCommand(is_interactive):
         Rhino.RhinoApp.WriteLine("[Feet in Focus Shoe Kit] No last geometry found.")
         return Rhino.Commands.Result.Failure
 
-    clearance = _prompt_float("Shoe tree clearance/offset (mm)", -2.0)
-    if clearance is None:
+    clearance_mm = _prompt_float("Shoe tree clearance/offset (mm)", -2.0)
+    if clearance_mm is None:
         return Rhino.Commands.Result.Cancel
+    clearance = _mm_to_model(clearance_mm, doc)
 
     Rhino.RhinoApp.WriteLine("[Feet in Focus Shoe Kit] Creating shoe tree...")
 

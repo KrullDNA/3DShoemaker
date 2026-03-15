@@ -100,6 +100,12 @@ def _prompt_string(prompt, default=""):
     return None
 
 
+def _mm_to_model(value, doc):
+    """Convert a value in millimetres to model units."""
+    scale = Rhino.RhinoMath.UnitScale(Rhino.UnitSystem.Millimeters, doc.ModelUnitSystem)
+    return value * scale
+
+
 # ---- Build helpers ----
 
 def _build_last_from_settings(doc, settings):
@@ -226,10 +232,10 @@ def RunCommand(is_interactive):
     settings["last_size"] = size
 
     # Heel height
-    heel = _prompt_float("Heel height (mm)", settings["last_heel_height_mm"])
-    if heel is None:
+    heel_mm = _prompt_float("Heel height (mm)", settings["last_heel_height_mm"])
+    if heel_mm is None:
         return 1
-    settings["last_heel_height_mm"] = heel
+    settings["last_heel_height_mm"] = _mm_to_model(heel_mm, doc)
 
     # Toe shape
     toe = _prompt_string(

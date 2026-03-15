@@ -117,6 +117,12 @@ def _prompt_float(prompt, default):
     return None
 
 
+def _mm_to_model(value, doc):
+    """Convert a value in millimetres to model units."""
+    scale = Rhino.RhinoMath.UnitScale(Rhino.UnitSystem.Millimeters, doc.ModelUnitSystem)
+    return value * scale
+
+
 def RunCommand(is_interactive):
     doc = sc.doc
 
@@ -125,9 +131,10 @@ def RunCommand(is_interactive):
         Rhino.RhinoApp.WriteLine("[Feet in Focus Shoe Kit] No last geometry found.")
         return Rhino.Commands.Result.Failure
 
-    diameter = _prompt_float("Thong hole diameter (mm)", 6.0)
-    if diameter is None:
+    diameter_mm = _prompt_float("Thong hole diameter (mm)", 6.0)
+    if diameter_mm is None:
         return Rhino.Commands.Result.Cancel
+    diameter = _mm_to_model(diameter_mm, doc)
 
     # Allow user to pick a point or use default position
     gp = Rhino.Input.Custom.GetPoint()
