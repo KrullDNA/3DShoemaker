@@ -174,22 +174,21 @@ def build_rhi(output_path: Path) -> None:
         else:
             print("  Warning: FIFShoeKit.rui not found, skipping.")
 
-        # 9. Entire plugin/ package
-        if not _PLUGIN_DIR.is_dir():
-            print(f"  ERROR: plugin/ directory not found: {_PLUGIN_DIR}")
-            sys.exit(1)
+        # 9. Entire plugin/ package (optional – commands work without it)
+        if _PLUGIN_DIR.is_dir():
+            for filepath in sorted(_PLUGIN_DIR.rglob("*")):
+                if not filepath.is_file():
+                    continue
+                if _should_skip(filepath):
+                    continue
 
-        for filepath in sorted(_PLUGIN_DIR.rglob("*")):
-            if not filepath.is_file():
-                continue
-            if _should_skip(filepath):
-                continue
-
-            rel = filepath.relative_to(_PLUGIN_DIR)
-            arc_name = f"plugin/{rel}"
-            zf.write(filepath, arc_name)
-            file_count += 1
-            print(f"  + {arc_name}")
+                rel = filepath.relative_to(_PLUGIN_DIR)
+                arc_name = f"plugin/{rel}"
+                zf.write(filepath, arc_name)
+                file_count += 1
+                print(f"  + {arc_name}")
+        else:
+            print("  Note: plugin/ directory not found, skipping (commands are self-contained).")
 
     size_kb = output_path.stat().st_size / 1024
     print()
