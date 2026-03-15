@@ -175,7 +175,7 @@ def install() -> bool:
     dest.mkdir(parents=True, exist_ok=True)
     print(f"Plugin directory: {dest}")
 
-    # 1. Copy the dev entry point (__init__.py that Rhino loads)
+    # 1. Copy the dev entry point (__init__.py, __plugin__.py, *_cmd.py)
     if _DEV_SRC.is_dir():
         init_file = _DEV_SRC / "__init__.py"
         if init_file.is_file():
@@ -183,6 +183,18 @@ def install() -> bool:
             print(f"  Copied plugin entry point (__init__.py)")
         else:
             print("  Warning: dev/FIFShoeKit/__init__.py not found.")
+
+        plugin_file = _DEV_SRC / "__plugin__.py"
+        if plugin_file.is_file():
+            shutil.copy2(plugin_file, dest / "__plugin__.py")
+            print(f"  Copied plugin identifier (__plugin__.py)")
+        else:
+            print("  Warning: dev/FIFShoeKit/__plugin__.py not found.")
+
+        cmd_files = sorted(_DEV_SRC.glob("*_cmd.py"))
+        for cmd_file in cmd_files:
+            shutil.copy2(cmd_file, dest / cmd_file.name)
+        print(f"  Copied {len(cmd_files)} command files (*_cmd.py)")
     else:
         print("  Warning: dev/FIFShoeKit/ directory not found.")
 
@@ -205,6 +217,7 @@ def install() -> bool:
     # 5. Verify the installation
     expected_files = [
         dest / "__init__.py",
+        dest / "__plugin__.py",
         dest / "manifest.yml",
         dest / "plugin" / "__init__.py",
     ]
