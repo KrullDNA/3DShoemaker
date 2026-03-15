@@ -37,8 +37,6 @@ Directory layout when installed::
             squeeze.py
 """
 
-from __future__ import annotations
-
 import os
 import sys
 import traceback
@@ -130,8 +128,9 @@ try:
 except Exception as _import_err:
     _IMPORTS_OK = False
     Rhino.RhinoApp.WriteLine(
-        f"[Feet in Focus Shoe Kit] Import error: {_import_err}\n"
-        f"{traceback.format_exc()}"
+        "[Feet in Focus Shoe Kit] Import error: {0}\n{1}".format(
+            _import_err, traceback.format_exc()
+        )
     )
 
 
@@ -192,7 +191,7 @@ else:
 # Plugin initialization
 # ---------------------------------------------------------------------------
 
-def _initialize_plugin() -> None:
+def _initialize_plugin():
     """Initialize the Feet in Focus Shoe Kit plugin singleton and wire it into Rhino."""
     if not _IMPORTS_OK:
         Rhino.RhinoApp.WriteLine(
@@ -205,9 +204,10 @@ def _initialize_plugin() -> None:
         success = instance.Initialize()
         if success:
             Rhino.RhinoApp.WriteLine(
-                f"[Feet in Focus Shoe Kit] Plugin loaded: "
-                f"v{plugin_pkg.__version__}, "
-                f"{len(_ALL_COMMANDS)} commands registered."
+                "[Feet in Focus Shoe Kit] Plugin loaded: "
+                "v{0}, {1} commands registered.".format(
+                    plugin_pkg.__version__, len(_ALL_COMMANDS)
+                )
             )
         else:
             Rhino.RhinoApp.WriteLine(
@@ -216,8 +216,9 @@ def _initialize_plugin() -> None:
             )
     except Exception as ex:
         Rhino.RhinoApp.WriteLine(
-            f"[Feet in Focus Shoe Kit] Initialization failed: {ex}\n"
-            f"{traceback.format_exc()}"
+            "[Feet in Focus Shoe Kit] Initialization failed: {0}\n{1}".format(
+                ex, traceback.format_exc()
+            )
         )
 
 
